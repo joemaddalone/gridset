@@ -10,7 +10,6 @@ div.position {
 .red {
   background-color: red;
   fill: red;
-  transition: all 0.06s linear
 }
 
 .area {
