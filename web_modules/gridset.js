@@ -1,5 +1,5 @@
-function* scan(arr, d, i) {
-  let dir = d || 'f';
+function* scan(arr, i) {
+  let dir = 'f';
   let index = i ?? -1;
   const end = arr.length - 1;
   while (true) {
@@ -9,10 +9,10 @@ function* scan(arr, d, i) {
           index++;
         }
         if (index === end) {
-          dir = 'b';
+          dir = 'r';
         }
         break;
-      case 'b':
+      case 'r':
         if (index !== 0) {
           index--;
         }
@@ -46,14 +46,22 @@ function* bounce(arr, sx, sy, initMx = 1, initMy = 1) {
   }
 }
 
-function* cycle(arr, si) {
-  let index = si ?? -1;
+function* cycle(arr, d = 'f', si) {
+  let index = si ? si - 1 : -1;
+  let dir = d || 'f';
   const w = arr.length - 1;
   while (true) {
-    if (index === w) {
-      index = -1;
+    if (dir === 'f') {
+      if (index === w) {
+        index = -1;
+      }
+      index++;
+    } else {
+      if (index <= 0) {
+        index = w + 1;
+      }
+      index--;
     }
-    index++;
     yield arr[index];
   }
 }
@@ -96,6 +104,9 @@ class Gridset {
       b: y + h,
       ri,
       ci,
+      up: (by) => {
+        this.cell({});
+      },
     };
 
     if (this.cellWidth) {
@@ -123,10 +134,10 @@ class Gridset {
   get flatCells() {
     return this.cells.flat(Infinity);
   }
-  area(col1, row1, col2, row2) {
-    const cellA = this.cell(col1, row1);
-    const cellB = this.cell(col2, row2);
-    return this.areaByCell(cellA, cellB);
+  area({ ci1, ri1, ci2, ri2 }) {
+    const cell1 = this.cell(ci1, ri1);
+    const cell2 = this.cell(ci2, ri2);
+    return this.areaByCell(cell1, cell2);
   }
   areaByCell(cell1, cell2) {
     const leftCell = cell1.ci <= cell2.ci ? cell1 : cell2;
@@ -160,56 +171,64 @@ class Gridset {
       cells,
     };
   }
-  row(rowIndex) {
+  row(ri) {
     return {
-      cells: this.rowCells(rowIndex),
+      cells: this.rowCells(ri),
       x: 0,
-      y: this.gHeight * rowIndex,
+      y: this.gHeight * ri,
       w: this.gWidth * this.colCount,
       h: this.gHeight,
       cx: (this.gWidth * this.colCount) / 2,
-      cy: (this.gHeight + this.gHeight * rowIndex) / 2,
+      cy: (this.gHeight + this.gHeight * ri) / 2,
     };
   }
-  rowCells(rowIndex) {
-    return this.gridMap.map((c) => c[rowIndex]);
+  rowCells(ri) {
+    return this.gridMap.map((c) => c[ri]);
   }
   get rows() {
     return Array.from({ length: this.rowCount }).map((_, i) =>
       this.rowCells(i),
     );
   }
-  col(colIndex) {
+  col(ci) {
     return {
-      cells: this.colCells(colIndex),
-      x: this.gWidth * colIndex,
+      cells: this.colCells(ci),
+      x: this.gWidth * ci,
       y: 0,
       w: this.gWidth,
       h: this.gHeight * this.rowCount,
-      cx: (this.gWidth + this.gWidth * colIndex) / 2,
+      cx: (this.gWidth + this.gWidth * ci) / 2,
       cy: (this.gHeight * this.rowCount) / 2,
     };
   }
-  colCells(colIndex) {
-    return this.gridMap[colIndex];
+  colCells(ci) {
+    return this.gridMap[ci];
   }
   get cols() {
     return this.gridMap;
   }
-  cell(col, row) {
-    return this.gridMap[col][row];
+  cell(ci, ri) {
+    return this.gridMap[ci][ri];
   }
-  scanRow(rowIndex) {
-    return scan(this.rowCells(rowIndex));
+  scanRow(ri, dir = 'f', si = null) {
+    const cells = this.rowCells(ri);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return scan(cells, si);
   }
-  scanCol(colIndex) {
-    return scan(this.colCells(colIndex));
+  scanCol(ci, dir = 'f', si = null) {
+    const cells = this.colCells(ci);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return scan(cells, si);
   }
-  cycleRow(rowIndex) {
-    return cycle(this.rowCells(rowIndex));
+  cycleRow(ri, dir = 'f', si = null) {
+    return cycle(this.rowCells(ri), dir, si);
   }
-  cycleCol(colIndex) {
-    return cycle(this.colCells(colIndex));
+  cycleCol(ci, dir = 'f', si = null) {
+    return cycle(this.colCells(ci), dir, si);
   }
   bounce(area, sx, sy, mx, my) {
     const cells = area || this.cells;

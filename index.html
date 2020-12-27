@@ -16,9 +16,7 @@
     <div class="intro">
       <h1>Gridset</h1>
       <p>The following examples all use the same instance of Gridset.</p>
-      <code>
-        new Gridset({ width: n, height: n, cols: n, rows: n, });
-      </code>
+      <code> new Gridset({ width: n, height: n, cols: n, rows: n, }); </code>
       <div class="ui mini form">
         <div class="ui labeled input">
           <label for="w" class="ui label"> width </label>
@@ -36,30 +34,50 @@
           <label for="r" class="ui label"> rows </label>
           <input min="2" id="r" type="number" value="19" />
         </div>
-        <button id="g">toggle grid</button>
+        <!-- <div class="ui labeled input">
+          <label for="cw" class="ui label"> Cell width (0 = computed) </label>
+          <input min="0" id="cw" type="number" value="0" />
+        </div>
+        <div class="ui labeled input">
+          <label for="ch" class="ui label"> Cell height (0 = computed) </label>
+          <input min="0" id="ch" type="number" value="0" />
+        </div> -->
+        <div class="ui labeled input">
+          <label for="d" class="ui label"> traversals </label>
+          <select id="d">
+            <option value="bounce">Bounce</option>
+            <option value="scanCol">Scan column</option>
+            <option value="scanRow">Scan row</option>
+            <option value="cycleCol">Cycle column</option>
+            <option value="cycleCol-r">Cycle column reverse</option>
+            <option value="cycleRow">Cycle row</option>
+            <option value="cycleRow-r">Cycle row reverse</option>
+          </select>
+        </div>
+        <button class="ui button mini" style="width: 205px;" id="g">toggle grid</button>
       </div>
     </div>
     <div class="example-holder">
       <div class="ex" id="html-ex">
         <div id="html-root"></div>
         <p>
-          This is a grid made of divs with a &lt;div /> bouncing around in it.
+          This is a grid made of divs with a &lt;div /> moving around in it.
         </p>
       </div>
       <div class="ex" id="svg-ex">
         <svg id="svg-root"></svg>
         <p>
-          This is a grid made in svg with a &lt;rect /> bouncing around in it.
+          This is a grid made in svg with a &lt;rect /> moving around in it.
         </p>
       </div>
       <div class="ex" id="canvas-root">
         <p>
-          This is a grid made in canvas with a fillRect bouncing around in it.
+          This is a grid made in canvas with a fillRect moving around in it.
         </p>
       </div>
       <div class="ex" id="text-root">
         <p>
-          This is a grid made of text with a character ("X") bouncing around in
+          This is a grid made of text with a character ("X") moving around in
           it.<br />Its displayed size is based on the number of columns and
           rows, not height & width arguments.
         </p>

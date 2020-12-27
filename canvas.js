@@ -1,5 +1,5 @@
 const piece = ({ x, y, w, h }, context) => {
-  context.strokeStyle = '#f8f8f8';
+  context.strokeStyle = '#eee';
   context.strokeRect(x, y, w, h);
 };
 
@@ -9,7 +9,7 @@ const addPiece = (p, context) => {
   context.fillRect(props.x, props.y, props.w, props.h);
 };
 
-export const canvas = (grid, container, showGrid = false) => {
+export const canvas = (grid, container, showGrid = true, mover) => {
   let now, then, delta, rfnId;
 
   const existingCanvas = document.getElementById('canvas-ex');
@@ -25,7 +25,6 @@ export const canvas = (grid, container, showGrid = false) => {
 
   const fps = 20;
   const interval = 1000 / fps;
-  const p1 = grid.bounce();
   const context = canvas.getContext('2d');
   const memGrid = document.createElement('canvas');
   const gridContext = memGrid.getContext('2d');
@@ -46,22 +45,22 @@ export const canvas = (grid, container, showGrid = false) => {
     }
   } catch (err) {}
 
-  const draw = (now) => {
+  const bounce = (now) => {
     if (!then) {
       then = now;
     }
-    rfnId = requestAnimationFrame(draw);
+    rfnId = requestAnimationFrame(bounce);
     delta = now - then;
     if (delta > interval) {
       context.clearRect(0, 0, grid.width, grid.height);
       if (showGrid) {
         context.drawImage(memGrid, 0, 0, grid.width, grid.height);
       }
-      addPiece(p1, context);
-      // addPiece(p2, context);
+      addPiece(mover, context);
       then = now - (delta % interval);
     }
   };
   cancelAnimationFrame(rfnId);
-  rfnId = requestAnimationFrame(draw);
+
+  rfnId = requestAnimationFrame(bounce);
 };

@@ -3,7 +3,7 @@ body {
 }
 
 div.position {
-  outline: 1px solid #f8f8f8;
+  outline: 1px solid #eee;
   position: absolute;
 }
 
@@ -39,7 +39,7 @@ pre {
 rect {
   stroke-width: 1;
   fill: none;
-  stroke: #f8f8f8;
+  stroke: #eee;
   vector-effect: non-scaling-stroke;
 }
 
@@ -68,6 +68,7 @@ p {
 }
 
 .ui.mini.form {
+  width: 800px;
   display: flex;
   flex-direction: column;
 }
@@ -75,8 +76,12 @@ p {
   margin: 5px;
 }
 
+.ui.labeled.input input {
+  width: 400px !important;
+}
+
 .ui.mini.form label {
-  width: 75px;
+  width: 200px;
 }
 
 code {
