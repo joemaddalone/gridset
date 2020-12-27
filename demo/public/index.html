@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="gridset demo site" />
+    <title>gridset</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="index.css" />
+  </head>
+  <body>
+    <div class="intro">
+      <h1>Gridset</h1>
+      <p>The following examples all use the same instance of Gridset.</p>
+      <code>
+        new Gridset({ width: n, height: n, cols: n, rows: n, });
+      </code>
+      <div class="ui mini form">
+        <div class="ui labeled input">
+          <label for="w" class="ui label"> width </label>
+          <input id="w" type="number" value="350" />
+        </div>
+        <div class="ui labeled input">
+          <label for="h" class="ui label"> height </label>
+          <input id="h" type="number" value="300" />
+        </div>
+        <div class="ui labeled input">
+          <label for="c" class="ui label"> cols </label>
+          <input min="2" id="c" type="number" value="20" />
+        </div>
+        <div class="ui labeled input">
+          <label for="r" class="ui label"> rows </label>
+          <input min="2" id="r" type="number" value="19" />
+        </div>
+        <button id="g">toggle grid</button>
+      </div>
+    </div>
+    <div class="example-holder">
+      <div class="ex" id="html-ex">
+        <div id="html-root"></div>
+        <p>
+          This is a grid made of divs with a &lt;div /> bouncing around in it.
+        </p>
+      </div>
+      <div class="ex" id="svg-ex">
+        <svg id="svg-root"></svg>
+        <p>
+          This is a grid made in svg with a &lt;rect /> bouncing around in it.
+        </p>
+      </div>
+      <div class="ex" id="canvas-root">
+        <p>
+          This is a grid made in canvas with a fillRect bouncing around in it.
+        </p>
+      </div>
+      <div class="ex" id="text-root">
+        <p>
+          This is a grid made of text with a character ("X") bouncing around in
+          it.<br />Its displayed size is based on the number of columns and
+          rows, not height & width arguments.
+        </p>
+      </div>
+    </div>
+    <script type="module" src="index.js"></script>
+  </body>
+</html>
