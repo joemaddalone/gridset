@@ -14,7 +14,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "prepublishOnly": "rm -rf dist && npm test && npm run build",
-    "predeploy": "cd example && npm install && npx snowpack build",
+    "predeploy": "cd demo && npm install && npx snowpack build",
     "deploy": "gh-pages -d demo/build"
   },
   "repository": {
