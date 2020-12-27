@@ -7,6 +7,5 @@
       "presets": [["@babel/preset-env", { "modules": false }]]
     }
   },
-  "ignore": ["node_modules/**", "*.test.js"],
-  "plugins": ["@babel/plugin-transform-runtime"]
+  "ignore": ["node_modules/**", "*.test.js"]
 }
