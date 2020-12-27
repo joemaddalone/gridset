@@ -1,0 +1,88 @@
+body {
+  padding: 25px;
+}
+
+div.position {
+  outline: 1px solid #f8f8f8;
+  position: absolute;
+}
+
+.red {
+  background-color: red;
+  fill: red;
+  transition: all 0.06s linear
+}
+
+.area {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.example-holder, .intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro {
+  flex-direction: column
+}
+
+#html-root {
+	position: relative;
+}
+
+
+pre {
+  padding: 5px 10px 5px 20px;
+}
+
+rect {
+  stroke-width: 1;
+  fill: none;
+  stroke: #f8f8f8;
+  vector-effect: non-scaling-stroke;
+}
+
+.ex {
+  padding: 15px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #ddd;
+}
+
+pre {
+  font-family: monospace;
+  letter-spacing: 9px;
+  line-height: 0.5
+  font-weight: 900;
+  font-size: 14px;
+}
+
+p {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.ui.mini.form {
+  display: flex;
+  flex-direction: column;
+}
+.ui.labeled.input {
+  margin: 5px;
+}
+
+.ui.mini.form label {
+  width: 75px;
+}
+
+code {
+  padding: 10px;
+  background-color: #f8f8f8;
+  display: block;
+  unicode-bidi: embed;
+}
