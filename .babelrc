@@ -1,7 +1,8 @@
 {
   "env": {
     "test": {
-      "presets": [["@babel/preset-env", { "modules": "umd" }]]
+      "presets": [["@babel/preset-env", { "modules": "umd" }]],
+      "plugins": ["@babel/plugin-transform-runtime"]
     },
     "production": {
       "presets": [["@babel/preset-env", { "modules": false }]]

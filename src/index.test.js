@@ -100,7 +100,7 @@ describe('Gridset', () => {
       cols: 5,
     });
     const computedSize = 20; // 100/5
-    const area = g.area(1, 2, 4, 4);
+	const area = g.area({ ci1: 1, ri1: 2, ci2: 4, ri2: 4 });
     expect(area.cells.length).toBe(3);
     expect(area.cells[0].length).toBe(2);
     expect(area.w).toBe(computedSize * 4);
@@ -129,7 +129,7 @@ describe('Gridset', () => {
       cols: 5,
     });
     const computedSize = 20; // 100/5
-    const area = g.area(4, 4, 1, 2);
+    const area = g.area({ ci1: 4, ri1: 4, ci2: 1, ri2: 2 });
     expect(area.cells.length).toBe(3);
     expect(area.cells[0].length).toBe(2);
     expect(area.w).toBe(computedSize * 4);

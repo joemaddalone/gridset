@@ -10,7 +10,7 @@ String.prototype.replaceAt = function (index, replacement) {
   );
 };
 
-export const text = (grid, container, showGrid) => {
+export const text = (grid, container, showGrid = true, mover) => {
   let anim;
   clearInterval(anim);
 
@@ -30,10 +30,9 @@ export const text = (grid, container, showGrid) => {
   const t = chunkString(s, grid.colCount);
   pre.textContent = t.join('\n');
 
-  const b = grid.bounce();
   anim = setInterval(() => {
     try {
-      const { ri, ci } = b.next().value;
+      const { ri, ci } = mover.next().value;
       const temp = JSON.parse(JSON.stringify(t));
       const str = temp[ri];
       temp[ri] = str.replaceAt(ci, 'X');

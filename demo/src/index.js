@@ -16,6 +16,9 @@ class Demo {
     this.cols = 20;
     this.rows = 19;
     this.showGrid = true;
+    this.demo = 'bounce';
+    this.cellWidth = 0;
+    this.cellHeight = 0;
     this.draw();
   }
   get w() {
@@ -46,6 +49,20 @@ class Demo {
     this.rows = v;
     this.draw();
   }
+  get cw() {
+    return this.cellWidth;
+  }
+  set cw(v) {
+    this.cellWidth = v;
+    this.draw();
+  }
+  get ch() {
+    return this.cellHeight;
+  }
+  set ch(v) {
+    this.cellHeight = v;
+    this.draw();
+  }
   get g() {
     return this.showGrid;
   }
@@ -53,23 +70,55 @@ class Demo {
     this.showGrid = v;
     this.draw();
   }
+  get d() {
+    return this.demo;
+  }
+  set d(v) {
+    this.demo = v;
+    this.draw();
+  }
+  get mover() {
+    switch (this.d) {
+      case 'bounce':
+        return this.grid.bounce();
+      case 'scanCol':
+        return this.grid.scanCol(3);
+      case 'scanCol-r':
+        return this.grid.scanCol(3, 'r');
+      case 'scanRow':
+        return this.grid.scanRow(3);
+      case 'scanRow-r':
+        return this.grid.scanRow(3, 'r');
+      case 'cycleCol':
+        return this.grid.cycleCol(3);
+      case 'cycleCol-r':
+        return this.grid.cycleCol(3, 'r');
+      case 'cycleRow':
+        return this.grid.cycleRow(3);
+      case 'cycleRow-r':
+        return this.grid.cycleRow(3, 'r');
+      default:
+        return this.grid.bounce();
+    }
+  }
   draw() {
-    const g = new Gridset({
+    this.grid = new Gridset({
       width: this.width,
       height: this.height,
       cols: this.cols,
       rows: this.rows,
+      cellWidth: this.cellWidth,
+      cellHeight: this.cellHeight,
     });
-
     [htmlRoot, svgRoot].forEach((r) => {
-      r.style.width = `${g.width}px`;
-      r.style.height = `${g.height}px`;
+      r.style.width = `${this.grid.width}px`;
+      r.style.height = `${this.grid.height}px`;
     });
 
-    text(g, textRoot, this.showGrid);
-    html(g, htmlRoot, this.showGrid);
-    svg(g, svgRoot, this.showGrid);
-    canvas(g, canvasRoot, this.showGrid);
+    text(this.grid, textRoot, this.showGrid, this.mover);
+    html(this.grid, htmlRoot, this.showGrid, this.mover);
+    svg(this.grid, svgRoot, this.showGrid, this.mover);
+    canvas(this.grid, canvasRoot, this.showGrid, this.mover);
   }
 }
 
@@ -93,6 +142,20 @@ document.getElementById('h').addEventListener('input', (e) => {
   }
 });
 
+// document.getElementById('cw').addEventListener('input', (e) => {
+//   const val = +e.target.value;
+//   if (val > -1) {
+//     d.cw = val;
+//   }
+// });
+
+// document.getElementById('ch').addEventListener('input', (e) => {
+//   const val = +e.target.value;
+//   if (val > -1) {
+//     d.ch = val;
+//   }
+// });
+
 document.getElementById('r').addEventListener('input', (e) => {
   const val = +e.target.value;
   if (val > 2) {
@@ -109,4 +172,8 @@ document.getElementById('c').addEventListener('input', (e) => {
 
 document.getElementById('g').addEventListener('click', (e) => {
   d.g = !d.g;
+});
+
+document.getElementById('d').addEventListener('change', (e) => {
+  d.d = e.target.value;
 });
