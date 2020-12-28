@@ -191,14 +191,23 @@ export class Gridset {
     );
   }
   col(ci) {
+    const x = ci * this.gWidth;
+    const y = 0;
+    const w = this.gWidth;
+    const h = this.gHeight * this.rowCount;
     return {
       cells: this.colCells(ci),
-      x: this.gWidth * ci,
-      y: 0,
-      w: this.gWidth,
-      h: this.gHeight * this.rowCount,
+      x,
+      y,
+      w,
+      h,
+      t: y,
+      l: x,
+      r: x + w,
+      b: y + h,
       cx: (this.gWidth + this.gWidth * ci) / 2,
       cy: (this.gHeight * this.rowCount) / 2,
+      ci: ci,
     };
   }
   colCells(ci) {

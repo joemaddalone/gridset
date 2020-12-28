@@ -177,3 +177,33 @@ document.getElementById('g').addEventListener('click', (e) => {
 document.getElementById('d').addEventListener('change', (e) => {
   d.d = e.target.value;
 });
+
+const doConsoleGrid = () => {
+  const g2 = new Gridset({
+    width: 200,
+    height: 200,
+    rows: 5,
+    cols: 5,
+  });
+
+  const rowValues = (row, numcols) => {
+    return `│${Array.from({ length: numcols })
+      .map((_, i) => ` ${i},${row} `)
+      .join('│')}│`;
+  };
+
+  const gridTop = `┌${g2.cols.map((_) => '─'.repeat(5)).join('┬')}┐`;
+  const gridBottom = `└${g2.cols.map((_) => '─'.repeat(5)).join('┴')}┘`;
+  const gridMid = `├${g2.cols.map((_) => '─'.repeat(5)).join('┼')}┤`;
+
+  console.log(gridTop);
+  g2.rows.forEach((row, i, rows) => {
+    console.log(rowValues(i, g2.cols.length));
+    if (i !== rows.length - 1) {
+      console.log(gridMid);
+    }
+  });
+  console.log(gridBottom);
+};
+
+doConsoleGrid();
