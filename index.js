@@ -204,6 +204,7 @@ const doConsoleGrid = () => {
     }
   });
   console.log(gridBottom);
+  console.log('Oh dang, we put a Gridset in your console!');
 };
 
 doConsoleGrid();
