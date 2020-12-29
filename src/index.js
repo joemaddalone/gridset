@@ -86,6 +86,12 @@ export class Gridset {
     this.cellHeight = cellHeight;
     this.create();
   }
+  __calcCustom(rici, wh) {
+    const gridDimension = wh === 'w' ? this.width : this.height;
+    const cellDimension = wh === 'w' ? this.cellWidth : this.cellHeight;
+    const iterableDimension = wh === 'w' ? this.colCount : this.rowCount;
+    return rici * ((gridDimension - cellDimension) / (iterableDimension - 1));
+  }
   __createCell(ci, ri) {
     const x = ci * this.gWidth;
     const y = ri * this.gHeight;
@@ -96,27 +102,25 @@ export class Gridset {
       y,
       w,
       h,
-      cx: x + w / 2,
-      cy: y + h / 2,
       t: y,
       l: x,
-      r: x + w,
-      b: y + h,
       ri,
       ci,
-      up: (by) => {
-        this.cell({});
-      },
     };
 
     if (this.cellWidth) {
-      cellProps.x = ci * this.gWidth + this.cellWidth / 2;
+      cellProps.x = this.__calcCustom(ci, 'w');
       cellProps.w = this.cellWidth;
     }
     if (this.cellHeight) {
-      cellProps.y = ri * this.gHeight + this.cellHeight / 2;
+      cellProps.y = this.__calcCustom(ri, 'h');
       cellProps.h = this.cellHeight;
     }
+
+    cellProps.r = cellProps.x + cellProps.w;
+    cellProps.b = cellProps.y + cellProps.h;
+    cellProps.cx = cellProps.x + cellProps.w / 2;
+    cellProps.cy = cellProps.y + cellProps.h / 2;
 
     return cellProps;
   }
@@ -172,14 +176,23 @@ export class Gridset {
     };
   }
   row(ri) {
+    const cells = this.rowCells(ri);
+    const y = cells[0].y;
+    const h = cells[0].h;
+    const cy = cells[0].cy;
     return {
-      cells: this.rowCells(ri),
+      cells,
       x: 0,
-      y: this.gHeight * ri,
-      w: this.gWidth * this.colCount,
-      h: this.gHeight,
-      cx: (this.gWidth * this.colCount) / 2,
-      cy: (this.gHeight + this.gHeight * ri) / 2,
+      y: y,
+      w: this.width,
+      h: h,
+      cx: this.width / 2,
+      cy,
+      t: y,
+      l: 0,
+      r: this.width,
+      b: y + h,
+      ri,
     };
   }
   rowCells(ri) {
@@ -191,23 +204,24 @@ export class Gridset {
     );
   }
   col(ci) {
-    const x = ci * this.gWidth;
-    const y = 0;
-    const w = this.gWidth;
-    const h = this.gHeight * this.rowCount;
+    const cells = this.colCells(ci);
+    const x = cells[0].x;
+    const w = cells[0].w;
+    const h = this.height;
+    const cx = cells[0].cx;
     return {
-      cells: this.colCells(ci),
+      cells,
       x,
-      y,
+      y: 0,
       w,
       h,
-      t: y,
+      t: 0,
       l: x,
       r: x + w,
-      b: y + h,
-      cx: (this.gWidth + this.gWidth * ci) / 2,
-      cy: (this.gHeight * this.rowCount) / 2,
-      ci: ci,
+      b: this.height,
+      cx,
+      cy: this.height / 2,
+      ci,
     };
   }
   colCells(ci) {

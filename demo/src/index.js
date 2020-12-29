@@ -142,19 +142,19 @@ document.getElementById('h').addEventListener('input', (e) => {
   }
 });
 
-// document.getElementById('cw').addEventListener('input', (e) => {
-//   const val = +e.target.value;
-//   if (val > -1) {
-//     d.cw = val;
-//   }
-// });
+document.getElementById('cw').addEventListener('input', (e) => {
+  const val = +e.target.value;
+  if (val > -1) {
+    d.cw = val;
+  }
+});
 
-// document.getElementById('ch').addEventListener('input', (e) => {
-//   const val = +e.target.value;
-//   if (val > -1) {
-//     d.ch = val;
-//   }
-// });
+document.getElementById('ch').addEventListener('input', (e) => {
+  const val = +e.target.value;
+  if (val > -1) {
+    d.ch = val;
+  }
+});
 
 document.getElementById('r').addEventListener('input', (e) => {
   const val = +e.target.value;

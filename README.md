@@ -91,7 +91,7 @@ When you retreive a column it looks like this:
 	cx: center x coordinate of the column,
 	cy: center y coordinate of the column,
 	ci: index of the column,
-	cells: a flat array of all of the cells in the column
+	cells: an array of the cells in the column
 }
 ```
 
@@ -114,7 +114,7 @@ When you retreive a row it looks like this:
 	cx: center x coordinate of the row,
 	cy: center y coordinate of the row,
 	ci: index of the row,
-	cells: a flat array of all of the cells in the row
+	cells: an array of the cells in the row
 }
 ```
 
@@ -157,6 +157,7 @@ When you retreive an area it looks like this:
 	b:  bottom coordinate of the area,
 	cx: center x coordinate of the area,
 	cy: center y coordinate of the area,
-	cells: a flat array of all of the cells in the area
+	cells: a 2d array of the cells in the area (sub-grid)
+	      
 }
 ```
