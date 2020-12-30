@@ -215,10 +215,10 @@ const grid = new Gridset({
  │            ¦       ¦       ¦       ¦       │  <- Row 0
  └────────────¦───────¦───────¦───────¦───────┘
  │            ¦       ¦       ¦       ¦       ¦
- │    col0    ¦       ¦       ¦       ¦       ¦
- ├────────────┘       ¦       ¦       ¦       ¦
- ¦        │           ¦       ¦       ¦       ¦
- ¦        │   col1    ¦       ¦       ¦       ¦
+ │    col0    ¦       │       ¦       ¦       ¦
+ ├────────────┘       │       ¦       ¦       ¦
+ ¦        │           │       ¦       ¦       ¦
+ ¦        │   col1    │       ¦       ¦       ¦
  0        ├───────────┘       ¦       ¦       ¦
           ¦       │           ¦       ¦       ¦
           ¦       │   col2    ¦       ¦       ¦
@@ -235,3 +235,34 @@ const grid = new Gridset({
 ```
 
 Our grid still has the correct width while respecting the custom cellWidth.  In order to achieve this our columns/cells now overlap.  And it works the same way with setting `cellHeight`
+
+```js
+const grid = new Gridset({
+  width: 200,
+  height: 200,
+  rows: 5,
+  cols: 5  
+  cellHeight: 60
+});
+```
+
+```
+0   ┐ ┌──────────────┐
+    │ │              │
+    │ │              │
+    │ │   row0       │------┬---- 35
+    │ │              │      │
+60  ┤ │──────────────┘      │
+    │ │   row1              │------┬---- 70
+    │ │                     │      │
+95  ┤ │─────────────────────┘      │
+    │ │   row2                     │------┬---- 105
+    │ │                            │      │
+130 ┤ │────────────────────────────┘      │
+    │ │   row3                            │------┬---- 140
+    │ │                                   │      │
+165 ┤ │───────────────────────────────────┘      │
+    │ │   row4                                   │
+    │ │                                          │
+200 ┘ └──────────────────────────────────────────┘
+```
