@@ -222,7 +222,7 @@ const grid = new Gridset({
  0        ├───────────┘       ¦       ¦       ¦
           ¦       │           ¦       ¦       ¦
           ¦       │   col2    ¦       ¦       ¦
-  		 35       ├───────────┘       ¦       ¦
+         35       ├───────────┘       ¦       ¦
                   ¦       │           ¦       ¦
                   ¦       │    col3   ¦       ¦
                  70       ├───────────┘       ¦
@@ -231,7 +231,7 @@ const grid = new Gridset({
                          105      ├───────────┘
                                   ¦
                                   ¦
-								 140
+                                 140
 ```
 
 Our grid still has the correct width while respecting the custom cellWidth.  In order to achieve this our columns/cells now overlap.  And it works the same way with setting `cellHeight`
