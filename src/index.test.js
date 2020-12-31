@@ -45,28 +45,79 @@ describe('Gridset', () => {
     expect(g.cells[0][0].h).toBe(25);
   });
 
-  it('should have correct custom sizing of cells', () => {
+  it('should have correct size and positions for custom cellWidth', () => {
     const g = new Gridset({
-      width: 100,
-      height: 100,
-      rows: 4,
-      cols: 4,
-      cellWidth: 15,
-      cellHeight: 20,
+      width: 200,
+      height: 200,
+      rows: 5,
+      cols: 5,
+      cellWidth: 60,
     });
     /**
-	+-----------------------+
-	| 0,0 | 1,0 | 2,0 | 3,0 |
-	+-----------------------+
-	| 0,1 | 1,1 | 2,1 | 3,1 |
-	+-----------------------+
-	| 0,2 | 1,2 | 2,2 | 3,2 |
-	+-----------------------+
-	| 0,3 | 1,3 | 2,3 | 3,3 |
-	+-----------------------+
+    0           60      95      130     165      200
+     └────────────┴───────┴───────┴───────┴───────┘
+     ┌────────────¦───────¦───────¦───────¦───────┐
+     │            ¦       ¦       ¦       ¦       │  <- Row 0
+     └────────────¦───────¦───────¦───────¦───────┘
+     │            ¦       ¦       ¦       ¦       ¦
+     │    col0    ¦       │       ¦       ¦       ¦
+     ├────────────┘       │       ¦       ¦       ¦
+     ¦        │           │       ¦       ¦       ¦
+     ¦        │   col1    │       ¦       ¦       ¦
+     0        ├───────────┘       ¦       ¦       ¦
+              ¦       │           ¦       ¦       ¦
+              ¦       │   col2    ¦       ¦       ¦
+             35       ├───────────┘       ¦       ¦
+                      ¦       │           ¦       ¦
+                      ¦       │    col3   ¦       ¦
+                     70       ├───────────┘       ¦
+                              ¦       │           ¦
+                              ¦       │   col4    ¦
+                             105      ├───────────┘
+                                      ¦
+                                      ¦
+                                     140
 	 */
-    expect(g.cells[0][0].w).toBe(15);
-    expect(g.cells[0][0].h).toBe(20);
+    expect(g.cells[0][0].w).toBe(60);
+    expect(g.cells[1][0].x).toBe(35); //  +35
+    expect(g.cells[2][0].x).toBe(70); //  +35
+    expect(g.cells[3][0].x).toBe(105); // +35
+    expect(g.cells[4][0].x).toBe(140); // +35
+  });
+
+  it('should have correct size and positions for custom cellHeight', () => {
+    const g = new Gridset({
+      width: 200,
+      height: 200,
+      rows: 5,
+      cols: 5,
+      cellHeight: 60,
+    });
+    /**
+    0   ┐ ┌──────────────┐
+        │ │              │
+        │ │              │
+        │ │   row0       │------┬---- 35
+        │ │              │      │
+    60  ┤ │──────────────┘      │
+        │ │   row1              │------┬---- 70
+        │ │                     │      │
+    95  ┤ │─────────────────────┘      │
+        │ │   row2                     │------┬---- 105
+        │ │                            │      │
+    130 ┤ │────────────────────────────┘      │
+        │ │   row3                            │------┬---- 140
+        │ │                                   │      │
+    165 ┤ │───────────────────────────────────┘      │
+        │ │   row4                                   │
+        │ │                                          │
+    200 ┘ └──────────────────────────────────────────┘
+	 */
+    expect(g.cells[0][0].h).toBe(60);
+    expect(g.cells[0][1].y).toBe(35); //  +35
+    expect(g.cells[0][2].y).toBe(70); //  +35
+    expect(g.cells[0][3].y).toBe(105); //  +35
+    expect(g.cells[0][4].y).toBe(140); //  +35
   });
 
   it('should flat array of cells', () => {
@@ -190,6 +241,54 @@ describe('Gridset', () => {
     expect(row.cells.length).toBe(4);
   });
 
+  it('should return the correct adjacent cells', () => {
+    const g = new Gridset({
+      width: 100,
+      height: 100,
+      rows: 4,
+      cols: 4,
+    });
+    /**
+  +-------------------------------+
+  |       |       |       |       |
+  |  0,0  |  1,0  |  2,0  | 3,0   |
+  |       |   u2  |   r3  |       |
+  +-------------------------------+
+  |       |       |       |       |
+  |  0,1  |  1,1  |  2,1  | 3,1   |
+  |   lu  |    u  |   ru  |       |
+  +-------------------------------+
+  |       |       |       |       |
+  |  0,2  |  1,2  |  2,2  |  3,2  |
+  |    l  |    *  |    r  |       |
+	+-------------------------------+
+  |       |       |       |       |
+  |  0,3  |  1,3  |  2,3  |  3,3  |
+  |   ld  |    d  |   rd  |       |
+	+-------------------------------+
+	 */
+    const cell = g.cell(1, 2);
+    expect(cell.look.u().ci).toBe(1);
+    expect(cell.look.u().ri).toBe(1);
+    expect(cell.look.r().ci).toBe(2);
+    expect(cell.look.r().ri).toBe(2);
+    expect(cell.look.l().ci).toBe(0);
+    expect(cell.look.l().ri).toBe(2);
+    expect(cell.look.d().ci).toBe(1);
+    expect(cell.look.d().ri).toBe(3);
+    expect(cell.look.lu().ci).toBe(0);
+    expect(cell.look.lu().ri).toBe(1);
+    expect(cell.look.ru().ci).toBe(2);
+    expect(cell.look.ru().ri).toBe(1);
+    expect(cell.look.rd().ci).toBe(2);
+    expect(cell.look.rd().ri).toBe(3);
+    expect(cell.look.ld().ci).toBe(0);
+    expect(cell.look.ld().ri).toBe(3);
+    expect(cell.look.u().look.u().look.r().ci).toBe(2);
+    expect(cell.look.u().look.u().look.r().ri).toBe(0);
+    expect(cell.look.l().look.l()).toBe(null);
+  });
+
   it('should return the correct scanRow values', () => {
     const g = new Gridset({
       width: 100,
@@ -198,16 +297,15 @@ describe('Gridset', () => {
       cols: 4,
     });
     /**
-    /**
-	+-----------------------+
-	| 0,0 | 1,0 | 2,0 | 3,0 |
-	+-----------------------+
-	| 0,1 | 1,1 | 2,1 | 3,1 |
-	+-----------------------+
-	| 0,2 | 1,2 | 2,2 | 3,2 |
-	+-----------------------+
-	| 0,3 | 1,3 | 2,3 | 3,3 |
-	+-----------------------+
+    +-----------------------+
+    | 0,0 | 1,0 | 2,0 | 3,0 |
+    +-----------------------+
+    | 0,1 | 1,1 | 2,1 | 3,1 |
+    +-----------------------+
+    | 0,2 | 1,2 | 2,2 | 3,2 |
+    +-----------------------+
+    | 0,3 | 1,3 | 2,3 | 3,3 |
+    +-----------------------+
 	 */
     const m = g.scanRow(2);
     const computedSize = 25;

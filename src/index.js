@@ -106,6 +106,16 @@ export class Gridset {
       l: x,
       ri,
       ci,
+      look: {
+        u: () => this.cell(ci, ri - 1),
+        lu: () => this.cell(ci - 1, ri - 1),
+        ru: () => this.cell(ci + 1, ri - 1),
+        d: () => this.cell(ci, ri + 1),
+        ld: () => this.cell(ci - 1, ri + 1),
+        rd: () => this.cell(ci + 1, ri + 1),
+        r: () => this.cell(ci + 1, ri),
+        l: () => this.cell(ci - 1, ri),
+      },
     };
 
     if (this.cellWidth) {
@@ -137,6 +147,11 @@ export class Gridset {
   }
   get flatCells() {
     return this.cells.flat(Infinity);
+  }
+  cell(ci, ri) {
+    return ci >= 0 && (ci < this.colCount) & (ri >= 0) && ri < this.rowCount
+      ? this.gridMap[ci][ri]
+      : null;
   }
   area({ ci1, ri1, ci2, ri2 }) {
     const cell1 = this.cell(ci1, ri1);
@@ -229,9 +244,6 @@ export class Gridset {
   }
   get cols() {
     return this.gridMap;
-  }
-  cell(ci, ri) {
-    return this.gridMap[ci][ri];
   }
   scanRow(ri, dir = 'f', si = null) {
     const cells = this.rowCells(ri);
