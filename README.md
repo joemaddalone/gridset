@@ -4,6 +4,33 @@
 
 An imaginary grid to make positioning and moving things easier.
 
+## Table of contents
+
+- [Installation](#install)
+- [Setup](#setup)
+- [Get a cell](#get-a-cell)
+- [Get a column](#get-a-column)
+- [Get a row](#get-a-row)
+- [Get a diagonal](#get-a-diagonal)
+- [Get an anti-diagonal](#get-an-anti-diagonal)
+- [Get an area](#get-an-area)
+- [Set cell width and height](#set-cell-width-and-height)
+- [Traversals](#traversals)
+  - [Look](#look)
+  - [Look in cycle mode](#look-in-cycle-mode)
+    - [Cycle up out of grid](#cycle-up-out-of-grid)
+    - [Cycle down out of grid](#cycle-down-out-of-grid)
+    - [Cycle right out of grid](#cycle-right-out-of-grid)
+    - [Cycle left out of grid](#cycle-left-out-of-grid)
+    - [Cycle diagonally out of grid](#cycle-diagonally-out-of-grid)
+  - [Cycle a row](#cycle-a-row)
+  - [Cycle a column](#cycle-a-column)
+  - [Cycle a diagonal or anti-diagonal](#cycle-a-diagonal-or-anti-diagonal)
+  - [Scan a row](#scan-a-row)
+  - [Scan a column](#scan-a-column)
+  - [Scan a diagonal or anti-diagonal](#scan-a-diagonal-or-anti-diagonal)
+  - [Bounce an area](#scan-a-column)
+
 ## Install.
 
 `npm i gridset`
@@ -14,11 +41,11 @@ An imaginary grid to make positioning and moving things easier.
 import { Gridset } from 'gridset';
 
 const grid = new Gridset({
-  width: 200,  // <-- width of the grid
+  width: 200, // <-- width of the grid
   height: 200, // <-- height of the grid
-  rows: 5,     // <-- number of rows
-  cols: 5      // <-- number of columns
-})
+  rows: 5, // <-- number of rows
+  cols: 5, // <-- number of columns
+});
 ```
 
 You now have a Gridset. It looks like this:
@@ -49,7 +76,7 @@ that's the cell at column 0, row 0.
 
 When you retrieve a cell it looks like this:
 
-```
+```js
 {
   x:  x coordinate of the cell,
   y:  y coordinate of the cell,
@@ -63,6 +90,16 @@ When you retrieve a cell it looks like this:
   cy: center y coordinate of the cell,
   ri: row index of the cell,
   ci: column index of the cell,
+  look: {
+    u:  () =>  one cell up,
+    lu: () =>  one cell left and up,
+    ru: () =>  one cell right and up,
+    d:  () =>  one cell down,
+    ld: () =>  one cell left and down,
+    rd: () =>  one cell right and down,
+    r:  () =>  one cell right,
+    l:  () =>  one cell left,
+  }
 }
 ```
 
@@ -77,7 +114,7 @@ You can select an entire column of cells from your Gridset by calling
 
 When you retrieve a column it looks like this:
 
-```
+```js
 {
   x:  x coordinate of the column,
   y:  y coordinate of the column,
@@ -101,7 +138,7 @@ You can select an entire row of cells from your Gridset by calling
 
 When you retrieve a row it looks like this:
 
-```
+```js
 {
   x:  x coordinate of the row,
   y:  y coordinate of the row,
@@ -116,6 +153,102 @@ When you retrieve a row it looks like this:
   ci: index of the row,
   cells: an array of the cells in the row
 }
+```
+
+## Get a diagonal
+
+You can select a diagonal selection of cells from your Gridset by calling
+`.diagonal(columnIndex, rowIndex)`.
+
+If our grid looked like this
+
+```
+┌─────┬─────┬─────┬─────┬─────┐
+│ 0,0 │ 1,0 │ 2,0 │ 3,0 │ 4,0 │
+├─────┼─────┼─────┼─────┼─────┤
+│ 0,1 │ 1,1 │ 2,1 │ 3,1 │ 4,1 │
+├─────┼─────┼─────┼─────┼─────┤
+│ 0,2 │ 1,2 │ 2,2 │ 3,2 │ 4,2 │
+├─────┼─────┼─────┼─────┼─────┤
+│ 0,3 │ 1,3 │ 2,3 │ 3,3 │ 4,3 │
+├─────┼─────┼─────┼─────┼─────┤
+│ 0,4 │ 1,4 │ 2,4 │ 3,4 │ 4,4 │
+└─────┴─────┴─────┴─────┴─────┘
+```
+
+And we called `.diagonal(1, 2)` our result would be a flat array containing
+
+```
+ [
+   .cell(0,0),
+   .cell(1,2),
+   .cell(2,3),
+   .cell(3,4),
+  ]
+```
+
+Illustrated here:
+
+```
+┌─────┬─────┬─────┬─────┬─────┐
+│     │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┤
+│ 0,1 │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┤
+│     │ 1,2 │     │     │     │
+├─────┼─────┼─────┼─────┼─────┤
+│     │     │ 2,3 │     │     │
+├─────┼─────┼─────┼─────┼─────┤
+│     │     │     │ 3,4 │     │
+└─────┴─────┴─────┴─────┴─────┘
+```
+
+## Get an anti-diagonal
+
+You can select a anti-diagonal selection of cells from your Gridset by calling
+`.antidiagonal(columnIndex, rowIndex)`.
+
+If our grid looked like this
+
+```
+┌─────┬─────┬─────┬─────┬─────┐
+│ 0,0 │ 1,0 │ 2,0 │ 3,0 │ 4,0 │
+├─────┼─────┼─────┼─────┼─────┤
+│ 0,1 │ 1,1 │ 2,1 │ 3,1 │ 4,1 │
+├─────┼─────┼─────┼─────┼─────┤
+│ 0,2 │ 1,2 │ 2,2 │ 3,2 │ 4,2 │
+├─────┼─────┼─────┼─────┼─────┤
+│ 0,3 │ 1,3 │ 2,3 │ 3,3 │ 4,3 │
+├─────┼─────┼─────┼─────┼─────┤
+│ 0,4 │ 1,4 │ 2,4 │ 3,4 │ 4,4 │
+└─────┴─────┴─────┴─────┴─────┘
+```
+
+And we called `.antidiagonal(1, 2)` our result would be a flat array containing
+
+```
+ [
+   .cell(0,3),
+   .cell(1,2),
+   .cell(2,1),
+   .cell(3,0),
+  ]
+```
+
+Illustrated here:
+
+```
+┌─────┬─────┬─────┬─────┬─────┐
+│     │     │     │ 3,0 │     │
+├─────┼─────┼─────┼─────┼─────┤
+│     │     │ 2,1 │     │     │
+├─────┼─────┼─────┼─────┼─────┤
+│     │ 1,2 │     │     │     │
+├─────┼─────┼─────┼─────┼─────┤
+│ 0,3 │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┤
+│     │     │     │     │     │
+└─────┴─────┴─────┴─────┴─────┘
 ```
 
 ## Get an area
@@ -151,7 +284,7 @@ the result will be the same.
 
 When you retrieve an area it looks like this:
 
-```
+```js
 {
   x:  x coordinate of the area,
   y:  y coordinate of the area,
@@ -182,7 +315,7 @@ const grid = new Gridset({
   width: 200,
   height: 200,
   rows: 5,
-  cols: 5
+  cols: 5,
 });
 ```
 
@@ -203,7 +336,7 @@ const grid = new Gridset({
   width: 200,
   height: 200,
   rows: 5,
-  cols: 5  
+  cols: 5
   cellWidth: 60
 });
 ```
@@ -234,14 +367,16 @@ const grid = new Gridset({
                                  140
 ```
 
-Our grid still has the correct width while respecting the custom cellWidth.  In order to achieve this our columns/cells now overlap.  And it works the same way with setting `cellHeight`
+Our grid still has the correct width while respecting the custom cellWidth. In
+order to achieve this our columns/cells now overlap. And it works the same way
+with setting `cellHeight`
 
 ```js
 const grid = new Gridset({
   width: 200,
   height: 200,
   rows: 5,
-  cols: 5  
+  cols: 5
   cellHeight: 60
 });
 ```
@@ -266,3 +401,306 @@ const grid = new Gridset({
     │ │                                          │
 200 ┘ └──────────────────────────────────────────┘
 ```
+
+## Traversals
+
+### Look
+
+Each individual cell you retrieve comes with methods to retrieve its adjacent
+cells.
+
+```js
+{
+  ...,
+  look: {
+    u:  () =>  one cell up,
+    lu: () =>  one cell left and up,
+    ru: () =>  one cell right and up,
+    d:  () =>  one cell down,
+    ld: () =>  one cell left and down,
+    rd: () =>  one cell right and down,
+    r:  () =>  one cell right,
+    l:  () =>  one cell left,
+  }
+}
+```
+
+So if we started with `.cell(1,2)` `.cell(1,2).look.up()` will return
+`cell(1,1)`
+
+```
+┌────────┬────────┬────────┬────────┐
+│        │        │        │        │
+│   0,0  │   1,0  │   2,0  │  3,0   │
+│        │        │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,1  │   1,1  │   2,1  │  3,1   │
+│        │    u   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,2  │   1,2  │   2,2  │  3,2   │
+│        │    *   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,3  │   1,3  │   2,3  │  3,3   │
+│        │        │        │        │
+└────────┴────────┴────────┴────────┘
+```
+
+These methods can be chained together: `cell(1,2).look.u().look.u().look.r()`
+
+```
+┌────────┬────────┬────────┬────────┐
+│        │        │        │        │
+│   0,0  │   1,0  │   2,0  <----------- land here.
+│        │    u   │    r   │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,1  │   1,1  │   2,1  │  3,1   │
+│        │    u   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,2  │   1,2  │   2,2  │  3,2   │
+│        │    *   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,3  │   1,3  │   2,3  │  3,3   │
+│        │        │        │        │
+└────────┴────────┴────────┴────────┘
+```
+
+However if you run into the edge of the grid there will be no cell to retrieve
+in certain directions. For example, using the last example:
+
+`cell(1,2).look.u().look.u().look.r()`
+
+If we added `.look.up()` we would be outside the grid. By default you will be
+returned the same cell that you attempted to look from. In this case you will be
+returned `cell(2,0)`
+
+```
+                  +--------+
+                  |        |
+                  |   u    | <-- out of grid.
+                  |        |
+┌────────┬────────┬────────┬────────┐
+│        │        │        │        │
+│   0,0  │   1,0  │   2,0 <----------- so you get this cell instead.
+│        │    u   │    r   │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,1  │   1,1  │   2,1  │  3,1   │
+│        │    u   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,2  │   1,2  │   2,2  │  3,2   │
+│        │    *   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,3  │   1,3  │   2,3  │  3,3   │
+│        │        │        │        │
+└────────┴────────┴────────┴────────┘
+```
+
+Gridset can provide an alternative result which can be helpful in some cases.
+
+### Look in cycle mode
+
+Using `look` with a mode of `cycle` will use the current position and direction
+to return the cell as though you came through the other side of the grid
+whenever you went off the grid
+
+```js
+const mode = 'cycle';
+cell(1, 2).look.u().look.u().look.r().look.u(mode);
+// OR because it can be difficult to know
+// which "look" will go off the grid.
+cell(1, 2).look.u(mode).look.u(mode).look.r(mode).look.u(mode);
+```
+
+```
+                  +--------+
+                  |        |
+                  |   u3   | <-- out of grid.
+                  |        |
+┌────────┬────────┬────────┬────────┐
+│        │        │        │        │
+│   0,0  │   1,0  │   2,0  │  3,0   │
+│        │    u2  │    r   │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,1  │   1,1  │   2,1  │  3,1   │
+│        │    u   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,2  │   1,2  │   2,2  │  3,2   │
+│        │    *   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,3  │   1,3  │   2,3 <----------- so you get this cell instead.
+│        │        │        │        │
+└────────┴────────┴────────┴────────┘
+```
+
+#### Cycle up out of grid
+
+```js
+const mode = 'cycle';
+cell(1, 2).look.u(mode).look.u(mode).look.u(mode);
+```
+
+```
+         +--------+
+         |        |
+         |    u   | <-- out of grid.
+         |        |
+┌────────┬────────┬────────┬────────┐
+│        │        │        │        │
+│   0,0  │   1,0  │   2,0  │  3,0   │
+│        │    u   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,1  │   1,1  │   2,1  │  3,1   │
+│        │    u   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,2  │   1,2  │   2,2  │  3,2   │
+│        │    *   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,3  │   1,3 <---------------------- so you get this cell instead.
+│        │        │        │        │
+└────────┴────────┴────────┴────────┘
+```
+
+#### Cycle down out of grid
+
+```js
+const mode = 'cycle';
+cell(1, 2).look.d(mode).look.d(mode);
+```
+
+```
+┌────────┬────────┬────────┬────────┐
+│        │        │        │        │
+│   0,0  │   1,0 <--------------------- so you get this cell instead.
+│        │        │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,1  │   1,1  │   2,1  │  3,1   │
+│        │        │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,2  │   1,2  │   2,2  │  3,2   │
+│        │    *   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,3  │   1,3  │   2,3  │  3,3   │
+│        │    d   │        │        │
+└────────┴────────┴────────┴────────┘
+         |        |
+         |    d   | <-- out of grid.
+         |        |
+         +--------+
+```
+
+#### Cycle right out of grid
+
+```js
+const mode = 'cycle';
+cell(1, 2).look.r(mode).look.r(mode).look.r(mode);
+```
+
+```
+┌────────┬────────┬────────┬────────┐
+│        │        │        │        │
+│   0,0  │   1,0  │   2,0  │  3,0   │
+│        │        │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,1  │   1,1  │   2,1  │  3,1   │
+│        │        │        │        │
+├────────┼────────┼────────┼────────┤---------+
+│        │        │        │        │         |
+│   0,2  │   1,2  │   2,2  │  3,2   │    r    | <-- out of grid.
+│    ⇡   │    *   │    r   │   r    │         |
+├────│───┼────────┼────────┼────────┤---------+
+│    │   │        │        │        │
+│    └----------------------------------- so you get this cell instead.
+│        │        │        │        │
+└────────┴────────┴────────┴────────┘
+```
+
+#### Cycle left out of grid
+
+```js
+const mode = 'cycle';
+cell(1, 2).look.l(mode).look.l(mode);
+```
+
+```
+        ┌────────┬────────┬────────┬────────┐
+        │        │        │        │        │
+        │   0,0  │   1,0  │   2,0  │  3,0   │
+        │        │        │        │        │
+        ├────────┼────────┼────────┼────────┤
+out of  │        │        │        │        │
+grid    │   0,1  │   1,1  │   2,1  │  3,1   │
+  |     │        │        │        │        │
++-------├────────┼────────┼────────┼────────┤
+|       │        │        │        │        │
+|   l   │   0,2  │   1,2  │   2,2  │  3,2 <----- so you get this cell instead.
+|       │    l   │    *   │        │        │
++-------├────────┼────────┼────────┼────────┤
+        │        │        │        │        │
+        │   0,3  │   1,3  │   2,3  │  3,3   │
+        │        │        │        │        │
+        └────────┴────────┴────────┴────────┘
+
+```
+
+#### Cycle diagonally out of grid
+
+```js
+const mode = 'cycle';
+cell(1, 2).look.rd(mode).look.rd(mode);
+```
+
+```
+┌────────┬────────┬────────┬────────┐
+│        │        │        │        │
+│   0,0  │   1,0  │   2,0  │  3,0   │
+│        │        │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,1 <-------------------------------- so you get this cell instead.
+│        │        │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,2  │   1,2  │   2,2  │  3,2   │
+│        │    *   │        │        │
+├────────┼────────┼────────┼────────┤
+│        │        │        │        │
+│   0,3  │   1,3  │   2,3  │  3,3   │
+│        │        │    rd  │        │
+└────────┴────────┴────────┴────────┘
+                           |        |
+                           |   rd   | <-- out of grid.
+                           |        |
+                           +--------+
+```
+
+### Cycle a row
+
+### Cycle a column
+
+### Cycle a diagonal or anti-diagonal
+
+### Scan a row
+
+### Scan a column
+
+### Scan a diagonal or anti-diagonal
+
+### Bounce an area

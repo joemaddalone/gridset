@@ -106,17 +106,9 @@ export class Gridset {
       l: x,
       ri,
       ci,
-      look: {
-        u: () => this.cell(ci, ri - 1),
-        lu: () => this.cell(ci - 1, ri - 1),
-        ru: () => this.cell(ci + 1, ri - 1),
-        d: () => this.cell(ci, ri + 1),
-        ld: () => this.cell(ci - 1, ri + 1),
-        rd: () => this.cell(ci + 1, ri + 1),
-        r: () => this.cell(ci + 1, ri),
-        l: () => this.cell(ci - 1, ri),
-      },
     };
+
+    cellProps.look = this.look({ ...cellProps });
 
     if (this.cellWidth) {
       cellProps.x = this.__calcCustom(ci, 'w');
@@ -134,6 +126,35 @@ export class Gridset {
 
     return cellProps;
   }
+  look(cell) {
+    const { ci, ri } = cell;
+    const make = (mode, dir) => {
+      return this.__createCellLookMode(mode, ci, ri, dir);
+    };
+    return {
+      u: (mode) => this.cell(ci, ri - 1, { ci, ri, mode: make(mode, 'u') }),
+      lu: (mode) =>
+        this.cell(ci - 1, ri - 1, { ci, ri, mode: make(mode, 'lu') }),
+      ru: (mode) =>
+        this.cell(ci + 1, ri - 1, { ci, ri, mode: make(mode, 'ru') }),
+      d: (mode) => this.cell(ci, ri + 1, { ci, ri, mode: make(mode, 'd') }),
+      ld: (mode) =>
+        this.cell(ci - 1, ri + 1, { ci, ri, mode: make(mode, 'ld') }),
+      rd: (mode) =>
+        this.cell(ci + 1, ri + 1, { ci, ri, mode: make(mode, 'rd') }),
+      r: (mode) => this.cell(ci + 1, ri, { ci, ri, mode: make(mode, 'r') }),
+      l: (mode) => this.cell(ci - 1, ri, { ci, ri, mode: make(mode, 'l') }),
+    };
+  }
+  __createCellLookMode(mode = null, ci, ri, dir) {
+    if (!mode) {
+      return null;
+    }
+    if (mode === 'cycle') {
+      return this.cycleCell.bind(this, { ci, ri }, dir);
+    }
+    return null;
+  }
   create() {
     this.gridMap = Array.from({ length: this.colCount }).map((c, ci) => {
       return Array.from({ length: this.rowCount }).map((r, ri) => {
@@ -148,9 +169,16 @@ export class Gridset {
   get flatCells() {
     return this.cells.flat(Infinity);
   }
-  cell(ci, ri) {
-    return ci >= 0 && (ci < this.colCount) & (ri >= 0) && ri < this.rowCount
+  cell(ci, ri, callerCell = null) {
+    const checkBounds = (c, r) => {
+      return c >= 0 && (c < this.colCount) & (r >= 0) && r < this.rowCount;
+    };
+    return checkBounds(ci, ri)
       ? this.gridMap[ci][ri]
+      : callerCell && checkBounds(callerCell.ci, callerCell.ri)
+      ? !callerCell.mode
+        ? this.gridMap[callerCell.ci][callerCell.ri]
+        : callerCell.mode()
       : null;
   }
   area({ ci1, ri1, ci2, ri2 }) {
@@ -244,6 +272,67 @@ export class Gridset {
   }
   get cols() {
     return this.gridMap;
+  }
+  diagonal(ci, ri) {
+    const cells = this.flatCells;
+    const dCells = cells.filter((c) => ci - c.ci === ri - c.ri);
+    return dCells;
+  }
+  antidiagonal(ci, ri) {
+    const cells = this.flatCells;
+    return cells.filter((c) => {
+      if (ci === c.ci && ri === c.ri) {
+        return true; // this is our cell.
+      }
+      const cResult = ci - c.ci;
+      const rResult = ri - c.ri;
+      if (cResult < 0 || rResult < 0) {
+        // one of them must be negative
+        return Math.min(cResult, rResult) === Math.max(cResult, rResult) * -1;
+      } else {
+        return false;
+      }
+    });
+  }
+  cycleCell(cell, dir) {
+    let cells, cycleDir, si;
+    const { ci, ri } = cell;
+    const isCol = dir === 'u' || dir === 'd';
+    const isRow = dir === 'l' || dir === 'r';
+    const isDiag = !isCol && !isRow;
+
+    if (isCol) {
+      cells = this.colCells(ci);
+      si = ri;
+      if (dir === 'u') {
+        cycleDir = 'r';
+      }
+      if (dir === 'd') {
+        cycleDir = 'f';
+      }
+    }
+    if (isRow) {
+      cells = this.rowCells(ri);
+      si = ci;
+      if (dir === 'l') {
+        cycleDir = 'r';
+      }
+      if (dir === 'r') {
+        si = ci + 1;
+        cycleDir = 'f';
+      }
+    }
+    if (isDiag) {
+      if (dir === 'lu' || dir === 'rd') {
+        cells = this.diagonal(ci, ri);
+      } else {
+        cells = this.antidiagonal(ci, ri);
+      }
+      si = cells.findIndex((c) => c.ci === ci) + 1;
+      cycleDir = dir.startsWith('r') ? 'f' : 'r';
+    }
+
+    return cycle(cells, cycleDir, si).next().value;
   }
   scanRow(ri, dir = 'f', si = null) {
     const cells = this.rowCells(ri);
