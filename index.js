@@ -78,25 +78,39 @@ class Demo {
     this.draw();
   }
   get mover() {
+    const midCol = parseInt(this.grid.colCount / 2);
+    const midRow = parseInt(this.grid.rowCount / 2);
     switch (this.d) {
       case 'bounce':
         return this.grid.bounce();
       case 'scanCol':
-        return this.grid.scanCol(3);
+        return this.grid.scanCol(midCol);
       case 'scanCol-r':
-        return this.grid.scanCol(3, 'r');
+        return this.grid.scanCol(midCol, 'r');
       case 'scanRow':
-        return this.grid.scanRow(3);
+        return this.grid.scanRow(midRow);
       case 'scanRow-r':
-        return this.grid.scanRow(3, 'r');
+        return this.grid.scanRow(midRow, 'r');
+      case 'scanDiagonal':
+        return this.grid.scanDiagonal(midCol, midRow);
+      case 'scanAntidiagonal':
+        return this.grid.scanAntidiagonal(midCol, midRow);
       case 'cycleCol':
-        return this.grid.cycleCol(3);
+        return this.grid.cycleCol(midCol);
       case 'cycleCol-r':
-        return this.grid.cycleCol(3, 'r');
+        return this.grid.cycleCol(midCol, 'r');
       case 'cycleRow':
-        return this.grid.cycleRow(3);
+        return this.grid.cycleRow(midCol);
       case 'cycleRow-r':
-        return this.grid.cycleRow(3, 'r');
+        return this.grid.cycleRow(midCol, 'r');
+      case 'cycleDiagonal':
+        return this.grid.cycleDiagonal(midCol, midRow);
+      case 'cycleDiagonal-r':
+        return this.grid.cycleDiagonal(midCol, midRow, 'r');
+      case 'cycleAntidiagonal':
+        return this.grid.cycleAntidiagonal(midCol, midRow);
+      case 'cycleAntidiagonal-r':
+        return this.grid.cycleAntidiagonal(midCol, midRow, 'r');
       default:
         return this.grid.bounce();
     }
