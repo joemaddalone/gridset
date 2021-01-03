@@ -93,8 +93,12 @@ class Demo {
         return this.grid.scanRow(midRow, 'r');
       case 'scanDiagonal':
         return this.grid.scanDiagonal(midCol, midRow);
+      case 'scanDiagonal-r':
+        return this.grid.scanDiagonal(midCol, midRow, 'r');
       case 'scanAntidiagonal':
         return this.grid.scanAntidiagonal(midCol, midRow);
+      case 'scanAntidiagonal-r':
+        return this.grid.scanAntidiagonal(midCol, midRow, 'r');
       case 'cycleCol':
         return this.grid.cycleCol(midCol);
       case 'cycleCol-r':

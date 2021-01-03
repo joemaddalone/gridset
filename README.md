@@ -8,8 +8,11 @@ An imaginary grid to make positioning and moving things easier.
 
 - [Installation](#install)
 - [Setup](#setup)
+- [Get all cells](#get-all-cells)
 - [Get a cell](#get-a-cell)
+- [Get all columns](#get-all-columns)
 - [Get a column](#get-a-column)
+- [Get all rows](#get-all-rows)
 - [Get a row](#get-a-row)
 - [Get a diagonal](#get-a-diagonal)
 - [Get an anti-diagonal](#get-an-anti-diagonal)
@@ -23,12 +26,18 @@ An imaginary grid to make positioning and moving things easier.
     - [Cycle right out of grid](#cycle-right-out-of-grid)
     - [Cycle left out of grid](#cycle-left-out-of-grid)
     - [Cycle diagonally out of grid](#cycle-diagonally-out-of-grid)
-  - [Cycle a row](#cycle-a-row)
-  - [Cycle a column](#cycle-a-column)
-  - [Cycle a diagonal or anti-diagonal](#cycle-a-diagonal-or-anti-diagonal)
-  - [Scan a row](#scan-a-row)
-  - [Scan a column](#scan-a-column)
-  - [Scan a diagonal or anti-diagonal](#scan-a-diagonal-or-anti-diagonal)
+  - [Cycle Generators](#cycle-generators)
+    - [Cycle cells](#cycle-cells)
+    - [Cycle helpers](#cycle-helpers)
+      - [Cycle a row](#cycle-a-row)
+      - [Cycle a column](#cycle-a-column)
+      - [Cycle a diagonal or anti-diagonal](#cycle-a-diagonal-or-anti-diagonal)
+  - [Scan Generators](#scan-generators)
+    - [Scan cells](#scan-cells)
+    - [Scan helpers](#scan-helpers)
+      - [Scan a row](#scan-a-row)
+      - [Scan a column](#scan-a-column)
+      - [Scan a diagonal or anti-diagonal](#scan-a-diagonal-or-anti-diagonal)
   - [Bounce an area](#scan-a-column)
 
 ## Install.
@@ -691,16 +700,155 @@ cell(1, 2).look.rd(mode).look.rd(mode);
                            +--------+
 ```
 
-### Cycle a row
+## Cycle Generators
 
-### Cycle a column
+The following cycle generators work similarly to cell cycling. When a cycle
+reaches the the last cell the next value will be on the opposite side of the
+cycled area.
 
-### Cycle a diagonal or anti-diagonal
+### Cycle Cells
 
-### Scan a row
+Cycle any flat array of cells.
+`cycle` accepts the following arguments, all arguments are optional.
 
-### Scan a column
+* `cells`
+  * this is a flat array of cells to cycle through
+  * the default is `grid.flatCells`
+* `dir`
+  * `f` (forwards) or `r` (reverse)
+  * the default is `f`
+* `startingIndex`
+  * where in the array to begin the cycle
+  * the default is 0
 
-### Scan a diagonal or anti-diagonal
+Once your cycle generator is instantiated you can retrieve the next cell in the cycle by calling:
+`[generator].next().value`
+
+```
+const cycle = grid.cycle(arrayOfCells, [dir, startingIndex])
+const firstCell = cycle.next().value
+const secondCell = cycle.next().value
+const thirdCell = cycle.next().value
+// ... and so on forever.
+```
+
+### Cycle Helpers
+
+Cycle helper methods allow you to easily cycle identifiable areas of the grid like columns or rows.
+
+```
+const cycle = grid.cycle____(args)
+const firstCell = cycle.next().value
+const secondCell = cycle.next().value
+const thirdCell = cycle.next().value
+// ... and so on forever.
+```
+
+Each cycle helper method accepts an optional `dir` argument of `f` (forwards) or `r`
+(reverse). The default for `dir` is `f`. Each cycle method accepts an optional
+`startingIndex` argument representing where in the array of cells to begin the
+cycle. The default for startingIndex is 0
+
+#### Cycle a row
+
+```
+const cycle = grid.cycleRow(rowIndex, [dir, startingIndex])
+const firstCell = cycle.next().value
+```
+
+#### Cycle a column
+
+```
+const cycle = grid.cycleCol(columnIndex, [dir, startingIndex])
+const firstCell = cycle.next().value
+```
+
+#### Cycle a diagonal or anti-diagonal
+
+```
+const cycle = grid.cycleDiagonal(columnIndex, rowIndex, [dir, startingIndex])
+const firstCell = cycle.next().value
+```
+
+```
+const cycle = grid.cycleAntidiagonal(columnIndex, rowIndex, [dir, startingIndex])
+const firstCell = cycle.next().value
+```
+
+## Scan generators
+
+The following scan generators cycle through cells and when reaching the last or first cell will begin cycling in the reverse direction. You can think of it as a linearly and infinite bounce.
+
+### Scan Cells
+
+`.scanCells` allows you to scan any flat array of cells.
+
+### Scan Helpers
+
+
+Scan helper methods allow you to easily scan identifiable areas of the grid like columns or rows.
+
+```
+const scan = grid.scan____(args)
+const firstCell = scan.next().value
+const secondCell = scan.next().value
+const thirdCell = scan.next().value
+// ... and so on forever.
+```
+
+Each scan helper method accepts an optional `dir` argument of `f` (forwards) or `r`
+(reverse). The default for `dir` is `f`. Each scan method accepts an optional
+`startingIndex` argument representing where in the array of cells to begin the
+scan. The default for startingIndex is 0
+
+#### Scan a row
+
+```
+const scan = grid.scanRow(rowIndex, [dir, startingIndex])
+const firstCell = scan.next().value
+```
+
+#### Scan a column
+
+```
+const scan = grid.scanCol(colIndex, [dir, startingIndex])
+const firstCell = scan.next().value
+```
+
+#### Scan a diagonal or anti-diagonal
+
+```
+const scan = grid.scanDiagonal(colIndex, rowIndex, [dir, startingIndex])
+const firstCell = scan.next().value
+```
+
+```
+const scan = grid.scanAntidiagonal(colIndex, rowIndex, [dir, startingIndex])
+const firstCell = scan.next().value
+```
 
 ### Bounce an area
+
+```
+const bounce = grid.bounce(
+  area, // default = grid
+  sx,    // default = 0,
+  sy     // default = 0
+ )
+```
+
+```
+┌─────┬─────┬─────┬─────┬─────┐
+│  0  │     │     │     │     │
+├─────┼─────┼─────┼─────┼─────┤
+│     │  1  │     │     │     │
+├─────┼─────┼─────┼─────┼─────┤
+│  8  │     │  2  │     │     │
+├─────┼─────┼─────┼─────┼─────┤
+│     │  7  │     │  3  │     │
+├─────┼─────┼─────┼─────┼─────┤
+│     │     │  6  │     │  4  │
+├─────┼─────┼─────┼─────┼─────┤
+│     │     │     │  5  │     │
+└─────┴─────┴─────┴─────┴─────┘
+```

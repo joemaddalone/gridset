@@ -1,6 +1,6 @@
-function* scan(arr, i) {
+function* scan(arr, si) {
   let dir = 'f';
-  let index = i ?? -1;
+  let index = si ?? -1;
   const end = arr.length - 1;
   while (true) {
     switch (dir) {
@@ -65,7 +65,6 @@ function* cycle(arr, d = 'f', si) {
     yield arr[index];
   }
 }
-
 export class Gridset {
   constructor({
     width = 0,
@@ -126,6 +125,10 @@ export class Gridset {
 
     return cellProps;
   }
+  /**
+   *
+   * @param {*} cell
+   */
   look(cell) {
     const { ci, ri } = cell;
     const make = (mode, dir) => {
@@ -334,47 +337,53 @@ export class Gridset {
 
     return cycle(cells, cycleDir, si).next().value;
   }
+  scanCells(cells, dir = 'f', si = null) {
+    cells = cells || this.flatCells;
+    return scan(cells, dir, si);
+  }
+  cycleCells(cells, dir = 'f', si = null) {
+    cells = cells || this.flatCells;
+    return cycle(cells, dir, si);
+  }
   scanRow(ri, dir = 'f', si = null) {
     const cells = this.rowCells(ri);
     if (dir === 'r') {
       cells.reverse();
     }
-    return scan(cells, si);
+    return this.scanCells(cells, si);
   }
-  scanDiagonal(ci, ri) {
+  scanDiagonal(ci, ri, dir = 'f', si = null) {
     const cells = this.diagonal(ci, ri);
-    return scan(cells);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return this.scanCells(cells, si);
   }
-  scanAntidiagonal(ci, ri) {
+  scanAntidiagonal(ci, ri, dir = 'f', si = null) {
     const cells = this.antidiagonal(ci, ri);
-    return scan(cells);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return this.scanCells(cells, si);
   }
   scanCol(ci, dir = 'f', si = null) {
     const cells = this.colCells(ci);
     if (dir === 'r') {
       cells.reverse();
     }
-    return scan(cells, si);
+    return this.scanCells(cells, si);
   }
   cycleRow(ri, dir = 'f', si = null) {
-    return cycle(this.rowCells(ri), dir, si);
+    return this.cycleCells(this.rowCells(ri), dir, si);
   }
   cycleCol(ci, dir = 'f', si = null) {
-    return cycle(this.colCells(ci), dir, si);
+    return this.cycleCells(this.colCells(ci), dir, si);
   }
-  cycleDiagonal(ci, ri, dir = 'f') {
-    const cells = this.diagonal(ci, ri);
-    if (dir === 'r') {
-      cells.reverse();
-    }
-    return cycle(cells);
+  cycleDiagonal(ci, ri, dir = 'f', si) {
+    return this.cycleCells(this.diagonal(ci, ri), dir, si);
   }
-  cycleAntidiagonal(ci, ri, dir = 'f') {
-    const cells = this.antidiagonal(ci, ri);
-    if (dir === 'r') {
-      cells.reverse();
-    }
-    return cycle(cells);
+  cycleAntidiagonal(ci, ri, dir = 'f', si = null) {
+    return this.cycleCells(this.antidiagonal(ci, ri), dir, si);
   }
   bounce(area, sx, sy, mx, my) {
     const cells = area || this.cells;
