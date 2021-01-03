@@ -341,6 +341,14 @@ export class Gridset {
     }
     return scan(cells, si);
   }
+  scanDiagonal(ci, ri) {
+    const cells = this.diagonal(ci, ri);
+    return scan(cells);
+  }
+  scanAntidiagonal(ci, ri) {
+    const cells = this.antidiagonal(ci, ri);
+    return scan(cells);
+  }
   scanCol(ci, dir = 'f', si = null) {
     const cells = this.colCells(ci);
     if (dir === 'r') {
@@ -353,6 +361,20 @@ export class Gridset {
   }
   cycleCol(ci, dir = 'f', si = null) {
     return cycle(this.colCells(ci), dir, si);
+  }
+  cycleDiagonal(ci, ri, dir = 'f') {
+    const cells = this.diagonal(ci, ri);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return cycle(cells);
+  }
+  cycleAntidiagonal(ci, ri, dir = 'f') {
+    const cells = this.antidiagonal(ci, ri);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return cycle(cells);
   }
   bounce(area, sx, sy, mx, my) {
     const cells = area || this.cells;
