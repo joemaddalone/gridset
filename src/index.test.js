@@ -54,7 +54,7 @@ describe('Gridset', () => {
       cellWidth: 60,
     });
     /**
-    0           60      95      130     165      200
+     0           60      95      130     165     200
      └────────────┴───────┴───────┴───────┴───────┘
      ┌────────────¦───────¦───────¦───────¦───────┐
      │            ¦       ¦       ¦       ¦       │  <- Row 0
@@ -624,6 +624,80 @@ describe('Gridset', () => {
     expect(cell.look.lu(mode).look.lu(mode).ri).toBe(3);
   });
 
+  it('should return the correct "cycled" cell looking positively outside of the anti-diagonal bounds of the grid', () => {
+    const g = new Gridset({
+      width: 100,
+      height: 100,
+      rows: 4,
+      cols: 4,
+    });
+    /**
+
+                                        +--------+
+                                        |        |
+                                        |   ru   |   <-- out of grid.                                     
+                                        |        |
+    ┌────────┬────────┬────────┬────────+--------+
+    │        │        │        │        │
+    │   0,0  │   1,0  │   2,0  │  3,0   │
+    │        │        │        │   ru   │
+    ├────────┼────────┼────────┼────────┤
+    │        │        │        │        │
+    │   0,1  │   1,1  │   2,1  │  3,1   │
+    │    lu  │        │    ru  │        │
+    ├────────┼────────┼────────┼────────┤
+    │        │        │        │        │
+    │   0,2  │   1,2  │   2,2  │  3,2   │
+    │        │    *   │        │        │
+    ├────────┼────────┼────────┼────────┤
+    │        │        │        │        │
+    │   0,3 <----------------------------- so you get this cell instead.
+    │        │        │        │        │
+    └────────┴────────┴────────┴────────┘
+ */
+    const cell = g.cell(1, 2);
+    const mode = 'cycle';
+    expect(cell.look.ru(mode).look.ru(mode).look.ru(mode).ci).toBe(0);
+    expect(cell.look.ru(mode).look.ru(mode).look.ru(mode).ri).toBe(3);
+  });
+
+  it('should return the correct "cycled" cell looking negatively outside of the anti-diagonal bounds of the grid', () => {
+    const g = new Gridset({
+      width: 100,
+      height: 100,
+      rows: 4,
+      cols: 4,
+    });
+    /**
+
+             ┌────────┬────────┬────────┬────────┐
+             │        │        │        │        │
+             │   0,0  │   1,0  │   2,0  │  3,0 <------- so you get this cell instead.
+             │        │        │        │        │
+             ├────────┼────────┼────────┼────────┤
+             │        │        │        │        │
+             │   0,1  │   1,1  │   2,1  │  3,1   │
+             │    lu  │        │        │        │
+             ├────────┼────────┼────────┼────────┤
+             │        │        │        │        │
+             │   0,2  │   1,2  │   2,2  │  3,2   │
+             │        │    *   │        │        │
+             ├────────┼────────┼────────┼────────┤
+             │        │        │        │        │
+             │   0,3  │        │        │        │
+             │    ld  │        │        │        │
+     +-------+────────┴────────┴────────┴────────┘
+     |       |
+     |  ld   | <-- out of grid. 
+     |       |
+     +-------+
+ */
+    const cell = g.cell(1, 2);
+    const mode = 'cycle';
+    expect(cell.look.ld(mode).look.ld(mode).ci).toBe(3);
+    expect(cell.look.ld(mode).look.ld(mode).ri).toBe(0);
+  });
+
   it('should return the correct scanRow values', () => {
     const g = new Gridset({
       width: 100,
@@ -680,6 +754,84 @@ describe('Gridset', () => {
     expect(m.next().value.y).toBe(computedSize * 2);
     expect(m.next().value.y).toBe(computedSize);
     expect(m.next().value.y).toBe(0);
+  });
+
+  it('should return the correct scanDiagonal values', () => {
+    const g = new Gridset({
+      width: 100,
+      height: 100,
+      rows: 4,
+      cols: 4,
+    });
+    /**
+    +-----------------------+
+    | 0,0 | 1,0 | 2,0 | 3,0 |
+    +-----------------------+
+    | 0,1 | 1,1 | 2,1 | 3,1 |
+    +-----------------------+
+    | 0,2 | 1,2 | 2,2 | 3,2 |
+    +-----------------------+
+    | 0,3 | 1,3 | 2,3 | 3,3 |
+    +-----------------------+
+	 */
+    const m = g.scanDiagonal(1, 1);
+    const a = m.next().value; // 0,0
+    const b = m.next().value; // 1,1
+    const c = m.next().value; // 2,2
+    const d = m.next().value; // 3,3
+    const e = m.next().value; // 2,2
+    const f = m.next().value; // 1,1
+    expect(a.ci).toBe(0);
+    expect(a.ri).toBe(0);
+    expect(b.ci).toBe(1);
+    expect(b.ri).toBe(1);
+    expect(c.ci).toBe(2);
+    expect(c.ri).toBe(2);
+    expect(d.ci).toBe(3);
+    expect(d.ri).toBe(3);
+    expect(e.ci).toBe(2);
+    expect(e.ri).toBe(2);
+    expect(f.ci).toBe(1);
+    expect(f.ri).toBe(1);
+  });
+
+  it('should return the correct scanAntidiagonal values', () => {
+    const g = new Gridset({
+      width: 100,
+      height: 100,
+      rows: 4,
+      cols: 4,
+    });
+    /**
+    +-----------------------+
+    | 0,0 | 1,0 | 2,0 | 3,0 |
+    +-----------------------+
+    | 0,1 | 1,1 | 2,1 | 3,1 |
+    +-----------------------+
+    | 0,2 | 1,2 | 2,2 | 3,2 |
+    +-----------------------+
+    | 0,3 | 1,3 | 2,3 | 3,3 |
+    +-----------------------+
+	 */
+    const m = g.scanAntidiagonal(2, 1);
+    const a = m.next().value; // 0,3
+    const b = m.next().value; // 1,2
+    const c = m.next().value; // 2,1
+    const d = m.next().value; // 3,0
+    const e = m.next().value; // 2,1
+    const f = m.next().value; // 1,2
+    expect(a.ci).toBe(0);
+    expect(a.ri).toBe(3);
+    expect(b.ci).toBe(1);
+    expect(b.ri).toBe(2);
+    expect(c.ci).toBe(2);
+    expect(c.ri).toBe(1);
+    expect(d.ci).toBe(3);
+    expect(d.ri).toBe(0);
+    expect(e.ci).toBe(2);
+    expect(e.ri).toBe(1);
+    expect(f.ci).toBe(1);
+    expect(f.ri).toBe(2);
   });
 
   it('should return the correct cycleRow values', () => {
@@ -755,7 +907,6 @@ describe('Gridset', () => {
 	+-----------------------------+
 	 */
     const m = g.bounce();
-    const computedSize = 25;
     const a = m.next().value; // 0,0
     const b = m.next().value; // 1,1
     const c = m.next().value; // 2,2

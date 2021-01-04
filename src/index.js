@@ -103,7 +103,7 @@ export class Gridset {
   }
   cell(ci, ri, callerCell = null) {
     const checkBounds = (c, r) => {
-      return c >= 0 && (c < this.colCount) & (r >= 0) && r < this.rowCount;
+      return c >= 0 && c < this.colCount && r >= 0 && r < this.rowCount;
     };
     return checkBounds(ci, ri)
       ? this.gridMap[ci][ri]
@@ -146,7 +146,7 @@ export class Gridset {
       r: rightCell.r,
       b: bottomCell.b,
       cx: (leftCell.l + w) / 2,
-      cx: (topCell.t + h) / 2,
+      cy: (topCell.t + h) / 2,
       cells,
     };
   }
