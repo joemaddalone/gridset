@@ -86,6 +86,7 @@ class Demo {
       case 'scanCol':
         return this.grid.scanCol(midCol);
       case 'scanCol-r':
+        console.log('REVERSE!!!!!');
         return this.grid.scanCol(midCol, 'r');
       case 'scanRow':
         return this.grid.scanRow(midRow);
