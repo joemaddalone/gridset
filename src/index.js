@@ -172,7 +172,7 @@ export class Gridset {
     };
   }
   colCells(ci) {
-    return this.gridMap[ci];
+    return this.gridMap[ci].slice();
   }
   get cols() {
     return this.gridMap;

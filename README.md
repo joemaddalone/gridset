@@ -10,9 +10,7 @@ An imaginary grid to make positioning and moving things easier.
 - [Setup](#setup)
 - [Get all cells](#get-all-cells)
 - [Get a cell](#get-a-cell)
-- [Get all columns](#get-all-columns)
 - [Get a column](#get-a-column)
-- [Get all rows](#get-all-rows)
 - [Get a row](#get-a-row)
 - [Get a diagonal](#get-a-diagonal)
 - [Get an anti-diagonal](#get-an-anti-diagonal)
@@ -76,6 +74,18 @@ Fun fact: this example was made with Gridset.
 
 But Gridset does not actually render a grid. That part is up to you if you want
 to and it's easy.
+
+## Get all cells
+
+There a few ways to get all of the cells of the gridset.
+* `grid.cells`
+  * a 2D array arranged by column where each column is an array of its row cells
+* `grid.cols`
+  * same as `grid.cells`
+* `grid.rows`
+  * 2D array arranged by row where each row is an array of its column cells
+* `grid.flatCells`
+  * a flat array arranged by column
 
 ## Get a cell
 
