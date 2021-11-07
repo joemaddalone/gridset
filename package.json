@@ -5,6 +5,7 @@
   "main": "dist/gridset.min.js",
   "module": "src/index.js",
   "browser": "dist/gridset.min.js",
+  "type": "module",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
