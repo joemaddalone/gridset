@@ -1,3 +1,10 @@
+import Cell from './Cell';
+import iterators from './iterators';
+import traversals from './traversals';
+import paths from './paths';
+import areas from './areas';
+import row from './row';
+import col from './col';
 export class Gridset {
   constructor({
     width = 0,
@@ -16,6 +23,23 @@ export class Gridset {
     this.gHeight = height / rows;
     this.cellWidth = cellWidth;
     this.cellHeight = cellHeight;
+    this.row = row;
+    this.col = col;
+
+    for (const area in areas) {
+      this[area] = areas[area].bind(this);
+    }
+
+    for (const iterator in iterators) {
+      this[iterator] = iterators[iterator];
+    }
+
+    for (const traversal in traversals) {
+      this[traversal] = traversals[traversal];
+    }
+    for (const path in paths) {
+      this[path] = paths[path];
+    }
     this.create();
   }
   __createCell(ci, ri) {
@@ -30,6 +54,7 @@ export class Gridset {
 
     return new Cell(cellProps);
   }
+
   look(cell) {
     const { ci, ri } = cell;
     const make = (mode, dir) => {
@@ -67,8 +92,7 @@ export class Gridset {
     });
   }
   get cells() {
-    // filter null -> null = deleted cell functionality not yet implemented.
-    return this.gridMap; // .map((c) => c.filter((r) => r !== null));
+    return this.gridMap;
   }
   get flatCells() {
     return this.cells.flat(Infinity);
@@ -85,63 +109,6 @@ export class Gridset {
         : callerCell.mode()
       : null;
   }
-  area({ ci1, ri1, ci2, ri2 }) {
-    const cell1 = this.cell(ci1, ri1);
-    const cell2 = this.cell(ci2, ri2);
-    return this.areaByCell(cell1, cell2);
-  }
-  areaByCell(cell1, cell2) {
-    const leftCell = cell1.ci <= cell2.ci ? cell1 : cell2;
-    const rightCell = cell1.ci <= cell2.ci ? cell2 : cell1;
-    const topCell = cell1.ri <= cell2.ri ? cell1 : cell2;
-    const bottomCell = cell1.ri <= cell2.ri ? cell2 : cell1;
-    const w =
-      bottomCell.ci !== topCell.ci ? rightCell.r - leftCell.l : this.gWidth;
-    const h =
-      bottomCell.ri !== topCell.ri ? bottomCell.b - topCell.t : this.gHeight;
-
-    const cols = Array.from({ length: rightCell.ci - leftCell.ci });
-    const rows = Array.from({ length: bottomCell.ri - topCell.ri });
-    const cells = cols.map((_, ci) => {
-      return rows.map((_, ri) => {
-        return this.cell(leftCell.ci + ci, topCell.ri + ri);
-      });
-    });
-
-    return {
-      x: leftCell.x,
-      y: topCell.y,
-      w,
-      h,
-      t: topCell.t,
-      l: leftCell.l,
-      r: rightCell.r,
-      b: bottomCell.b,
-      cx: (leftCell.l + w) / 2,
-      cy: (topCell.t + h) / 2,
-      cells,
-    };
-  }
-  row(ri) {
-    const cells = this.rowCells(ri);
-    const y = cells[0].y;
-    const h = cells[0].h;
-    const cy = cells[0].cy;
-    return {
-      cells,
-      x: 0,
-      y: y,
-      w: this.width,
-      h: h,
-      cx: this.width / 2,
-      cy,
-      t: y,
-      l: 0,
-      r: this.width,
-      b: y + h,
-      ri,
-    };
-  }
   rowCells(ri) {
     return this.gridMap.map((c) => c[ri]);
   }
@@ -150,274 +117,10 @@ export class Gridset {
       this.rowCells(i),
     );
   }
-  col(ci) {
-    const cells = this.colCells(ci);
-    const x = cells[0].x;
-    const w = cells[0].w;
-    const h = this.height;
-    const cx = cells[0].cx;
-    return {
-      cells,
-      x,
-      y: 0,
-      w,
-      h,
-      t: 0,
-      l: x,
-      r: x + w,
-      b: this.height,
-      cx,
-      cy: this.height / 2,
-      ci,
-    };
-  }
   colCells(ci) {
     return this.gridMap[ci].slice();
   }
   get cols() {
     return this.gridMap;
-  }
-  diagonal(ci, ri) {
-    const cells = this.flatCells;
-    const dCells = cells.filter((c) => ci - c.ci === ri - c.ri);
-    return dCells;
-  }
-  antidiagonal(ci, ri) {
-    const cells = this.flatCells;
-    return cells.filter((c) => {
-      if (ci === c.ci && ri === c.ri) {
-        return true; // this is our cell.
-      }
-      const cResult = ci - c.ci;
-      const rResult = ri - c.ri;
-      if (cResult < 0 || rResult < 0) {
-        // one of them must be negative
-        return Math.min(cResult, rResult) === Math.max(cResult, rResult) * -1;
-      } else {
-        return false;
-      }
-    });
-  }
-  cycleCell(cell, dir) {
-    let cells, cycleDir, si;
-    const { ci, ri } = cell;
-    const isCol = dir === 'u' || dir === 'd';
-    const isRow = dir === 'l' || dir === 'r';
-    const isDiag = !isCol && !isRow;
-
-    if (isCol) {
-      cells = this.colCells(ci);
-      si = ri;
-      if (dir === 'u') {
-        cycleDir = 'r';
-      }
-      if (dir === 'd') {
-        cycleDir = 'f';
-      }
-    }
-    if (isRow) {
-      cells = this.rowCells(ri);
-      si = ci;
-      if (dir === 'l') {
-        cycleDir = 'r';
-      }
-      if (dir === 'r') {
-        si = ci + 1;
-        cycleDir = 'f';
-      }
-    }
-    if (isDiag) {
-      if (dir === 'lu' || dir === 'rd') {
-        cells = this.diagonal(ci, ri);
-      } else {
-        cells = this.antidiagonal(ci, ri);
-      }
-      si = cells.findIndex((c) => c.ci === ci) + 1;
-      cycleDir = dir.startsWith('r') ? 'f' : 'r';
-    }
-
-    return this.cycler(cells, cycleDir, si).next().value;
-  }
-  scanCells(cells, dir = 'f', si = null) {
-    cells = cells || this.flatCells;
-    return this.scanner(cells, dir, si);
-  }
-  cycleCells(cells, dir = 'f', si = null) {
-    cells = cells || this.flatCells;
-    return this.cycler(cells, dir, si);
-  }
-  scanRow(ri, dir = 'f', si = null) {
-    const cells = this.rowCells(ri);
-    if (dir === 'r') {
-      cells.reverse();
-    }
-    return this.scanCells(cells, si);
-  }
-  scanDiagonal(ci, ri, dir = 'f', si = null) {
-    const cells = this.diagonal(ci, ri);
-    if (dir === 'r') {
-      cells.reverse();
-    }
-    return this.scanCells(cells, si);
-  }
-  scanAntidiagonal(ci, ri, dir = 'f', si = null) {
-    const cells = this.antidiagonal(ci, ri);
-    if (dir === 'r') {
-      cells.reverse();
-    }
-    return this.scanCells(cells, si);
-  }
-  scanCol(ci, dir = 'f', si = null) {
-    const cells = this.colCells(ci);
-    if (dir === 'r') {
-      cells.reverse();
-    }
-    return this.scanCells(cells, si);
-  }
-  cycleRow(ri, dir = 'f', si = null) {
-    return this.cycleCells(this.rowCells(ri), dir, si);
-  }
-  cycleCol(ci, dir = 'f', si = null) {
-    return this.cycleCells(this.colCells(ci), dir, si);
-  }
-  cycleDiagonal(ci, ri, dir = 'f', si) {
-    return this.cycleCells(this.diagonal(ci, ri), dir, si);
-  }
-  cycleAntidiagonal(ci, ri, dir = 'f', si = null) {
-    return this.cycleCells(this.antidiagonal(ci, ri), dir, si);
-  }
-  bounce(area, sx, sy, mx, my) {
-    const cells = area || this.cells;
-    return this.bouncer(cells, sx, sy, mx, my);
-  }
-  *scanner(arr, si) {
-    let dir = 'f';
-    let index = si ?? -1;
-    const end = arr.length - 1;
-    while (true) {
-      switch (dir) {
-        case 'f':
-          if (index !== end) {
-            index++;
-          }
-          if (index === end) {
-            dir = 'r';
-          }
-          break;
-        case 'r':
-          if (index !== 0) {
-            index--;
-          }
-          if (index === 0) {
-            dir = 'f';
-          }
-          break;
-      }
-      yield arr[index];
-    }
-  }
-  *bouncer(arr, sx, sy, initMx = 1, initMy = 1) {
-    let mx = initMx;
-    let my = initMy;
-    // // Because the first yield adds mx/my we reduce sx/sy by mx/my.
-    let x = sx ? sx - 1 : -1;
-    let y = sy ? sy - 1 : -1;
-    const w = arr.length - 1;
-    const h = arr[0].length - 1;
-    while (true) {
-      if (mx + x > w || mx + x < 0) {
-        mx *= -1;
-      }
-      if (my + y > h || my + y < 0) {
-        my *= -1;
-      }
-      x = x + mx;
-      y = y + my;
-      yield arr[x][y];
-    }
-  }
-  *cycler(arr, d = 'f', si) {
-    let index = si ? si - 1 : -1;
-    let dir = d || 'f';
-    const w = arr.length - 1;
-    while (true) {
-      if (dir === 'f') {
-        if (index === w) {
-          index = -1;
-        }
-        index++;
-      } else {
-        if (index <= 0) {
-          index = w + 1;
-        }
-        index--;
-      }
-      yield arr[index];
-    }
-  }
-}
-
-class Cell {
-  constructor({ ci, ri, w, h, grid, look }) {
-    this.ci = ci;
-    this.ri = ri;
-    this.w = w;
-    this.h = h;
-    this.grid = grid;
-    this.look = look;
-  }
-  __calcXy(rici, wh) {
-    const gridDimension = wh === 'w' ? this.grid.width : this.grid.height;
-    const cellDimension = wh === 'w' ? this.w : this.h;
-    const iterableDimension = wh === 'w' ? this.grid.cols : this.grid.rows;
-    return rici * ((gridDimension - cellDimension) / (iterableDimension - 1));
-  }
-  get x() {
-    const val = this.__calcXy(this.ci, 'w');
-    Object.defineProperty(this, 'x', {
-      value: val,
-    });
-    return val;
-  }
-  get y() {
-    const val = this.__calcXy(this.ri, 'h');
-    Object.defineProperty(this, 'y', {
-      value: val,
-    });
-    return val;
-  }
-  get t() {
-    return this.y;
-  }
-  get r() {
-    const val = this.x + this.w;
-    Object.defineProperty(this, 'r', {
-      value: val,
-    });
-    return val;
-  }
-  get l() {
-    return this.x;
-  }
-  get b() {
-    const val = this.y + this.h;
-    Object.defineProperty(this, 'b', {
-      value: val,
-    });
-    return val;
-  }
-  get cx() {
-    const val = this.x + this.w / 2;
-    Object.defineProperty(this, 'cx', {
-      value: val,
-    });
-    return val;
-  }
-  get cy() {
-    const val = this.y + this.h / 2;
-    Object.defineProperty(this, 'cy', {
-      value: val,
-    });
-    return val;
   }
 }
