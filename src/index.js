@@ -1,10 +1,10 @@
-import Cell from './Cell';
-import iterators from './iterators';
-import traversals from './traversals';
-import paths from './paths';
-import areas from './areas';
-import row from './row';
-import col from './col';
+import Cell from './Cell.js';
+import iterators from './iterators.js';
+import traversals from './traversals.js';
+import paths from './paths.js';
+import areas from './areas.js';
+import row from './row.js';
+import col from './col.js';
 export class Gridset {
   constructor({
     width = 0,
@@ -23,19 +23,19 @@ export class Gridset {
     this.gHeight = height / rows;
     this.cellWidth = cellWidth;
     this.cellHeight = cellHeight;
-    this.row = row;
-    this.col = col;
+    this.row = row.bind(this);
+    this.col = col.bind(this);
 
     for (const area in areas) {
       this[area] = areas[area].bind(this);
     }
 
     for (const iterator in iterators) {
-      this[iterator] = iterators[iterator];
+      this[iterator] = iterators[iterator].bind(this);
     }
 
     for (const traversal in traversals) {
-      this[traversal] = traversals[traversal];
+      this[traversal] = traversals[traversal].bind(this);
     }
     for (const path in paths) {
       this[path] = paths[path];
