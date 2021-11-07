@@ -1,8 +1,10 @@
-const col = function (ci) {
-  const cells = this.colCells(ci);
+import { colCells } from './util.js';
+
+const col = (grid) => (ci) => {
+  const cells = colCells(ci, grid);
   const x = cells[0].x;
   const w = cells[0].w;
-  const h = this.height;
+  const h = grid.height;
   const cx = cells[0].cx;
   return {
     cells,
@@ -13,9 +15,9 @@ const col = function (ci) {
     t: 0,
     l: x,
     r: x + w,
-    b: this.height,
+    b: grid.height,
     cx,
-    cy: this.height / 2,
+    cy: grid.height / 2,
     ci,
   };
 };

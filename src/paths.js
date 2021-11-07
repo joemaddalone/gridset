@@ -1,10 +1,13 @@
-const diagonal = function (ci, ri) {
-  const cells = this.flatCells;
+import { flatCells } from './util.js';
+
+const diagonal = (grid) => (ci, ri) => {
+  const cells = flatCells(grid);
   const dCells = cells.filter((c) => ci - c.ci === ri - c.ri);
   return dCells;
 };
-const antidiagonal = function (ci, ri) {
-  const cells = this.flatCells;
+
+const antidiagonal = (grid) => (ci, ri) => {
+  const cells = flatCells(grid);
   return cells.filter((c) => {
     if (ci === c.ci && ri === c.ri) {
       return true; // this is our cell.

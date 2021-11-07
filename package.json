@@ -3,9 +3,8 @@
   "version": "0.0.5",
   "description": "Create virtual grids and manipulate them. :)",
   "main": "dist/gridset.min.js",
-  "module": "src/index.js",
   "browser": "dist/gridset.min.js",
-  "type": "module",
+  "module": "src/index.js",
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",

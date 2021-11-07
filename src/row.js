@@ -1,5 +1,7 @@
-const row = function (ri) {
-  const cells = this.rowCells(ri);
+import { rowCells } from './util.js';
+
+const row = (grid) => (ri) => {
+  const cells = rowCells(ri, grid);
   const y = cells[0].y;
   const h = cells[0].h;
   const cy = cells[0].cy;
@@ -7,13 +9,13 @@ const row = function (ri) {
     cells,
     x: 0,
     y: y,
-    w: this.width,
+    w: grid.width,
     h: h,
-    cx: this.width / 2,
+    cx: grid.width / 2,
     cy,
     t: y,
     l: 0,
-    r: this.width,
+    r: grid.width,
     b: y + h,
     ri,
   };

@@ -330,24 +330,24 @@ describe('Gridset', () => {
      └────────┴────────┴────────┴────────┘
  */
     const cell = g.cell(1, 2);
-    expect(cell.look.u().ci).toBe(1);
-    expect(cell.look.u().ri).toBe(1);
-    expect(cell.look.r().ci).toBe(2);
-    expect(cell.look.r().ri).toBe(2);
-    expect(cell.look.l().ci).toBe(0);
-    expect(cell.look.l().ri).toBe(2);
-    expect(cell.look.d().ci).toBe(1);
-    expect(cell.look.d().ri).toBe(3);
-    expect(cell.look.lu().ci).toBe(0);
-    expect(cell.look.lu().ri).toBe(1);
-    expect(cell.look.ru().ci).toBe(2);
-    expect(cell.look.ru().ri).toBe(1);
-    expect(cell.look.rd().ci).toBe(2);
-    expect(cell.look.rd().ri).toBe(3);
-    expect(cell.look.ld().ci).toBe(0);
-    expect(cell.look.ld().ri).toBe(3);
-    expect(cell.look.u().look.u().look.r().ci).toBe(2);
-    expect(cell.look.u().look.u().look.r().ri).toBe(0);
+    expect(cell._u().ci).toBe(1);
+    expect(cell._u().ri).toBe(1);
+    expect(cell._r().ci).toBe(2);
+    expect(cell._r().ri).toBe(2);
+    expect(cell._l().ci).toBe(0);
+    expect(cell._l().ri).toBe(2);
+    expect(cell._d().ci).toBe(1);
+    expect(cell._d().ri).toBe(3);
+    expect(cell._lu().ci).toBe(0);
+    expect(cell._lu().ri).toBe(1);
+    expect(cell._ru().ci).toBe(2);
+    expect(cell._ru().ri).toBe(1);
+    expect(cell._rd().ci).toBe(2);
+    expect(cell._rd().ri).toBe(3);
+    expect(cell._ld().ci).toBe(0);
+    expect(cell._ld().ri).toBe(3);
+    expect(cell._u()._u()._r().ci).toBe(2);
+    expect(cell._u()._u()._r().ri).toBe(0);
   });
 
   it('should return the same cell when looking negatively out of the row bounds of the grid', () => {
@@ -381,8 +381,8 @@ describe('Gridset', () => {
      └────────┴────────┴────────┴────────┘
  */
     const cell = g.cell(1, 2);
-    expect(cell.look.u().look.u().look.u().ci).toBe(1);
-    expect(cell.look.u().look.u().look.u().ri).toBe(0);
+    expect(cell._u()._u()._u().ci).toBe(1);
+    expect(cell._u()._u()._u().ri).toBe(0);
   });
 
   it('should return the same cell when looking positively out of the row bounds of the grid', () => {
@@ -416,8 +416,8 @@ describe('Gridset', () => {
               +--------+
  */
     const cell = g.cell(1, 2);
-    expect(cell.look.d().look.d().ci).toBe(1);
-    expect(cell.look.d().look.d().ri).toBe(3);
+    expect(cell._d()._d().ci).toBe(1);
+    expect(cell._d()._d().ri).toBe(3);
   });
 
   it('should return the correct "cycled" cell looking negatively out of the row bounds of the grid', () => {
@@ -452,8 +452,8 @@ describe('Gridset', () => {
  */
     const cell = g.cell(1, 2);
     const mode = 'cycle';
-    expect(cell.look.u(mode).look.u(mode).look.u(mode).ci).toBe(1);
-    expect(cell.look.u(mode).look.u(mode).look.u(mode).ri).toBe(3);
+    expect(cell._u()._u()._u(mode).ci).toBe(1);
+    expect(cell._u()._u()._u(mode).ri).toBe(3);
   });
 
   it('should return the correct "cycled" cell looking positively out of the row bounds of the grid', () => {
@@ -488,8 +488,8 @@ describe('Gridset', () => {
  */
     const cell = g.cell(1, 2);
     const mode = 'cycle';
-    expect(cell.look.d(mode).look.d(mode).ci).toBe(1);
-    expect(cell.look.d(mode).look.d(mode).ri).toBe(3);
+    expect(cell._d(mode)._d(mode).ci).toBe(1);
+    expect(cell._d(mode)._d(mode).ri).toBe(3);
   });
 
   it('should return the correct "cycled" cell looking positively outside of the column bounds of the grid', () => {
@@ -520,8 +520,8 @@ describe('Gridset', () => {
  */
     const cell = g.cell(1, 2);
     const mode = 'cycle';
-    expect(cell.look.r(mode).look.r(mode).look.r(mode).ci).toBe(0);
-    expect(cell.look.r(mode).look.r(mode).look.r(mode).ri).toBe(2);
+    expect(cell._r(mode)._r(mode)._r(mode).ci).toBe(0);
+    expect(cell._r(mode)._r(mode)._r(mode).ri).toBe(2);
   });
 
   it('should return the correct "cycled" cell looking negatively outside of the column bounds of the grid', () => {
@@ -552,8 +552,8 @@ describe('Gridset', () => {
  */
     const cell = g.cell(1, 2);
     const mode = 'cycle';
-    expect(cell.look.l(mode).look.l(mode).ci).toBe(3);
-    expect(cell.look.l(mode).look.l(mode).ri).toBe(2);
+    expect(cell._l(mode)._l(mode).ci).toBe(3);
+    expect(cell._l(mode)._l(mode).ri).toBe(2);
   });
 
   it('should return the correct "cycled" cell looking positively outside of the diagonal bounds of the grid', () => {
@@ -588,8 +588,8 @@ describe('Gridset', () => {
  */
     const cell = g.cell(1, 2);
     const mode = 'cycle';
-    expect(cell.look.rd(mode).look.rd(mode).ci).toBe(0);
-    expect(cell.look.rd(mode).look.rd(mode).ri).toBe(1);
+    expect(cell._rd(mode)._rd(mode).ci).toBe(0);
+    expect(cell._rd(mode)._rd(mode).ri).toBe(1);
   });
 
   it('should return the correct "cycled" cell looking negatively outside of the diagonal bounds of the grid', () => {
@@ -620,8 +620,8 @@ describe('Gridset', () => {
  */
     const cell = g.cell(1, 2);
     const mode = 'cycle';
-    expect(cell.look.lu(mode).look.lu(mode).ci).toBe(2);
-    expect(cell.look.lu(mode).look.lu(mode).ri).toBe(3);
+    expect(cell._lu(mode)._lu(mode).ci).toBe(2);
+    expect(cell._lu(mode)._lu(mode).ri).toBe(3);
   });
 
   it('should return the correct "cycled" cell looking positively outside of the anti-diagonal bounds of the grid', () => {
@@ -657,8 +657,8 @@ describe('Gridset', () => {
  */
     const cell = g.cell(1, 2);
     const mode = 'cycle';
-    expect(cell.look.ru(mode).look.ru(mode).look.ru(mode).ci).toBe(0);
-    expect(cell.look.ru(mode).look.ru(mode).look.ru(mode).ri).toBe(3);
+    expect(cell._ru(mode)._ru(mode)._ru(mode).ci).toBe(0);
+    expect(cell._ru(mode)._ru(mode)._ru(mode).ri).toBe(3);
   });
 
   it('should return the correct "cycled" cell looking negatively outside of the anti-diagonal bounds of the grid', () => {
@@ -694,8 +694,8 @@ describe('Gridset', () => {
  */
     const cell = g.cell(1, 2);
     const mode = 'cycle';
-    expect(cell.look.ld(mode).look.ld(mode).ci).toBe(3);
-    expect(cell.look.ld(mode).look.ld(mode).ri).toBe(0);
+    expect(cell._ld(mode)._ld(mode).ci).toBe(3);
+    expect(cell._ld(mode)._ld(mode).ri).toBe(0);
   });
 
   it('should return the correct scanRow values', () => {
