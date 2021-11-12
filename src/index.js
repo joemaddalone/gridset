@@ -1,11 +1,10 @@
-import Cell from './Cell.js';
 import iterators from './iterators.js';
-import traversals from './traversals.js';
-import paths from './paths.js';
+import { diagonal, antidiagonal } from './paths.js';
 import areas from './areas.js';
 import row from './row.js';
 import col from './col.js';
-export class Gridset {
+import { colCells, rowCells, cols, rows, flatCells, cell } from './util.js';
+export default class Gridset {
   constructor({
     width = 0,
     height = 0,
@@ -14,113 +13,109 @@ export class Gridset {
     cellWidth = null,
     cellHeight = null,
   }) {
-    this.properties = { width, height, rows, cols };
     this.width = Number(width);
     this.height = Number(height);
     this.rowCount = Number(rows);
     this.colCount = Number(cols);
-    this.gWidth = width / cols;
-    this.gHeight = height / rows;
+    this.autoCellWidth = width / cols;
+    this.autoCellHeight = height / rows;
     this.cellWidth = cellWidth;
     this.cellHeight = cellHeight;
-    this.row = row.bind(this);
-    this.col = col.bind(this);
+    this.properties = {
+      width,
+      height,
+      rows,
+      cols,
+      rowCount: this.rowCount,
+      colCount: this.colCount,
+      cellWidth: this.cellWidth || this.autoCellWidth,
+      cellHeight: this.cellHeight || this.autoCellHeight,
+    };
+
+    this.col = col(this.properties);
+    this.row = row(this.properties);
+    this.diagonal = diagonal(this.properties);
+    this.antidiagonal = antidiagonal(this.properties);
 
     for (const area in areas) {
-      this[area] = areas[area].bind(this);
+      this[area] = areas[area](this.properties);
     }
 
     for (const iterator in iterators) {
       this[iterator] = iterators[iterator].bind(this);
     }
-
-    for (const traversal in traversals) {
-      this[traversal] = traversals[traversal].bind(this);
-    }
-    for (const path in paths) {
-      this[path] = paths[path];
-    }
-    this.create();
-  }
-  __createCell(ci, ri) {
-    const cellProps = {
-      ci,
-      ri,
-      grid: { ...this.properties },
-      w: this.cellWidth || this.gWidth,
-      h: this.cellHeight || this.gHeight,
-    };
-    cellProps.look = this.look({ ...cellProps });
-
-    return new Cell(cellProps);
-  }
-
-  look(cell) {
-    const { ci, ri } = cell;
-    const make = (mode, dir) => {
-      return this.__createCellLookMode(mode, ci, ri, dir);
-    };
-    return {
-      u: (mode) => this.cell(ci, ri - 1, { ci, ri, mode: make(mode, 'u') }),
-      lu: (mode) =>
-        this.cell(ci - 1, ri - 1, { ci, ri, mode: make(mode, 'lu') }),
-      ru: (mode) =>
-        this.cell(ci + 1, ri - 1, { ci, ri, mode: make(mode, 'ru') }),
-      d: (mode) => this.cell(ci, ri + 1, { ci, ri, mode: make(mode, 'd') }),
-      ld: (mode) =>
-        this.cell(ci - 1, ri + 1, { ci, ri, mode: make(mode, 'ld') }),
-      rd: (mode) =>
-        this.cell(ci + 1, ri + 1, { ci, ri, mode: make(mode, 'rd') }),
-      r: (mode) => this.cell(ci + 1, ri, { ci, ri, mode: make(mode, 'r') }),
-      l: (mode) => this.cell(ci - 1, ri, { ci, ri, mode: make(mode, 'l') }),
-    };
-  }
-  __createCellLookMode(mode = null, ci, ri, dir) {
-    if (!mode) {
-      return null;
-    }
-    if (mode === 'cycle') {
-      return this.cycleCell.bind(this, { ci, ri }, dir);
-    }
-    return null;
-  }
-  create() {
-    this.gridMap = Array.from({ length: this.colCount }).map((c, ci) => {
-      return Array.from({ length: this.rowCount }).map((r, ri) => {
-        return this.__createCell(ci, ri);
-      });
-    });
   }
   get cells() {
-    return this.gridMap;
-  }
-  get flatCells() {
-    return this.cells.flat(Infinity);
-  }
-  cell(ci, ri, callerCell = null) {
-    const checkBounds = (c, r) => {
-      return c >= 0 && c < this.colCount && r >= 0 && r < this.rowCount;
-    };
-    return checkBounds(ci, ri)
-      ? this.gridMap[ci][ri]
-      : callerCell && checkBounds(callerCell.ci, callerCell.ri)
-      ? !callerCell.mode
-        ? this.gridMap[callerCell.ci][callerCell.ri]
-        : callerCell.mode()
-      : null;
-  }
-  rowCells(ri) {
-    return this.gridMap.map((c) => c[ri]);
-  }
-  get rows() {
-    return Array.from({ length: this.rowCount }).map((_, i) =>
-      this.rowCells(i),
-    );
-  }
-  colCells(ci) {
-    return this.gridMap[ci].slice();
+    return cols(this.properties);
   }
   get cols() {
-    return this.gridMap;
+    return cols(this.properties);
+  }
+  get rows() {
+    return rows(this.properties);
+  }
+  get flatCells() {
+    return flatCells(this.properties);
+  }
+  cell(ci, ri) {
+    return cell(ci, ri, this.properties);
+  }
+  rowCells(ri) {
+    return rowCells(ri, this.properties);
+  }
+  colCells(ci) {
+    return colCells(ci, this.properties);
+  }
+  scanCells(cells, dir = 'f', si = null) {
+    cells = cells || this.flatCells;
+    return this.scanner(cells, dir, si);
+  }
+  cycleCells(cells, dir = 'f', si = null) {
+    cells = cells || this.flatCells;
+    return this.cycler(cells, dir, si);
+  }
+  scanRow(ri, dir = 'f', si = null) {
+    const cells = this.rowCells(ri);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return this.scanCells(cells, si);
+  }
+  scanDiagonal(ci, ri, dir = 'f', si = null) {
+    const cells = this.diagonal(ci, ri);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return this.scanCells(cells, si);
+  }
+  scanAntidiagonal(ci, ri, dir = 'f', si = null) {
+    const cells = this.antidiagonal(ci, ri);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return this.scanCells(cells, si);
+  }
+  scanCol(ci, dir = 'f', si = null) {
+    const cells = this.colCells(ci);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return this.scanCells(cells, si);
+  }
+  cycleRow(ri, dir = 'f', si = null) {
+    return this.cycleCells(this.rowCells(ri), dir, si);
+  }
+  cycleCol(ci, dir = 'f', si = null) {
+    return this.cycleCells(this.colCells(ci), dir, si);
+  }
+  cycleDiagonal(ci, ri, dir = 'f', si) {
+    return this.cycleCells(this.diagonal(ci, ri), dir, si);
+  }
+  cycleAntidiagonal(ci, ri, dir = 'f', si = null) {
+    return this.cycleCells(this.antidiagonal(ci, ri), dir, si);
+  }
+  bounce(area, sx, sy, mx, my) {
+    const cells = area || this.cells;
+    return this.bouncer(cells, sx, sy, mx, my);
   }
 }

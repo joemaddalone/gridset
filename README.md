@@ -109,16 +109,14 @@ When you retrieve a cell it looks like this:
   cy: center y coordinate of the cell,
   ri: row index of the cell,
   ci: column index of the cell,
-  look: {
-    u:  () =>  one cell up,
-    lu: () =>  one cell left and up,
-    ru: () =>  one cell right and up,
-    d:  () =>  one cell down,
-    ld: () =>  one cell left and down,
-    rd: () =>  one cell right and down,
-    r:  () =>  one cell right,
-    l:  () =>  one cell left,
-  }
+  _u:  () =>  one cell up,
+  _lu: () =>  one cell left and up,
+  _ru: () =>  one cell right and up,
+  _d:  () =>  one cell down,
+  _ld: () =>  one cell left and down,
+  _rd: () =>  one cell right and down,
+  _r:  () =>  one cell right,
+  _l:  () =>  one cell left,
 }
 ```
 
@@ -431,20 +429,18 @@ cells.
 ```js
 {
   ...,
-  look: {
-    u:  () =>  one cell up,
-    lu: () =>  one cell left and up,
-    ru: () =>  one cell right and up,
-    d:  () =>  one cell down,
-    ld: () =>  one cell left and down,
-    rd: () =>  one cell right and down,
-    r:  () =>  one cell right,
-    l:  () =>  one cell left,
-  }
+  _u:  () =>  one cell up,
+  _lu: () =>  one cell left and up,
+  _ru: () =>  one cell right and up,
+  _d:  () =>  one cell down,
+  _ld: () =>  one cell left and down,
+  _rd: () =>  one cell right and down,
+  _r:  () =>  one cell right,
+  _l:  () =>  one cell left,
 }
 ```
 
-So if we started with `.cell(1,2)` `.cell(1,2).look.up()` will return
+So if we started with `.cell(1,2)` `.cell(1,2)._u()` will return
 `cell(1,1)`
 
 ```
@@ -467,7 +463,7 @@ So if we started with `.cell(1,2)` `.cell(1,2).look.up()` will return
 └────────┴────────┴────────┴────────┘
 ```
 
-These methods can be chained together: `cell(1,2).look.u().look.u().look.r()`
+These methods can be chained together: `cell(1,2)._u()._u()._r()`
 
 ```
 ┌────────┬────────┬────────┬────────┐
@@ -492,9 +488,9 @@ These methods can be chained together: `cell(1,2).look.u().look.u().look.r()`
 However if you run into the edge of the grid there will be no cell to retrieve
 in certain directions. For example, using the last example:
 
-`cell(1,2).look.u().look.u().look.r()`
+`cell(1,2)._u()._u()._r()`
 
-If we added `.look.up()` we would be outside the grid. By default you will be
+If we added `._up()` we would be outside the grid. By default you will be
 returned the same cell that you attempted to look from. In this case you will be
 returned `cell(2,0)`
 
@@ -532,10 +528,10 @@ whenever you went off the grid
 
 ```js
 const mode = 'cycle';
-cell(1, 2).look.u().look.u().look.r().look.u(mode);
+cell(1, 2)._u()._u()._r()._u(mode);
 // OR because it can be difficult to know
 // which "look" will go off the grid.
-cell(1, 2).look.u(mode).look.u(mode).look.r(mode).look.u(mode);
+cell(1, 2)._u(mode)._u(mode)._r(mode)._u(mode);
 ```
 
 ```
@@ -566,7 +562,7 @@ cell(1, 2).look.u(mode).look.u(mode).look.r(mode).look.u(mode);
 
 ```js
 const mode = 'cycle';
-cell(1, 2).look.u(mode).look.u(mode).look.u(mode);
+cell(1, 2)._u(mode)._u(mode)._u(mode);
 ```
 
 ```
@@ -597,7 +593,7 @@ cell(1, 2).look.u(mode).look.u(mode).look.u(mode);
 
 ```js
 const mode = 'cycle';
-cell(1, 2).look.d(mode).look.d(mode);
+cell(1, 2)._d(mode)._d(mode);
 ```
 
 ```
@@ -628,7 +624,7 @@ cell(1, 2).look.d(mode).look.d(mode);
 
 ```js
 const mode = 'cycle';
-cell(1, 2).look.r(mode).look.r(mode).look.r(mode);
+cell(1, 2)._r(mode)._r(mode)._r(mode);
 ```
 
 ```
@@ -655,7 +651,7 @@ cell(1, 2).look.r(mode).look.r(mode).look.r(mode);
 
 ```js
 const mode = 'cycle';
-cell(1, 2).look.l(mode).look.l(mode);
+cell(1, 2)._l(mode)._l(mode);
 ```
 
 ```
@@ -683,7 +679,7 @@ grid    │   0,1  │   1,1  │   2,1  │  3,1   │
 
 ```js
 const mode = 'cycle';
-cell(1, 2).look.rd(mode).look.rd(mode);
+cell(1, 2)._rd(mode)._rd(mode);
 ```
 
 ```
