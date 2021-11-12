@@ -1,4 +1,4 @@
-import { Gridset } from 'gridset';
+import Gridset from 'gridset';
 import { html } from './html.js';
 import { svg } from './svg.js';
 import { canvas } from './canvas.js';
