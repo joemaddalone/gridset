@@ -1,10 +1,13 @@
+import { Grid, CellPoint, Cell } from './gridset.d';
 import { antidiagonal, diagonal } from './paths.js';
-import { colCells, rowCells } from './util.js';
+import { colCells, rowCells } from './cells';
 import iterators from './iterators.js';
 const { cycler } = iterators;
 
-export const cycleCell = function (cell, dir, grid) {
-  let cells, cycleDir, si;
+export const cycleCell = function (cell: CellPoint, dir: string, grid: Grid) {
+  let cells: Cell[] = [];
+  let cycleDir: string = '';
+  let si: number = 0;
   const { ci, ri } = cell;
   const isCol = dir === 'u' || dir === 'd';
   const isRow = dir === 'l' || dir === 'r';

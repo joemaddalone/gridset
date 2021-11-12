@@ -1,19 +1,20 @@
-import { cycleCell } from './cycleCell.js';
+import { Grid } from './gridset.d';
+import { cycleCell } from './cycleCell';
 
-export const calcXy = (rici, wh, grid) => {
+export const calcXy = (rici: number, wh: string, grid: Grid) => {
   const gridDimension = wh === 'w' ? grid.width : grid.height;
   const cellDimension = wh === 'w' ? grid.cellWidth : grid.cellHeight;
   const iterableDimension = wh === 'w' ? grid.colCount : grid.rowCount;
   return rici * ((gridDimension - cellDimension) / (iterableDimension - 1));
 };
 
-const checkBounds = (ci, ri, grid) => {
+const checkBounds = (ci: number, ri: number, grid: Grid) => {
   return ci >= 0 && ci < grid.colCount && ri >= 0 && ri < grid.rowCount;
 };
 
-export const cell = (ci, ri, grid) => {
+export const cell = (ci: number, ri: number, grid: Grid) => {
   if (!checkBounds(ci, ri, grid)) {
-    return null;
+    throw new Error('out of grid');
   }
   const x = calcXy(ci, 'w', grid);
   const y = calcXy(ri, 'h', grid);
@@ -27,7 +28,7 @@ export const cell = (ci, ri, grid) => {
     w: grid.cellWidth,
     h: grid.cellHeight,
     cx: x + grid.cellWidth / 2,
-    cx: y + grid.cellHeight / 2,
+    cy: y + grid.cellHeight / 2,
     ci,
     ri,
     ...looks(ci, ri, grid),
@@ -36,10 +37,10 @@ export const cell = (ci, ri, grid) => {
   return props;
 };
 
-export const looks = (ci, ri, grid) => {
+export const looks = (ci: number, ri: number, grid: Grid) => {
   return {
     // one cell up
-    _u: (mode) => {
+    _u: (mode: string) => {
       const nCell = cell(ci, ri - 1, grid);
       if (nCell) {
         return nCell;
@@ -50,7 +51,7 @@ export const looks = (ci, ri, grid) => {
       return cell(ci, ri, grid);
     },
     // one cell up and one cell left
-    _lu: (mode) => {
+    _lu: (mode: string) => {
       const nCell = cell(ci - 1, ri - 1, grid);
       if (nCell) {
         return nCell;
@@ -61,7 +62,7 @@ export const looks = (ci, ri, grid) => {
       return cell(ci, ri, grid);
     },
     // one cell right and up
-    _ru: (mode) => {
+    _ru: (mode: string) => {
       const nCell = cell(ci + 1, ri - 1, grid);
       if (nCell) {
         return nCell;
@@ -72,7 +73,7 @@ export const looks = (ci, ri, grid) => {
       return cell(ci, ri, grid);
     },
     // one cell down
-    _d: (mode) => {
+    _d: (mode: string) => {
       const nCell = cell(ci, ri + 1, grid);
       if (nCell) {
         return nCell;
@@ -83,7 +84,7 @@ export const looks = (ci, ri, grid) => {
       return cell(ci, ri, grid);
     },
     // one cell left and down
-    _ld: (mode) => {
+    _ld: (mode: string) => {
       const nCell = cell(ci - 1, ri + 1, grid);
       if (nCell) {
         return nCell;
@@ -94,7 +95,7 @@ export const looks = (ci, ri, grid) => {
       return cell(ci, ri, grid);
     },
     // one cell right and down
-    _rd: (mode) => {
+    _rd: (mode: string) => {
       const nCell = cell(ci + 1, ri + 1, grid);
       if (nCell) {
         return nCell;
@@ -105,7 +106,7 @@ export const looks = (ci, ri, grid) => {
       return cell(ci, ri, grid);
     },
     // one cell right
-    _r: (mode) => {
+    _r: (mode: string) => {
       const nCell = cell(ci + 1, ri, grid);
       if (nCell) {
         return nCell;
@@ -116,7 +117,7 @@ export const looks = (ci, ri, grid) => {
       return cell(ci, ri, grid);
     },
     // one cell left
-    _l: (mode) => {
+    _l: (mode: string) => {
       const nCell = cell(ci - 1, ri, grid);
       if (nCell) {
         return nCell;
@@ -128,17 +129,3 @@ export const looks = (ci, ri, grid) => {
     },
   };
 };
-
-export const colCells = (ci, grid) =>
-  Array.from({ length: grid.rowCount }).map((_, ri) => cell(ci, ri, grid));
-
-export const rowCells = (ri, grid) =>
-  Array.from({ length: grid.colCount }).map((_, ci) => cell(ci, ri, grid));
-
-export const cols = (grid) =>
-  Array.from({ length: grid.colCount }).map((_, ci) => colCells(ci, grid));
-
-export const rows = (grid) =>
-  Array.from({ length: grid.rowCount }).map((_, ri) => rowCells(ri, grid));
-
-export const flatCells = (grid) => cols(grid).flat(Infinity);

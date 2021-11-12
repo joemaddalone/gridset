@@ -1,5 +1,4 @@
-const scanner = function* (arr, si) {
-  let dir = 'f';
+const scanner = function* (arr: any[], dir = 'f', si = null) {
   let index = si ?? -1;
   const end = arr.length - 1;
   while (true) {
@@ -24,7 +23,13 @@ const scanner = function* (arr, si) {
     yield arr[index];
   }
 };
-const bouncer = function* (arr, sx, sy, initMx = 1, initMy = 1) {
+const bouncer = function* (
+  arr: any[],
+  sx?: number | null,
+  sy?: number | null,
+  initMx = 1,
+  initMy = 1,
+) {
   let mx = initMx;
   let my = initMy;
   // // Because the first yield adds mx/my we reduce sx/sy by mx/my.
@@ -44,7 +49,7 @@ const bouncer = function* (arr, sx, sy, initMx = 1, initMy = 1) {
     yield arr[x][y];
   }
 };
-const cycler = function* (arr, d = 'f', si) {
+const cycler = function* (arr: any[], d = 'f', si: number | null = null) {
   let index = si ? si - 1 : -1;
   let dir = d || 'f';
   const w = arr.length - 1;

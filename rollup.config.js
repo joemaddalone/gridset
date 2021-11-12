@@ -1,8 +1,8 @@
-import babel from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
+import typescript from '@rollup/plugin-typescript';
 
 const config = {
-  input: 'src/index.js',
+  input: 'src/index.ts',
   output: {
     file: `dist/gridset.min.js`,
     name: 'gridset',
@@ -14,5 +14,5 @@ const config = {
 
 export default {
   ...config,
-  plugins: [babel({ babelHelpers: 'bundled' }), terser()],
+  plugins: [typescript(), terser()],
 };

@@ -1,14 +1,15 @@
-import { flatCells } from './util.js';
+import { Grid, Cell } from './gridset.d';
+import { flatCells } from './cells';
 
-export const diagonal = (grid) => (ci, ri) => {
-  const cells = flatCells(grid);
-  const dCells = cells.filter((c) => ci - c.ci === ri - c.ri);
+export const diagonal = (grid: Grid) => (ci: number, ri: number): Cell[] => {
+  let cells: Cell[] = flatCells(grid);
+  let dCells: Cell[] = cells.filter((c: any) => ci - c.ci === ri - c.ri);
   return dCells;
 };
 
-export const antidiagonal = (grid) => (ci, ri) => {
+export const antidiagonal = (grid: Grid) => (ci: number, ri: number) => {
   const cells = flatCells(grid);
-  return cells.filter((c) => {
+  return cells.filter((c: any) => {
     if (ci === c.ci && ri === c.ri) {
       return true; // this is our cell.
     }
