@@ -1,4 +1,4 @@
-import traversals from './traversals.js';
+import { cycleCell } from './cycleCell.js';
 
 export const calcXy = (rici, wh, grid) => {
   const gridDimension = wh === 'w' ? grid.width : grid.height;
@@ -37,7 +37,6 @@ export const cell = (ci, ri, grid) => {
 };
 
 export const looks = (ci, ri, grid) => {
-  const { cycleCell } = traversals;
   return {
     // one cell up
     _u: (mode) => {

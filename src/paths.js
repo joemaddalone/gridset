@@ -1,12 +1,12 @@
 import { flatCells } from './util.js';
 
-const diagonal = (grid) => (ci, ri) => {
+export const diagonal = (grid) => (ci, ri) => {
   const cells = flatCells(grid);
   const dCells = cells.filter((c) => ci - c.ci === ri - c.ri);
   return dCells;
 };
 
-const antidiagonal = (grid) => (ci, ri) => {
+export const antidiagonal = (grid) => (ci, ri) => {
   const cells = flatCells(grid);
   return cells.filter((c) => {
     if (ci === c.ci && ri === c.ri) {
@@ -21,9 +21,4 @@ const antidiagonal = (grid) => (ci, ri) => {
       return false;
     }
   });
-};
-
-export default {
-  diagonal,
-  antidiagonal,
 };

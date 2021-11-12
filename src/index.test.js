@@ -1,4 +1,4 @@
-import { Gridset } from './';
+import Gridset from './';
 
 describe('Gridset', () => {
   it('should have correct number of cells', () => {
