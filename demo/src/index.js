@@ -86,7 +86,6 @@ class Demo {
       case 'scanCol':
         return this.grid.scanCol(midCol);
       case 'scanCol-r':
-        console.log('REVERSE!!!!!');
         return this.grid.scanCol(midCol, 'r');
       case 'scanRow':
         return this.grid.scanRow(midRow);
@@ -134,10 +133,10 @@ class Demo {
       r.style.height = `${this.grid.height}px`;
     });
 
-    text(this.grid, textRoot, this.showGrid, this.mover);
+    // text(this.grid, textRoot, this.showGrid, this.mover);
     html(this.grid, htmlRoot, this.showGrid, this.mover);
-    svg(this.grid, svgRoot, this.showGrid, this.mover);
-    canvas(this.grid, canvasRoot, this.showGrid, this.mover);
+    // svg(this.grid, svgRoot, this.showGrid, this.mover);
+    // canvas(this.grid, canvasRoot, this.showGrid, this.mover);
   }
 }
 

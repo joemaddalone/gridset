@@ -8,6 +8,11 @@ const OUTPUT_DATA = [
     format: 'es',
   },
   {
+    input: 'src/index.ts',
+    file: 'demo/src/dist/index.esm.js',
+    format: 'es',
+  },
+  {
     input: 'src/index-umd.ts',
     file: 'dist/index.js',
     format: 'umd',
@@ -19,7 +24,6 @@ const config = OUTPUT_DATA.map(({ file, format, input }) => ({
   output: {
     file,
     format,
-    sourcemap: true,
     name: 'Gridset',
   },
   external: [],
