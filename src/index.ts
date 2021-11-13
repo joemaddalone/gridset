@@ -1,10 +1,18 @@
-import iterators from './iterators.js';
-import { diagonal, antidiagonal } from './paths';
-import areas from './areas';
+import iterators from './iterators';
 import row from './row';
 import col from './col';
 import { cell } from './cell';
-import { colCells, rowCells, cols, rows, flatCells } from './cells';
+import {
+  diagonal,
+  antidiagonal,
+  colCells,
+  rowCells,
+  cols,
+  rows,
+  flatCells,
+  area,
+  areaByCell,
+} from './cells';
 export default class Gridset {
   width: number;
   height: number;
@@ -61,8 +69,8 @@ export default class Gridset {
     this.row = row(this.properties);
     this.diagonal = diagonal(this.properties);
     this.antidiagonal = antidiagonal(this.properties);
-    this.area = areas.area(this.properties);
-    this.areaByCell = areas.areaByCell(this.properties);
+    this.area = area(this.properties);
+    this.areaByCell = areaByCell(this.properties);
   }
   get cells() {
     return cols(this.properties);

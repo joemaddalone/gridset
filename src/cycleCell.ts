@@ -1,11 +1,10 @@
 import { Grid, CellPoint, Cell } from './gridset.d';
-import { antidiagonal, diagonal } from './paths.js';
-import { colCells, rowCells } from './cells';
-import iterators from './iterators.js';
+import { colCells, rowCells, antidiagonal, diagonal } from './cells';
+import iterators from './iterators';
 const { cycler } = iterators;
 
 export const cycleCell = function (cell: CellPoint, dir: string, grid: Grid) {
-  let cells: Cell[] = [];
+  let cells: (Cell | null)[] = [];
   let cycleDir: string = '';
   let si: number = 0;
   const { ci, ri } = cell;
@@ -42,7 +41,7 @@ export const cycleCell = function (cell: CellPoint, dir: string, grid: Grid) {
     } else {
       cells = antidiagonalPath(ci, ri);
     }
-    si = cells.findIndex((c) => c.ci === ci) + 1;
+    si = cells.findIndex((c) => c?.ci === ci) + 1;
     cycleDir = dir.startsWith('r') ? 'f' : 'r';
   }
 
