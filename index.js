@@ -1,4 +1,4 @@
-import { Gridset } from './web_modules/gridset.js';
+import Gridset from './dist/index.esm.js';
 import { html } from './html.js';
 import { svg } from './svg.js';
 import { canvas } from './canvas.js';
@@ -86,7 +86,6 @@ class Demo {
       case 'scanCol':
         return this.grid.scanCol(midCol);
       case 'scanCol-r':
-        console.log('REVERSE!!!!!');
         return this.grid.scanCol(midCol, 'r');
       case 'scanRow':
         return this.grid.scanRow(midRow);
