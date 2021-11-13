@@ -1,30 +1,40 @@
-const scanner = function* (arr, si) {
-  let dir = 'f';
-  let index = si ?? -1;
+const scanner = function* (arr: any[], dir = 'f', si: number | null) {
   const end = arr.length - 1;
+  let index = dir === 'f' ? -1 : end + 1;
+  if (si !== null) {
+    if (dir === 'f') {
+      index = si - 1;
+    } else {
+      index = si + 1;
+    }
+  }
+
   while (true) {
-    switch (dir) {
-      case 'f':
-        if (index !== end) {
-          index++;
-        }
-        if (index === end) {
-          dir = 'r';
-        }
-        break;
-      case 'r':
-        if (index !== 0) {
-          index--;
-        }
-        if (index === 0) {
-          dir = 'f';
-        }
-        break;
+    if (dir === 'f') {
+      if (index !== end) {
+        index++;
+      } else {
+        dir = 'r';
+        index--;
+      }
+    } else {
+      if (index !== 0) {
+        index--;
+      } else {
+        dir = 'f';
+        index++;
+      }
     }
     yield arr[index];
   }
 };
-const bouncer = function* (arr, sx, sy, initMx = 1, initMy = 1) {
+const bouncer = function* (
+  arr: any[],
+  sx?: number | null,
+  sy?: number | null,
+  initMx = 1,
+  initMy = 1,
+) {
   let mx = initMx;
   let my = initMy;
   // // Because the first yield adds mx/my we reduce sx/sy by mx/my.
@@ -44,7 +54,7 @@ const bouncer = function* (arr, sx, sy, initMx = 1, initMy = 1) {
     yield arr[x][y];
   }
 };
-const cycler = function* (arr, d = 'f', si) {
+const cycler = function* (arr: any[], d = 'f', si: number | null = 0) {
   let index = si ? si - 1 : -1;
   let dir = d || 'f';
   const w = arr.length - 1;

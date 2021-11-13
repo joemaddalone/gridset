@@ -1,18 +1,43 @@
-import babel from '@rollup/plugin-babel';
+import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
 
-const config = {
-  input: 'src/index.js',
-  output: {
-    file: `dist/gridset.min.js`,
-    name: 'gridset',
-    format: 'umd',
-    indent: false,
-    extend: true,
+const OUTPUT_DATA = [
+  {
+    input: 'src/index.ts',
+    file: 'dist/index.esm.js',
+    format: 'es',
   },
-};
+  {
+    input: 'src/index.ts',
+    file: 'demo/src/dist/index.esm.js',
+    format: 'es',
+  },
+  {
+    input: 'src/index-umd.ts',
+    file: 'dist/index.js',
+    format: 'umd',
+  },
+];
 
-export default {
-  ...config,
-  plugins: [babel({ babelHelpers: 'bundled' }), terser()],
-};
+const config = OUTPUT_DATA.map(({ file, format, input }) => ({
+  input,
+  output: {
+    file,
+    format,
+    name: 'Gridset',
+  },
+  external: [],
+  watch: {
+    include: 'src/**',
+  },
+  plugins: [
+    typescript(),
+    terser({
+      format: {
+        comments: false,
+      },
+    }),
+  ],
+}));
+
+export default config;
