@@ -728,6 +728,35 @@ describe('Gridset', () => {
     expect(m.next().value.x).toBe(0);
   });
 
+  it('should return the correct scanRow-reverse values', () => {
+    const g = new Gridset({
+      width: 100,
+      height: 100,
+      rows: 4,
+      cols: 4,
+    });
+    /**
+    +-----------------------+
+    | 0,0 | 1,0 | 2,0 | 3,0 |
+    +-----------------------+
+    | 0,1 | 1,1 | 2,1 | 3,1 |
+    +-----------------------+
+    | 0,2 | 1,2 | 2,2 | 3,2 |
+    +-----------------------+
+    | 0,3 | 1,3 | 2,3 | 3,3 |
+    +-----------------------+
+	 */
+    const m = g.scanRow(2, 'r');
+    const computedSize = 25;
+    expect(m.next().value.x).toBe(computedSize * 3);
+    expect(m.next().value.x).toBe(computedSize * 2);
+    expect(m.next().value.x).toBe(computedSize);
+    expect(m.next().value.x).toBe(0);
+    expect(m.next().value.x).toBe(computedSize);
+    expect(m.next().value.x).toBe(computedSize * 2);
+    expect(m.next().value.x).toBe(computedSize * 3);
+  });
+
   it('should return the correct scanCol values', () => {
     const g = new Gridset({
       width: 100,

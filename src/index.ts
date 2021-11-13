@@ -101,16 +101,10 @@ export default class Gridset {
   }
   scanRow(ri: number, dir = 'f', si = null) {
     const cells = this.rowCells(ri);
-    if (dir === 'r') {
-      cells.reverse();
-    }
     return this.scanCells(cells, dir, si);
   }
   scanDiagonal(ci: number, ri: number, dir = 'f', si = null) {
-    const cells = this.diagonal(ci, ri);
-    if (dir === 'r') {
-      cells.reverse();
-    }
+    const cells = this.diagonal(ci, ri).slice();
     return this.scanCells(cells, dir, si);
   }
   scanAntidiagonal(ci: number, ri: number, dir = 'f', si = null) {
@@ -122,9 +116,6 @@ export default class Gridset {
   }
   scanCol(ci: number, dir = 'f', si = null) {
     const cells = this.colCells(ci);
-    if (dir === 'r') {
-      cells.reverse();
-    }
     return this.scanCells(cells, dir, si);
   }
   cycleRow(ri: number, dir = 'f', si = null) {
