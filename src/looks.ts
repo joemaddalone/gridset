@@ -1,8 +1,8 @@
-import { Grid } from './gridset.d';
+import { GridSettings } from './gridset.d';
 import { cycleCell } from './cycleCell';
 import { cell } from './cell';
 
-export const looks = (ci: number, ri: number, grid: Grid) => {
+export const looks = (ci: number, ri: number, grid: GridSettings) => {
   return {
     // one cell up
     _u: (mode: string) => {

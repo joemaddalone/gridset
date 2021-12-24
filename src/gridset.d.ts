@@ -1,8 +1,6 @@
-export type Grid = {
+export type GridSettings = {
   width: number;
   height: number;
-  rows: number;
-  cols: number;
   rowCount: number;
   colCount: any;
   cellWidth: number;

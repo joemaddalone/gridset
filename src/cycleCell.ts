@@ -1,9 +1,13 @@
-import { Grid, CellPoint, Cell } from './gridset.d';
+import { GridSettings, CellPoint, Cell } from './gridset.d';
 import { colCells, rowCells, antidiagonal, diagonal } from './cells';
 import iterators from './iterators';
 const { cycler } = iterators;
 
-export const cycleCell = function (cell: CellPoint, dir: string, grid: Grid) {
+export const cycleCell = function (
+  cell: CellPoint,
+  dir: string,
+  grid: GridSettings,
+) {
   let cells: (Cell | null)[] = [];
   let cycleDir: string = '';
   let si: number = 0;

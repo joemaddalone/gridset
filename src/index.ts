@@ -2,6 +2,7 @@ import iterators from './iterators';
 import row from './row';
 import col from './col';
 import { cell } from './cell';
+import { GridSettings } from './gridset.d';
 import {
   diagonal,
   antidiagonal,
@@ -28,16 +29,7 @@ export default class Gridset {
   antidiagonal: Function;
   area: Function;
   areaByCell: Function;
-  properties: {
-    width: number;
-    height: number;
-    rows: number;
-    cols: number;
-    rowCount: number;
-    colCount: number;
-    cellWidth: any;
-    cellHeight: any;
-  };
+  settings: GridSettings;
   constructor({
     width = 0,
     height = 0,
@@ -54,44 +46,42 @@ export default class Gridset {
     this.autoCellHeight = height / rows;
     this.cellWidth = cellWidth;
     this.cellHeight = cellHeight;
-    this.properties = {
+    this.settings = {
       width,
       height,
-      rows,
-      cols,
       rowCount: this.rowCount,
       colCount: this.colCount,
       cellWidth: this.cellWidth || this.autoCellWidth,
       cellHeight: this.cellHeight || this.autoCellHeight,
     };
 
-    this.col = col(this.properties);
-    this.row = row(this.properties);
-    this.diagonal = diagonal(this.properties);
-    this.antidiagonal = antidiagonal(this.properties);
-    this.area = area(this.properties);
-    this.areaByCell = areaByCell(this.properties);
+    this.col = col(this.settings);
+    this.row = row(this.settings);
+    this.diagonal = diagonal(this.settings);
+    this.antidiagonal = antidiagonal(this.settings);
+    this.area = area(this.settings);
+    this.areaByCell = areaByCell(this.settings);
   }
   get cells() {
-    return cols(this.properties);
+    return cols(this.settings);
   }
   get cols() {
-    return cols(this.properties);
+    return cols(this.settings);
   }
   get rows() {
-    return rows(this.properties);
+    return rows(this.settings);
   }
   get flatCells() {
-    return flatCells(this.properties);
+    return flatCells(this.settings);
   }
   cell(ci: number, ri: number) {
-    return cell(ci, ri, this.properties);
+    return cell(ci, ri, this.settings);
   }
   rowCells(ri: number) {
-    return rowCells(ri, this.properties);
+    return rowCells(ri, this.settings);
   }
   colCells(ci: number) {
-    return colCells(ci, this.properties);
+    return colCells(ci, this.settings);
   }
   scanCells(cells = this.flatCells, dir = 'f', si = null) {
     return iterators.scanner(cells, dir, si);

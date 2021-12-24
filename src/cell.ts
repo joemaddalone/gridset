@@ -1,18 +1,18 @@
-import { Grid } from './gridset.d';
+import { GridSettings } from './gridset.d';
 import { cycleCell } from './cycleCell';
 
-export const calcXy = (rici: number, wh: string, grid: Grid) => {
+export const calcXy = (rici: number, wh: string, grid: GridSettings) => {
   const gridDimension = wh === 'w' ? grid.width : grid.height;
   const cellDimension = wh === 'w' ? grid.cellWidth : grid.cellHeight;
   const iterableDimension = wh === 'w' ? grid.colCount : grid.rowCount;
   return rici * ((gridDimension - cellDimension) / (iterableDimension - 1));
 };
 
-const checkBounds = (ci: number, ri: number, grid: Grid) => {
+const checkBounds = (ci: number, ri: number, grid: GridSettings) => {
   return ci >= 0 && ci < grid.colCount && ri >= 0 && ri < grid.rowCount;
 };
 
-export const cell = (ci: number, ri: number, grid: Grid) => {
+export const cell = (ci: number, ri: number, grid: GridSettings) => {
   if (!checkBounds(ci, ri, grid)) {
     return null;
   }
@@ -37,7 +37,7 @@ export const cell = (ci: number, ri: number, grid: Grid) => {
   return props;
 };
 
-export const looks = (ci: number, ri: number, grid: Grid) => {
+export const looks = (ci: number, ri: number, grid: GridSettings) => {
   return {
     // one cell up
     _u: (mode: string) => {
