@@ -42,9 +42,7 @@ export const looks = (ci: number, ri: number, grid: GridSettings) => {
     // one cell up
     _u: (mode: string) => {
       const nCell = cell(ci, ri - 1, grid);
-      if (nCell) {
-        return nCell;
-      }
+      if (nCell) return nCell;
       return mode === 'cycle'
         ? cycleCell({ ci, ri }, 'u', grid)
         : cell(ci, ri, grid);
@@ -52,9 +50,7 @@ export const looks = (ci: number, ri: number, grid: GridSettings) => {
     // one cell up and one cell left
     _lu: (mode: string) => {
       const nCell = cell(ci - 1, ri - 1, grid);
-      if (nCell) {
-        return nCell;
-      }
+      if (nCell) return nCell;
       return mode === 'cycle'
         ? cycleCell({ ci, ri }, 'lu', grid)
         : cell(ci, ri, grid);
@@ -62,9 +58,7 @@ export const looks = (ci: number, ri: number, grid: GridSettings) => {
     // one cell right and up
     _ru: (mode: string) => {
       const nCell = cell(ci + 1, ri - 1, grid);
-      if (nCell) {
-        return nCell;
-      }
+      if (nCell) return nCell;
       return mode === 'cycle'
         ? cycleCell({ ci, ri }, 'ru', grid)
         : cell(ci, ri, grid);
@@ -72,9 +66,7 @@ export const looks = (ci: number, ri: number, grid: GridSettings) => {
     // one cell down
     _d: (mode: string) => {
       const nCell = cell(ci, ri + 1, grid);
-      if (nCell) {
-        return nCell;
-      }
+      if (nCell) return nCell;
       return mode === 'cycle'
         ? cycleCell({ ci, ri }, 'd', grid)
         : cell(ci, ri, grid);
@@ -82,9 +74,7 @@ export const looks = (ci: number, ri: number, grid: GridSettings) => {
     // one cell left and down
     _ld: (mode: string) => {
       const nCell = cell(ci - 1, ri + 1, grid);
-      if (nCell) {
-        return nCell;
-      }
+      if (nCell) return nCell;
       return mode === 'cycle'
         ? cycleCell({ ci, ri }, 'ld', grid)
         : cell(ci, ri, grid);
@@ -92,9 +82,7 @@ export const looks = (ci: number, ri: number, grid: GridSettings) => {
     // one cell right and down
     _rd: (mode: string) => {
       const nCell = cell(ci + 1, ri + 1, grid);
-      if (nCell) {
-        return nCell;
-      }
+      if (nCell) return nCell;
       return mode === 'cycle'
         ? cycleCell({ ci, ri }, 'rd', grid)
         : cell(ci, ri, grid);
@@ -102,9 +90,7 @@ export const looks = (ci: number, ri: number, grid: GridSettings) => {
     // one cell right
     _r: (mode: string) => {
       const nCell = cell(ci + 1, ri, grid);
-      if (nCell) {
-        return nCell;
-      }
+      if (nCell) return nCell;
       return mode === 'cycle'
         ? cycleCell({ ci, ri }, 'r', grid)
         : cell(ci, ri, grid);
@@ -112,9 +98,7 @@ export const looks = (ci: number, ri: number, grid: GridSettings) => {
     // one cell left
     _l: (mode: string) => {
       const nCell = cell(ci - 1, ri, grid);
-      if (nCell) {
-        return nCell;
-      }
+      if (nCell) return nCell;
       return mode === 'cycle'
         ? cycleCell({ ci, ri }, 'l', grid)
         : cell(ci, ri, grid);
