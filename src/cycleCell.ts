@@ -1,10 +1,10 @@
-import { GridSettings, CellPoint, Cell } from './gridset.d';
+import { GridSettings, Cell } from './gridset.d';
 import { colCells, rowCells, antidiagonal, diagonal } from './cells';
 import iterators from './iterators';
 const { cycler } = iterators;
 
 export const cycleCell = function (
-  cell: CellPoint,
+  cell: Pick<Cell, 'ri' | 'ci'>,
   dir: string,
   grid: GridSettings,
 ) {

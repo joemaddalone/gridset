@@ -29,8 +29,3 @@ export type Cell = {
   _r: Function;
   _l: Function;
 };
-
-export type CellPoint = {
-  ri: number;
-  ci: number;
-};
