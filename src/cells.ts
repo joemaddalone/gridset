@@ -1,16 +1,16 @@
-import { GridSettings, Cell } from './gridset.d';
+import { GridSettings, Cell, Area, CellArray } from './gridset.d';
 import { cell } from './cell';
 
-export const colCells = (ci: number, grid: GridSettings): (Cell | null)[] =>
+export const colCells = (ci: number, grid: GridSettings): CellArray =>
   Array.from({ length: grid.rowCount }).map((_, ri) => cell(ci, ri, grid));
 
-export const rowCells = (ri: number, grid: GridSettings): (Cell | null)[] =>
+export const rowCells = (ri: number, grid: GridSettings): CellArray =>
   Array.from({ length: grid.colCount }).map((_, ci) => cell(ci, ri, grid));
 
-export const cols = (grid: GridSettings): (Cell | null)[][] =>
+export const cols = (grid: GridSettings): Area =>
   Array.from({ length: grid.colCount }).map((_, ci) => colCells(ci, grid));
 
-export const rows = (grid: GridSettings): (Cell | null)[][] =>
+export const rows = (grid: GridSettings): Area =>
   Array.from({ length: grid.rowCount }).map((_, ri) => rowCells(ri, grid));
 
 export const flatCells = (grid: GridSettings) =>
@@ -19,9 +19,9 @@ export const flatCells = (grid: GridSettings) =>
 export const diagonal = (grid: GridSettings) => (
   ci: number,
   ri: number,
-): (Cell | null)[] => {
-  let cells = flatCells(grid);
-  let dCells = cells.filter((c: any) => ci - c.ci === ri - c.ri);
+): CellArray => {
+  const cells = flatCells(grid);
+  const dCells = cells.filter((c: any) => ci - c.ci === ri - c.ri);
   return dCells;
 };
 

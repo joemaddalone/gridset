@@ -1,4 +1,5 @@
-const scanner = function* (arr: any[], dir = 'f', si: number | null) {
+import { CellArray, Area } from './gridset.d';
+const scanner = function* (arr: CellArray, dir = 'f', si: number | null) {
   const end = arr.length - 1;
   let index = dir === 'f' ? -1 : end + 1;
   if (si !== null) {
@@ -29,7 +30,7 @@ const scanner = function* (arr: any[], dir = 'f', si: number | null) {
   }
 };
 const bouncer = function* (
-  arr: any[],
+  arr: Area,
   sx?: number | null,
   sy?: number | null,
   initMx = 1,
@@ -41,7 +42,7 @@ const bouncer = function* (
   let x = sx ? sx - 1 : -1;
   let y = sy ? sy - 1 : -1;
   const w = arr.length - 1;
-  const h = arr[0].length - 1;
+  const h = (arr[0] && arr[0].length - 1) || 0;
   while (true) {
     if (mx + x > w || mx + x < 0) {
       mx *= -1;
@@ -51,12 +52,12 @@ const bouncer = function* (
     }
     x = x + mx;
     y = y + my;
-    yield arr[x][y];
+    yield arr?.[x]?.[y] || 0;
   }
 };
-const cycler = function* (arr: any[], d = 'f', si: number | null = 0) {
+const cycler = function* (arr: CellArray, d = 'f', si: number | null = 0) {
   let index = si ? si - 1 : -1;
-  let dir = d || 'f';
+  const dir = d || 'f';
   const w = arr.length - 1;
   while (true) {
     if (dir === 'f') {

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import iterators from './iterators';
 import row from './row';
 import col from './col';
 import { cell } from './cell';
-import { GridSettings } from './gridset.d';
+import { GridSettings, IGridset } from './gridset.d';
 import {
   diagonal,
   antidiagonal,
@@ -14,7 +15,7 @@ import {
   area,
   areaByCell,
 } from './cells';
-export default class Gridset {
+export default class Gridset implements IGridset {
   col: Function;
   row: Function;
   diagonal: Function;
@@ -106,5 +107,23 @@ export default class Gridset {
   }
   bounce(area = this.cells, sx: number, sy: number, mx: number, my: number) {
     return iterators.bouncer(area, sx, sy, mx, my);
+  }
+  get width() {
+    return this.settings.width;
+  }
+  get height() {
+    return this.settings.height;
+  }
+  get rowCount() {
+    return this.settings.rowCount;
+  }
+  get colCount() {
+    return this.settings.colCount;
+  }
+  get cellWidth() {
+    return this.settings.cellWidth;
+  }
+  get cellHeight() {
+    return this.settings.cellHeight;
   }
 }
