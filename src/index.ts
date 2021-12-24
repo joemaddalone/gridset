@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import iterators from './iterators';
 import row from './row';
 import col from './col';
 import { cell } from './cell';
+import { GridSettings, IGridset } from './gridset.d';
 import {
   diagonal,
   antidiagonal,
@@ -13,31 +15,14 @@ import {
   area,
   areaByCell,
 } from './cells';
-export default class Gridset {
-  width: number;
-  height: number;
-  rowCount: number;
-  colCount: number;
-  autoCellWidth: number;
-  autoCellHeight: number;
-  cellWidth: any;
-  cellHeight: any;
+export default class Gridset implements IGridset {
   col: Function;
   row: Function;
   diagonal: Function;
   antidiagonal: Function;
   area: Function;
   areaByCell: Function;
-  properties: {
-    width: number;
-    height: number;
-    rows: number;
-    cols: number;
-    rowCount: number;
-    colCount: number;
-    cellWidth: any;
-    cellHeight: any;
-  };
+  settings: GridSettings;
   constructor({
     width = 0,
     height = 0,
@@ -46,52 +31,42 @@ export default class Gridset {
     cellWidth = null,
     cellHeight = null,
   }) {
-    this.width = Number(width);
-    this.height = Number(height);
-    this.rowCount = Number(rows);
-    this.colCount = Number(cols);
-    this.autoCellWidth = width / cols;
-    this.autoCellHeight = height / rows;
-    this.cellWidth = cellWidth;
-    this.cellHeight = cellHeight;
-    this.properties = {
-      width,
-      height,
-      rows,
-      cols,
-      rowCount: this.rowCount,
-      colCount: this.colCount,
-      cellWidth: this.cellWidth || this.autoCellWidth,
-      cellHeight: this.cellHeight || this.autoCellHeight,
+    this.settings = {
+      width: Number(width),
+      height: Number(height),
+      rowCount: Number(rows),
+      colCount: Number(cols),
+      cellWidth: cellWidth || width / cols,
+      cellHeight: cellHeight || height / rows,
     };
 
-    this.col = col(this.properties);
-    this.row = row(this.properties);
-    this.diagonal = diagonal(this.properties);
-    this.antidiagonal = antidiagonal(this.properties);
-    this.area = area(this.properties);
-    this.areaByCell = areaByCell(this.properties);
+    this.col = col(this.settings);
+    this.row = row(this.settings);
+    this.diagonal = diagonal(this.settings);
+    this.antidiagonal = antidiagonal(this.settings);
+    this.area = area(this.settings);
+    this.areaByCell = areaByCell(this.settings);
   }
   get cells() {
-    return cols(this.properties);
+    return cols(this.settings);
   }
   get cols() {
-    return cols(this.properties);
+    return cols(this.settings);
   }
   get rows() {
-    return rows(this.properties);
+    return rows(this.settings);
   }
   get flatCells() {
-    return flatCells(this.properties);
+    return flatCells(this.settings);
   }
   cell(ci: number, ri: number) {
-    return cell(ci, ri, this.properties);
+    return cell(ci, ri, this.settings);
   }
   rowCells(ri: number) {
-    return rowCells(ri, this.properties);
+    return rowCells(ri, this.settings);
   }
   colCells(ci: number) {
-    return colCells(ci, this.properties);
+    return colCells(ci, this.settings);
   }
   scanCells(cells = this.flatCells, dir = 'f', si = null) {
     return iterators.scanner(cells, dir, si);
@@ -132,5 +107,23 @@ export default class Gridset {
   }
   bounce(area = this.cells, sx: number, sy: number, mx: number, my: number) {
     return iterators.bouncer(area, sx, sy, mx, my);
+  }
+  get width() {
+    return this.settings.width;
+  }
+  get height() {
+    return this.settings.height;
+  }
+  get rowCount() {
+    return this.settings.rowCount;
+  }
+  get colCount() {
+    return this.settings.colCount;
+  }
+  get cellWidth() {
+    return this.settings.cellWidth;
+  }
+  get cellHeight() {
+    return this.settings.cellHeight;
   }
 }

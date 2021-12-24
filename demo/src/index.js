@@ -1,4 +1,4 @@
-import Gridset from './dist/index.esm.js';
+import Gridset from 'gridset';
 import { html } from './html.js';
 import { svg } from './svg.js';
 import { canvas } from './canvas.js';
@@ -128,6 +128,7 @@ class Demo {
       cellWidth: this.cellWidth,
       cellHeight: this.cellHeight,
     });
+
     [htmlRoot, svgRoot].forEach((r) => {
       r.style.width = `${this.grid.width}px`;
       r.style.height = `${this.grid.height}px`;
@@ -141,10 +142,6 @@ class Demo {
 }
 
 const d = new Demo();
-
-const changer = (prop, val) => {
-  d[prop] = +val;
-};
 
 document.getElementById('w').addEventListener('input', (e) => {
   const val = +e.target.value;

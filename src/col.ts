@@ -1,7 +1,7 @@
-import { Grid } from './gridset.d';
+import { GridSettings } from './gridset.d';
 import { colCells } from './cells';
 
-const col = (grid: Grid) => (ci: number) => {
+const col = (grid: GridSettings) => (ci: number) => {
   const cells = colCells(ci, grid);
   if (cells[0]) {
     const x = cells[0].x;

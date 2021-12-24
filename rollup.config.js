@@ -1,15 +1,11 @@
 import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
+import copy from 'rollup-plugin-copy';
 
 const OUTPUT_DATA = [
   {
     input: 'src/index.ts',
     file: 'dist/index.esm.js',
-    format: 'es',
-  },
-  {
-    input: 'src/index.ts',
-    file: 'demo/src/dist/index.esm.js',
     format: 'es',
   },
   {
@@ -36,6 +32,9 @@ const config = OUTPUT_DATA.map(({ file, format, input }) => ({
       format: {
         comments: false,
       },
+    }),
+    copy({
+      targets: [{ src: 'src/gridset.d.ts', dest: 'dist' }],
     }),
   ],
 }));

@@ -1,12 +1,16 @@
-import { Grid, CellPoint, Cell } from './gridset.d';
+import { GridSettings, Cell, CellArray } from './gridset.d';
 import { colCells, rowCells, antidiagonal, diagonal } from './cells';
 import iterators from './iterators';
 const { cycler } = iterators;
 
-export const cycleCell = function (cell: CellPoint, dir: string, grid: Grid) {
-  let cells: (Cell | null)[] = [];
-  let cycleDir: string = '';
-  let si: number = 0;
+export const cycleCell = function (
+  cell: Pick<Cell, 'ri' | 'ci'>,
+  dir: string,
+  grid: GridSettings,
+) {
+  let cells: CellArray = [];
+  let cycleDir = '';
+  let si = 0;
   const { ci, ri } = cell;
   const isCol = dir === 'u' || dir === 'd';
   const isRow = dir === 'l' || dir === 'r';
