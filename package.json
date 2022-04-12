@@ -1,6 +1,6 @@
 {
   "name": "gridset",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Create virtual grids and manipulate them. :)",
   "module": "dist/index.esm.js",
   "main": "dist/index.js",
