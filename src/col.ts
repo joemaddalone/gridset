@@ -1,5 +1,5 @@
 import { GridSettings } from './gridset.d';
-import { colCells } from './cells';
+import { colCells } from './cell';
 
 const col = (grid: GridSettings) => (ci: number) => {
   const cells = colCells(ci, grid);

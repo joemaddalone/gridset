@@ -2,9 +2,9 @@
 import iterators from './iterators';
 import row from './row';
 import col from './col';
-import { cell } from './cell';
 import { GridSettings, IGridset } from './gridset.d';
 import {
+  cell,
   diagonal,
   antidiagonal,
   colCells,
@@ -14,7 +14,7 @@ import {
   flatCells,
   area,
   areaByCell,
-} from './cells';
+} from './cell';
 export default class Gridset implements IGridset {
   col: Function;
   row: Function;
