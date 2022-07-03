@@ -1,3 +1,527 @@
-var t=function(){return (t=Object.assign||function(t){for(var e,n=1,r=arguments.length;n<r;n++)for(var i in e=arguments[n])Object.prototype.hasOwnProperty.call(e,i)&&(t[i]=e[i]);return t}).apply(this,arguments)};function e(t,e){var n,r,i,o,l={label:0,sent:function(){if(1&i[0])throw i[1];return i[1]},trys:[],ops:[]};return o={next:c(0),throw:c(1),return:c(2)},"function"==typeof Symbol&&(o[Symbol.iterator]=function(){return this}),o;function c(o){return function(c){return function(o){if(n)throw new TypeError("Generator is already executing.");for(;l;)try{if(n=1,r&&(i=2&o[0]?r.return:o[0]?r.throw||((i=r.return)&&i.call(r),0):r.next)&&!(i=i.call(r,o[1])).done)return i;switch(r=0,i&&(o=[2&o[0],i.value]),o[0]){case 0:case 1:i=o;break;case 4:return l.label++,{value:o[1],done:!1};case 5:l.label++,r=o[1],o=[0];continue;case 7:o=l.ops.pop(),l.trys.pop();continue;default:if(!(i=l.trys,(i=i.length>0&&i[i.length-1])||6!==o[0]&&2!==o[0])){l=0;continue}if(3===o[0]&&(!i||o[1]>i[0]&&o[1]<i[3])){l.label=o[1];break}if(6===o[0]&&l.label<i[1]){l.label=i[1],i=o;break}if(i&&l.label<i[2]){l.label=i[2],l.ops.push(o);break}i[2]&&l.ops.pop(),l.trys.pop();continue}o=e.call(t,l);}catch(t){o=[6,t],r=0;}finally{n=i=0;}if(5&o[0])throw o[1];return {value:o[0]?o[1]:void 0,done:!0}}([o,c])}}}var n={scanner:function(t,n,r){var i,o;return void 0===n&&(n="f"),e(this,(function(e){switch(e.label){case 0:i=t.length-1,o="f"===n?-1:i+1,null!==r&&(o="f"===n?r-1:r+1),e.label=1;case 1:return "f"===n?o!==i?o++:(n="r",o--):0!==o?o--:(n="f",o++),[4,t[o]];case 2:return e.sent(),[3,1];case 3:return [2]}}))},bouncer:function(t,n,r,i,o){var l,c,u,s,a,f,h;return void 0===i&&(i=1),void 0===o&&(o=1),e(this,(function(e){switch(e.label){case 0:l=i,c=o,u=n?n-1:-1,s=r?r-1:-1,a=t.length-1,f=t[0]&&t[0].length-1||0,e.label=1;case 1:return (l+u>a||l+u<0)&&(l*=-1),(c+s>f||c+s<0)&&(c*=-1),u+=l,s+=c,[4,(null===(h=null==t?void 0:t[u])||void 0===h?void 0:h[s])||0];case 2:return e.sent(),[3,1];case 3:return [2]}}))},cycler:function(t,n,r){var i,o,l;return void 0===n&&(n="f"),void 0===r&&(r=0),e(this,(function(e){switch(e.label){case 0:i=r?r-1:-1,o=n||"f",l=t.length-1,e.label=1;case 1:return "f"===o?(i===l&&(i=-1),i++):(i<=0&&(i=l+1),i--),[4,t[i]];case 2:return e.sent(),[3,1];case 3:return [2]}}))}},r=n.cycler,i=function(t,e,n){return t*((("w"===e?n.width:n.height)-("w"===e?n.cellWidth:n.cellHeight))/(("w"===e?n.colCount:n.rowCount)-1))},o=function(e,n,r){if(!function(t,e,n){return t>=0&&t<n.colCount&&e>=0&&e<n.rowCount}(e,n,r))return null;var o=i(e,"w",r),c=i(n,"h",r);return t({x:o,y:c,t:c,l:o,b:c+r.cellHeight,r:o+r.cellWidth,w:r.cellWidth,h:r.cellHeight,cx:o+r.cellWidth/2,cy:c+r.cellHeight/2,ci:e,ri:n},l(e,n,r))},l=function(t,e,n){return {_u:function(r){var i=o(t,e-1,n);return i||("cycle"===r?c({ci:t,ri:e},"u",n):o(t,e,n))},_lu:function(r){var i=o(t-1,e-1,n);return i||("cycle"===r?c({ci:t,ri:e},"lu",n):o(t,e,n))},_ru:function(r){var i=o(t+1,e-1,n);return i||("cycle"===r?c({ci:t,ri:e},"ru",n):o(t,e,n))},_d:function(r){var i=o(t,e+1,n);return i||("cycle"===r?c({ci:t,ri:e},"d",n):o(t,e,n))},_ld:function(r){var i=o(t-1,e+1,n);return i||("cycle"===r?c({ci:t,ri:e},"ld",n):o(t,e,n))},_rd:function(r){var i=o(t+1,e+1,n);return i||("cycle"===r?c({ci:t,ri:e},"rd",n):o(t,e,n))},_r:function(r){var i=o(t+1,e,n);return i||("cycle"===r?c({ci:t,ri:e},"r",n):o(t,e,n))},_l:function(r){var i=o(t-1,e,n);return i||("cycle"===r?c({ci:t,ri:e},"l",n):o(t,e,n))}}},c=function(t,e,n){var i=[],o="",l=0,c=t.ci,a=t.ri,f="u"===e||"d"===e,p="l"===e||"r"===e,y=!f&&!p,g=d(n),v=h(n);return f&&(i=u(c,n),l=a,"u"===e&&(o="r"),"d"===e&&(o="f")),p&&(i=s(a,n),l=c,"l"===e&&(o="r"),"r"===e&&(l=c+1,o="f")),y&&(l=(i="lu"===e||"rd"===e?v(c,a):g(c,a)).findIndex((function(t){return (null==t?void 0:t.ci)===c}))+1,o=e.startsWith("r")?"f":"r"),r(i,o,l).next().value},u=function(t,e){return Array.from({length:e.rowCount}).map((function(n,r){return o(t,r,e)}))},s=function(t,e){return Array.from({length:e.colCount}).map((function(n,r){return o(r,t,e)}))},a=function(t){return Array.from({length:t.colCount}).map((function(e,n){return u(n,t)}))},f=function(t){return a(t).flatMap((function(t){return t}))},h=function(t){return function(e,n){return f(t).filter((function(t){return e-t.ci==n-t.ri}))}},d=function(t){return function(e,n){return f(t).filter((function(t){if(e===t.ci&&n===t.ri)return !0;var r=e-t.ci,i=n-t.ri;return (r<0||i<0)&&Math.min(r,i)===-1*Math.max(r,i)}))}},p=function(t){return function(e,n){var r=e.ci<=n.ci?e:n,i=e.ci<=n.ci?n:e,l=e.ri<=n.ri?e:n,c=e.ri<=n.ri?n:e,u=c.ci!==l.ci?i.r-r.l:t.cellWidth,s=c.ri!==l.ri?c.b-l.t:t.cellHeight,a=Array.from({length:i.ci-r.ci}),f=Array.from({length:c.ri-l.ri}),h=a.map((function(e,n){return f.map((function(e,i){return o(r.ci+n,l.ri+i,t)}))}));return {x:r.x,y:l.y,w:u,h:s,t:l.t,l:r.l,r:i.r,b:c.b,cx:(r.l+u)/2,cy:(l.t+s)/2,cells:h}}},y=function(){function t(t){var e,n=t.width,r=void 0===n?0:n,i=t.height,l=void 0===i?0:i,c=t.rows,a=void 0===c?0:c,f=t.cols,y=void 0===f?0:f,g=t.cellWidth,v=void 0===g?null:g,b=t.cellHeight,w=void 0===b?null:b;this.settings={width:Number(r),height:Number(l),rowCount:Number(a),colCount:Number(y),cellWidth:v||r/y,cellHeight:w||l/a},this.col=(e=this.settings,function(t){var n=u(t,e);if(n[0]){var r=n[0].x,i=n[0].w,o=e.height,l=n[0].cx;return {cells:n,x:r,y:0,w:i,h:o,t:0,l:r,r:r+i,b:e.height,cx:l,cy:e.height/2,ci:t}}throw new Error("no cell at position 0")}),this.row=function(t){return function(e){var n=s(e,t);if(n[0]){var r=n[0].y,i=n[0].h,o=n[0].cy;return {cells:n,x:0,y:r,w:t.width,h:i,cx:t.width/2,cy:o,t:r,l:0,r:t.width,b:r+i,ri:e}}throw new Error("no cell at position 0")}}(this.settings),this.diagonal=h(this.settings),this.antidiagonal=d(this.settings),this.area=function(t){return function(e){var n=e.ci1,r=e.ri1,i=e.ci2,l=e.ri2,c=o(n,r,t),u=o(i,l,t);if(c&&u)return p(t)(c,u)}}(this.settings),this.areaByCell=p(this.settings);}return Object.defineProperty(t.prototype,"cells",{get:function(){return a(this.settings)},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"cols",{get:function(){return a(this.settings)},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"rows",{get:function(){return t=this.settings,Array.from({length:t.rowCount}).map((function(e,n){return s(n,t)}));var t;},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"flatCells",{get:function(){return f(this.settings)},enumerable:!1,configurable:!0}),t.prototype.cell=function(t,e){return o(t,e,this.settings)},t.prototype.rowCells=function(t){return s(t,this.settings)},t.prototype.colCells=function(t){return u(t,this.settings)},t.prototype.scanCells=function(t,e,r){return void 0===t&&(t=this.flatCells),void 0===e&&(e="f"),void 0===r&&(r=null),n.scanner(t,e,r)},t.prototype.cycleCells=function(t,e,r){return void 0===t&&(t=this.flatCells),void 0===e&&(e="f"),void 0===r&&(r=null),n.cycler(t,e,r)},t.prototype.scanRow=function(t,e,n){void 0===e&&(e="f"),void 0===n&&(n=null);var r=this.rowCells(t);return this.scanCells(r,e,n)},t.prototype.scanDiagonal=function(t,e,n,r){void 0===n&&(n="f"),void 0===r&&(r=null);var i=this.diagonal(t,e).slice();return this.scanCells(i,n,r)},t.prototype.scanAntidiagonal=function(t,e,n,r){void 0===n&&(n="f"),void 0===r&&(r=null);var i=this.antidiagonal(t,e);return "r"===n&&i.reverse(),this.scanCells(i,n,r)},t.prototype.scanCol=function(t,e,n){void 0===e&&(e="f"),void 0===n&&(n=null);var r=this.colCells(t);return this.scanCells(r,e,n)},t.prototype.cycleRow=function(t,e,n){return void 0===e&&(e="f"),void 0===n&&(n=null),this.cycleCells(this.rowCells(t),e,n)},t.prototype.cycleCol=function(t,e,n){return void 0===e&&(e="f"),void 0===n&&(n=null),this.cycleCells(this.colCells(t),e,n)},t.prototype.cycleDiagonal=function(t,e,n,r){return void 0===n&&(n="f"),void 0===r&&(r=null),this.cycleCells(this.diagonal(t,e),n,r)},t.prototype.cycleAntidiagonal=function(t,e,n,r){return void 0===n&&(n="f"),void 0===r&&(r=null),this.cycleCells(this.antidiagonal(t,e),n,r)},t.prototype.bounce=function(t,e,r,i,o){return void 0===t&&(t=this.cells),n.bouncer(t,e,r,i,o)},Object.defineProperty(t.prototype,"width",{get:function(){return this.settings.width},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"height",{get:function(){return this.settings.height},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"rowCount",{get:function(){return this.settings.rowCount},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"colCount",{get:function(){return this.settings.colCount},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"cellWidth",{get:function(){return this.settings.cellWidth},enumerable:!1,configurable:!0}),Object.defineProperty(t.prototype,"cellHeight",{get:function(){return this.settings.cellHeight},enumerable:!1,configurable:!0}),t}();
+/**
+ * @param  {array} arr
+ * @param  {string} dir="f"
+ * @param  {number} si=0
+ */
+const scan = function * (arr, dir = 'f', startingIndex = 0) {
+  const end = arr.length - 1;
+  let index = dir === 'f' ? -1 : end + 1;
+  if (startingIndex !== null) {
+    if (dir === 'f') {
+      index = startingIndex - 1;
+    } else {
+      index = startingIndex + 1;
+    }
+  }
 
-export { y as default };
+  while (true) {
+    if (dir === 'f') {
+      if (index !== end) {
+        index++;
+      } else {
+        dir = 'r';
+        index--;
+      }
+    } else {
+      if (index !== 0) {
+        index--;
+      } else {
+        dir = 'f';
+        index++;
+      }
+    }
+    yield { el: arr[index], col: index };
+  }
+};
+/**
+ * @param  {array} arr
+ * @param  {number} sx
+ * @param  {number} sy
+ * @param  {number} initMx=1
+ * @param  {number} initMy=1
+ */
+const bounce = function * (arr, sx, sy) {
+  let mx = 1;
+  let my = 1;
+  // // Because the first yield adds mx/my we reduce sx/sy by mx/my.
+  let x = sx ? sx - 1 : -1;
+  let y = sy ? sy - 1 : -1;
+  const w = arr.length - 1;
+  const h = (arr[0] && arr[0].length - 1) || 0;
+  while (true) {
+    if (mx + x > w || mx + x < 0) {
+      mx *= -1;
+    }
+    if (my + y > h || my + y < 0) {
+      my *= -1;
+    }
+    x = x + mx;
+    y = y + my;
+    yield { el: arr?.[x]?.[y] || 0, row: x, col: y };
+  }
+};
+/**
+ * @param  {array} arr
+ * @param  {string} d="f"
+ * @param  {number} si
+ */
+const cycle = function * (arr, d = 'f', startingIndex = 0) {
+  let index = startingIndex ? startingIndex - 1 : -1;
+  const dir = d || 'f';
+  const w = arr.length - 1;
+  while (true) {
+    if (dir === 'f') {
+      if (index === w) {
+        index = -1;
+      }
+      index++;
+    } else {
+      if (index <= 0) {
+        index = w + 1;
+      }
+      index--;
+    }
+    yield { el: arr[index], col: index };
+  }
+};
+
+/**
+ * @param  {array} arr
+ * @param  {number} row
+ * @param  {number} col
+ */
+const cell$1 = (arr, row, col) => ({ row, col, val: arr[row][col] });
+
+const toCoords = (arr) => {
+  return arr.map((row, i) => row.map((cell, j) => [i, j])).flat()
+};
+/**
+ * @param  {array} arr
+ * @param  {number} row
+ * @param  {number} col
+ */
+const diagonal = (arr, row, col) => {
+  return toCoords(arr)
+    .filter((c) => row - c[0] === col - c[1])
+    .map((dc) => cell$1(arr, dc[0], dc[1]))
+};
+/**
+ * @param  {array} arr
+ * @param  {number} row
+ * @param  {number} col
+ */
+const antidiagonal = (arr, row, col) => {
+  return toCoords(arr)
+    .filter((c) => {
+      if (row === c[0] && col === c[1]) {
+        return true
+      }
+      const cResult = col - c[1];
+      const rResult = row - c[0];
+      if (cResult < 0 || rResult < 0) {
+        // one of them must be negative
+        return Math.min(cResult, rResult) === Math.max(cResult, rResult) * -1
+      } else {
+        return false
+      }
+    })
+    .map((dc) => cell$1(arr, dc[0], dc[1]))
+};
+
+const calcXy = (rici, wh, grid) => {
+  const gridDimension = wh === 'w' ? grid.width : grid.height;
+  const cellDimension = wh === 'w' ? grid.cellWidth : grid.cellHeight;
+  const iterableDimension = wh === 'w' ? grid.colCount : grid.rowCount;
+  return rici * ((gridDimension - cellDimension) / (iterableDimension - 1))
+};
+
+const checkBounds = (ci, ri, grid) => {
+  return ci >= 0 && ci < grid.colCount && ri >= 0 && ri < grid.rowCount
+};
+
+const cell = (ci, ri, grid) => {
+  if (!checkBounds(ci, ri, grid)) {
+    return null
+  }
+  const x = calcXy(ci, 'w', grid);
+  const y = calcXy(ri, 'h', grid);
+  const props = {
+    x,
+    y,
+    t: y,
+    l: x,
+    b: y + grid.cellHeight,
+    r: x + grid.cellWidth,
+    w: grid.cellWidth,
+    h: grid.cellHeight,
+    cx: x + grid.cellWidth / 2,
+    cy: y + grid.cellHeight / 2,
+    ci,
+    ri,
+    ...looks(ci, ri, grid)
+  };
+
+  return props
+};
+
+const looks = (ci, ri, grid) => {
+  return {
+    // one cell up
+    _u: (mode) => {
+      const nCell = cell(ci, ri - 1, grid);
+      if (nCell) return nCell
+      return mode === 'cycle'
+        ? cycleCell({ ci, ri }, 'u', grid)
+        : cell(ci, ri, grid)
+    },
+    // one cell up and one cell left
+    _lu: (mode) => {
+      const nCell = cell(ci - 1, ri - 1, grid);
+      if (nCell) return nCell
+      return mode === 'cycle'
+        ? cycleCell({ ci, ri }, 'lu', grid)
+        : cell(ci, ri, grid)
+    },
+    // one cell right and up
+    _ru: (mode) => {
+      const nCell = cell(ci + 1, ri - 1, grid);
+      if (nCell) return nCell
+      return mode === 'cycle'
+        ? cycleCell({ ci, ri }, 'ru', grid)
+        : cell(ci, ri, grid)
+    },
+    // one cell down
+    _d: (mode) => {
+      const nCell = cell(ci, ri + 1, grid);
+      if (nCell) return nCell
+      return mode === 'cycle'
+        ? cycleCell({ ci, ri }, 'd', grid)
+        : cell(ci, ri, grid)
+    },
+    // one cell left and down
+    _ld: (mode) => {
+      const nCell = cell(ci - 1, ri + 1, grid);
+      if (nCell) return nCell
+      return mode === 'cycle'
+        ? cycleCell({ ci, ri }, 'ld', grid)
+        : cell(ci, ri, grid)
+    },
+    // one cell right and down
+    _rd: (mode) => {
+      const nCell = cell(ci + 1, ri + 1, grid);
+      if (nCell) return nCell
+      return mode === 'cycle'
+        ? cycleCell({ ci, ri }, 'rd', grid)
+        : cell(ci, ri, grid)
+    },
+    // one cell right
+    _r: (mode) => {
+      const nCell = cell(ci + 1, ri, grid);
+      if (nCell) return nCell
+      return mode === 'cycle'
+        ? cycleCell({ ci, ri }, 'r', grid)
+        : cell(ci, ri, grid)
+    },
+    // one cell left
+    _l: (mode) => {
+      const nCell = cell(ci - 1, ri, grid);
+      if (nCell) return nCell
+      return mode === 'cycle'
+        ? cycleCell({ ci, ri }, 'l', grid)
+        : cell(ci, ri, grid)
+    }
+  }
+};
+
+const cycleCell = function (
+  cell,
+  dir,
+  grid
+) {
+  let cells = [];
+  let cycleDir = '';
+  let si = 0;
+  const { ci, ri } = cell;
+  const isCol = dir === 'u' || dir === 'd';
+  const isRow = dir === 'l' || dir === 'r';
+  const isDiag = !isCol && !isRow;
+
+  if (isCol) {
+    cells = colCells(ci, grid);
+    si = ri;
+    if (dir === 'u') {
+      cycleDir = 'r';
+    }
+    if (dir === 'd') {
+      cycleDir = 'f';
+    }
+  }
+  if (isRow) {
+    cells = rowCells(ri, grid);
+    si = ci;
+    if (dir === 'l') {
+      cycleDir = 'r';
+    }
+    if (dir === 'r') {
+      si = ci + 1;
+      cycleDir = 'f';
+    }
+  }
+  if (isDiag) {
+    if (dir === 'lu' || dir === 'rd') {
+      cells = diagonal(rows(grid), ri, ci).map(c => c.val);
+    } else {
+      cells = antidiagonal(rows(grid), ri, ci).map(c => c.val).reverse();
+    }
+    si = cells.findIndex((c) => c?.ci === ci) + 1;
+    cycleDir = dir.startsWith('r') ? 'f' : 'r';
+  }
+  return cycle(cells, cycleDir, si).next().value.el
+};
+
+const colCells = (ci, grid) =>
+  Array.from({ length: grid.rowCount }).map((_, i) => cell(ci, i, grid));
+
+const rowCells = (ri, grid) =>
+  Array.from({ length: grid.colCount }).map((_, i) => cell(i, ri, grid));
+
+const cols = (grid) =>
+  Array.from({ length: grid.colCount }).map((_, i) => colCells(i, grid));
+
+const rows = (grid) =>
+  Array.from({ length: grid.rowCount }).map((_, i) => rowCells(i, grid));
+
+const flatCells = (grid) =>
+  cols(grid).flatMap((col) => col);
+
+const area = (grid) => ({
+  ci1,
+  ri1,
+  ci2,
+  ri2
+}) => {
+  const cell1 = cell(ci1, ri1, grid);
+  const cell2 = cell(ci2, ri2, grid);
+  if (cell1 && cell2) {
+    return areaByCell(grid)(cell1, cell2)
+  }
+};
+
+const areaByCell = (grid) => (
+  cell1,
+  cell2
+) => {
+  const leftCell = cell1.ci <= cell2.ci ? cell1 : cell2;
+  const rightCell = cell1.ci <= cell2.ci ? cell2 : cell1;
+  const topCell = cell1.ri <= cell2.ri ? cell1 : cell2;
+  const bottomCell = cell1.ri <= cell2.ri ? cell2 : cell1;
+  const w =
+    bottomCell.ci !== topCell.ci ? rightCell.r - leftCell.l : grid.cellWidth;
+  const h =
+    bottomCell.ri !== topCell.ri ? bottomCell.b - topCell.t : grid.cellHeight;
+
+  const cols = Array.from({ length: rightCell.ci - leftCell.ci });
+  const rows = Array.from({ length: bottomCell.ri - topCell.ri });
+  const cells = cols.map((_, ci) => {
+    return rows.map((_, ri) => {
+      return cell(leftCell.ci + ci, topCell.ri + ri, grid)
+    })
+  });
+
+  return {
+    x: leftCell.x,
+    y: topCell.y,
+    w,
+    h,
+    t: topCell.t,
+    l: leftCell.l,
+    r: rightCell.r,
+    b: bottomCell.b,
+    cx: (leftCell.l + w) / 2,
+    cy: (topCell.t + h) / 2,
+    cells
+  }
+};
+
+const row = (grid) => (ri) => {
+  const cells = rowCells(ri, grid);
+  if (cells[0]) {
+    const y = cells[0].y;
+    const h = cells[0].h;
+    const cy = cells[0].cy;
+    return {
+      cells,
+      x: 0,
+      y,
+      w: grid.width,
+      h,
+      cx: grid.width / 2,
+      cy,
+      t: y,
+      l: 0,
+      r: grid.width,
+      b: y + h,
+      ri
+    }
+  } else {
+    throw new Error('no cell at position 0')
+  }
+};
+
+const col = (grid) => (ci) => {
+  const cells = colCells(ci, grid);
+  if (cells[0]) {
+    const x = cells[0].x;
+    const w = cells[0].w;
+    const h = grid.height;
+    const cx = cells[0].cx;
+    return {
+      cells,
+      x,
+      y: 0,
+      w,
+      h,
+      t: 0,
+      l: x,
+      r: x + w,
+      b: grid.height,
+      cx,
+      cy: grid.height / 2,
+      ci
+    }
+  } else {
+    throw new Error('no cell at position 0')
+  }
+};
+
+class Gridset {
+  constructor ({
+    width = 0,
+    height = 0,
+    rows = 0,
+    cols = 0,
+    cellWidth = null,
+    cellHeight = null
+  }) {
+    this.settings = {
+      width: Number(width),
+      height: Number(height),
+      rowCount: Number(rows),
+      colCount: Number(cols),
+      cellWidth: cellWidth || width / cols,
+      cellHeight: cellHeight || height / rows
+    };
+
+    this.col = col(this.settings);
+    this.row = row(this.settings);
+    this.diagonal = (ci, ri) => diagonal(this.rows, ri, ci).map(c => c.val);
+    this.antidiagonal = (ci, ri) => antidiagonal(this.rows, ri, ci).map(c => c.val).reverse();
+    this.area = area(this.settings);
+    this.areaByCell = areaByCell(this.settings);
+  }
+
+  get cells () {
+    return cols(this.settings)
+  }
+
+  get cols () {
+    return cols(this.settings)
+  }
+
+  get rows () {
+    return rows(this.settings)
+  }
+
+  get flatCells () {
+    return flatCells(this.settings)
+  }
+
+  cell (ci, ri) {
+    return cell(ci, ri, this.settings)
+  }
+
+  rowCells (ri) {
+    return rowCells(ri, this.settings)
+  }
+
+  colCells (ci) {
+    return colCells(ci, this.settings)
+  }
+
+  scanCells (cells = this.flatCells, dir = 'f', si = null) {
+    return scan(cells, dir, si)
+  }
+
+  cycleCells (cells = this.flatCells, dir = 'f', si = null) {
+    return cycle(cells, dir, si)
+  }
+
+  scanRow (ri, dir = 'f', si = null) {
+    const cells = this.rowCells(ri);
+    return this.scanCells(cells, dir, si)
+  }
+
+  scanDiagonal (ci, ri, dir = 'f', si = null) {
+    const cells = diagonal(this.rows, ri, ci).map(c => c.val);
+    return this.scanCells(cells, dir, si)
+  }
+
+  scanAntidiagonal (ci, ri, dir = 'f', si = null) {
+    const cells = antidiagonal(this.rows, ri, ci).map(c => c.val);
+    if (dir === 'r') {
+      cells.reverse();
+    }
+    return this.scanCells(cells, dir, si)
+  }
+
+  scanCol (ci, dir = 'f', si = null) {
+    const cells = this.colCells(ci);
+    return this.scanCells(cells, dir, si)
+  }
+
+  cycleRow (ri, dir = 'f', si = null) {
+    return this.cycleCells(this.rowCells(ri), dir, si)
+  }
+
+  cycleCol (ci, dir = 'f', si = null) {
+    return this.cycleCells(this.colCells(ci), dir, si)
+  }
+
+  cycleDiagonal (ci, ri, dir = 'f', si = null) {
+    return this.cycleCells(diagonal(this.rows, ri, ci).map(c => c.val), dir, si)
+  }
+
+  cycleAntidiagonal (ci, ri, dir = 'f', si = null) {
+    return this.cycleCells(antidiagonal(this.rows, ri, ci).map(c => c.val).reverse(), dir, si)
+  }
+
+  bounce (area = this.cells, sx, sy, mx, my) {
+    return bounce(area, sx, sy)
+  }
+
+  get width () {
+    return this.settings.width
+  }
+
+  get height () {
+    return this.settings.height
+  }
+
+  get rowCount () {
+    return this.settings.rowCount
+  }
+
+  get colCount () {
+    return this.settings.colCount
+  }
+
+  get cellWidth () {
+    return this.settings.cellWidth
+  }
+
+  get cellHeight () {
+    return this.settings.cellHeight
+  }
+}
+
+export { Gridset as default };
