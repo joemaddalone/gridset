@@ -11,8 +11,10 @@ String.prototype.replaceAt = function (index, replacement) {
 };
 
 export const text = (grid, container, showGrid = true, mover) => {
-  let anim;
-  clearInterval(anim);
+  let lastTime = 0;
+  const fps = 30;
+  const nextFrame = 1000 / fps;
+  let timer = 0;
 
   const existingPre = document.getElementById('text-ex');
   if (existingPre) {
@@ -30,13 +32,23 @@ export const text = (grid, container, showGrid = true, mover) => {
   const t = chunkString(s, grid.colCount);
   pre.textContent = t.join('\n');
 
-  anim = setInterval(() => {
-    try {
-      const { ri, ci } = mover.next().value;
-      const temp = JSON.parse(JSON.stringify(t));
-      const str = temp[ri];
-      temp[ri] = str.replaceAt(ci, 'X');
-      pre.textContent = temp.join('\n');
-    } catch (err) {}
-  }, 50);
+  const anim = (timeStamp) => {
+    const deltaTime = timeStamp - lastTime;
+    lastTime = timeStamp;
+    if (timer > nextFrame) {
+      try {
+        const { ri, ci } = mover.next().value.el;
+        const temp = JSON.parse(JSON.stringify(t));
+        const str = temp[ri];
+        temp[ri] = str.replaceAt(ci, 'X');
+        pre.textContent = temp.join('\n');
+      } catch (err) {}
+      timer = 0;
+    } else {
+      timer += deltaTime;
+    }
+    requestAnimationFrame(anim);
+  };
+
+  anim(0);
 };

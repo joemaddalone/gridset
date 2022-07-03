@@ -1,22 +1,12 @@
 {
   "name": "gridset",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Create virtual grids and manipulate them. :)",
-  "module": "dist/index.esm.js",
-  "main": "dist/index.js",
-  "types": "dist/gridset.d.ts",
+  "type": "module",
+  "exports": "./index.js",
   "scripts": {
-    "ts": "tsc",
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "format": "prettier --write \"**/*.+(js|jsx|json)\"",
-    "lint": "eslint src",
-    "lint-fix": "eslint --fix src",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "prepublishOnly": "rm -rf dist && npm test && npm run build",
-    "predeploy": "cd demo && npm install && npx snowpack build",
-    "deploy": "gh-pages -d demo/build"
+    "test": "standard && node test",
+    "predeploy": "cd demo && npm install && npx snowpack build"
   },
   "repository": {
     "type": "git",
@@ -27,8 +17,10 @@
     "javascript"
   ],
   "files": [
-    "dist/**/*.js",
-    "dist/gridset.d.ts"
+    "index.js",
+    "cell.js",
+    "col.js",
+    "row.js"
   ],
   "author": "Joe Maddalone",
   "license": "MIT",
@@ -37,28 +29,16 @@
   },
   "homepage": "https://github.com/joemaddalone/gridset#readme",
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-transform-runtime": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "@rollup/plugin-babel": "^5.2.2",
-    "@rollup/plugin-typescript": "^8.3.0",
-    "@types/jest": "^27.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.8.0",
-    "@typescript-eslint/parser": "^5.8.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^7.1.0",
-    "eslint-plugin-prettier": "^3.3.0",
-    "gh-pages": "^3.1.0",
-    "husky": "^4.3.6",
-    "jest": "^27.3.1",
-    "lint-staged": "^10.5.3",
-    "prettier": "^2.2.1",
-    "rollup": "^2.35.1",
-    "rollup-plugin-copy": "^3.4.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "ts-jest": "^27.0.7",
-    "typescript": "^4.5.4"
+    "gh-pages": "^4.0.0",
+    "standard": "^17.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "array-areas": "^1.0.0",
+    "array-trails": "^1.0.1"
+  },
+  "standard": {
+    "ignore": [
+      "/demo"
+    ]
+  }
 }

@@ -728,13 +728,13 @@ Cycle any flat array of cells.
   * the default is 0
 
 Once your cycle generator is instantiated you can retrieve the next cell in the cycle by calling:
-`[generator].next().value`
+`[generator].next().value.el`
 
 ```
 const cycle = grid.cycle(arrayOfCells, [dir, startingIndex])
-const firstCell = cycle.next().value
-const secondCell = cycle.next().value
-const thirdCell = cycle.next().value
+const firstCell = cycle.next().value.el
+const secondCell = cycle.next().value.el
+const thirdCell = cycle.next().value.el
 // ... and so on forever.
 ```
 
@@ -744,9 +744,9 @@ Cycle helper methods allow you to easily cycle identifiable areas of the grid li
 
 ```
 const cycle = grid.cycle____(args)
-const firstCell = cycle.next().value
-const secondCell = cycle.next().value
-const thirdCell = cycle.next().value
+const firstCell = cycle.next().value.el
+const secondCell = cycle.next().value.el
+const thirdCell = cycle.next().value.el
 // ... and so on forever.
 ```
 
@@ -759,26 +759,26 @@ cycle. The default for startingIndex is 0
 
 ```
 const cycle = grid.cycleRow(rowIndex, [dir, startingIndex])
-const firstCell = cycle.next().value
+const firstCell = cycle.next().value.el
 ```
 
 #### Cycle a column
 
 ```
 const cycle = grid.cycleCol(columnIndex, [dir, startingIndex])
-const firstCell = cycle.next().value
+const firstCell = cycle.next().value.el
 ```
 
 #### Cycle a diagonal or anti-diagonal
 
 ```
 const cycle = grid.cycleDiagonal(columnIndex, rowIndex, [dir, startingIndex])
-const firstCell = cycle.next().value
+const firstCell = cycle.next().value.el
 ```
 
 ```
 const cycle = grid.cycleAntidiagonal(columnIndex, rowIndex, [dir, startingIndex])
-const firstCell = cycle.next().value
+const firstCell = cycle.next().value.el
 ```
 
 ## Scan generators
@@ -796,9 +796,9 @@ Scan helper methods allow you to easily scan identifiable areas of the grid like
 
 ```
 const scan = grid.scan____(args)
-const firstCell = scan.next().value
-const secondCell = scan.next().value
-const thirdCell = scan.next().value
+const firstCell = scan.next().value.el
+const secondCell = scan.next().value.el
+const thirdCell = scan.next().value.el
 // ... and so on forever.
 ```
 
@@ -811,26 +811,26 @@ scan. The default for startingIndex is 0
 
 ```
 const scan = grid.scanRow(rowIndex, [dir, startingIndex])
-const firstCell = scan.next().value
+const firstCell = scan.next().value.el
 ```
 
 #### Scan a column
 
 ```
 const scan = grid.scanCol(colIndex, [dir, startingIndex])
-const firstCell = scan.next().value
+const firstCell = scan.next().value.el
 ```
 
 #### Scan a diagonal or anti-diagonal
 
 ```
 const scan = grid.scanDiagonal(colIndex, rowIndex, [dir, startingIndex])
-const firstCell = scan.next().value
+const firstCell = scan.next().value.el
 ```
 
 ```
 const scan = grid.scanAntidiagonal(colIndex, rowIndex, [dir, startingIndex])
-const firstCell = scan.next().value
+const firstCell = scan.next().value.el
 ```
 
 ### Bounce an area
