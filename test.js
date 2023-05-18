@@ -90,6 +90,7 @@ assert.strictEqual(g2.cells[1][0].x, 35) //  +35
 assert.strictEqual(g2.cells[2][0].x, 70) //  +35
 assert.strictEqual(g2.cells[3][0].x, 105) // +35
 assert.strictEqual(g2.cells[4][0].x, 140) // +35
+assert.strictEqual(g2.col(0).cx, 30) // +35
 
 console.log('should have correct size and positions for custom cellHeight')
 const g5 = new Gridset({
