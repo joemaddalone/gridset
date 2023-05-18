@@ -22,6 +22,21 @@ const g = new Gridset({
 assert.strictEqual(g.cols.length, 4, 'cols are correct')
 assert.strictEqual(g.rows.length, 4)
 
+console.log('should have one row')
+const gr = new Gridset({
+  width: 100,
+  height: 100,
+  rows: 1,
+  cols: 4
+})
+/**
++-----------------------+
+| 0,0 | 1,0 | 2,0 | 3,0 |
++-----------------------+
+ */
+assert.strictEqual(gr.cols.length, 4, 'cols are correct')
+assert.strictEqual(gr.rows.length, 1, 'rows are correct')
+
 console.log('should have correct automatic sizing of cells')
 /**
 +-----------------------+
