@@ -2,12 +2,14 @@ import { cycle } from 'array-trails'
 import { diagonal, antidiagonal } from 'array-areas'
 
 export const calcXy = (rici, wh, grid) => {
-  if (rici === 0) return 0
+  const offset = wh === 'w' ? grid.x : grid.y
   const gridDimension = wh === 'w' ? grid.width : grid.height
   const cellDimension = wh === 'w' ? grid.cellWidth : grid.cellHeight
   const iterableDimension = wh === 'w' ? grid.colCount : grid.rowCount
-  const response = rici * ((gridDimension - cellDimension) / (iterableDimension - 1))
-  return response
+  if (rici === 0) {
+    return 0 + offset
+  }
+  return rici * ((gridDimension - cellDimension) / (iterableDimension - 1)) + offset
 }
 
 const checkBounds = (ci, ri, grid) => {
@@ -20,7 +22,6 @@ export const cell = (ci, ri, grid) => {
   }
   const x = calcXy(ci, 'w', grid)
   const y = calcXy(ri, 'h', grid)
-  // console.log('y', y)
   const props = {
     x,
     y,
