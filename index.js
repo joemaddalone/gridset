@@ -19,7 +19,9 @@ export default class Gridset {
     rows = 0,
     cols = 0,
     cellWidth = null,
-    cellHeight = null
+    cellHeight = null,
+    x = 0,
+    y = 0
   }) {
     this.settings = {
       width: Number(width),
@@ -27,7 +29,9 @@ export default class Gridset {
       rowCount: Number(rows),
       colCount: Number(cols),
       cellWidth: cellWidth || width / cols,
-      cellHeight: cellHeight || height / rows
+      cellHeight: cellHeight || height / rows,
+      x: Number(x),
+      y: Number(y)
     }
 
     this.col = col(this.settings)

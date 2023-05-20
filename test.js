@@ -1,6 +1,50 @@
 import Gridset from './index.js'
 import assert from 'node:assert'
 
+console.log('should have one row')
+const gr = new Gridset({
+  width: 100,
+  height: 100,
+  rows: 1,
+  cols: 4,
+  x: 10,
+  y: 10
+})
+/**   10    35    60     85   110
+       +-----------------------+
+10 --> | 0,0 | 1,0 | 2,0 | 3,0 |
+       +-----------------------+
+ */
+assert.strictEqual(gr.cols.length, 4, 'cols are correct')
+assert.strictEqual(gr.rows.length, 1, 'rows are correct')
+assert.strictEqual(gr.row(0).x, 10, 'row offset x is correct')
+assert.strictEqual(gr.row(0).cells[1].x, 35, 'row offset x is correct')
+
+console.log('should have one column')
+const gc = new Gridset({
+  width: 100,
+  height: 100,
+  rows: 4,
+  cols: 1,
+  x: 10,
+  y: 10
+})
+/**
+       +-----+ 10
+       | 0,0 |
+       +-----+ 35
+       | 0,1 |
+10 --> +-----+ 60
+       | 0,2 |
+       +-----+ 85
+       | 0,3 |
+       +-----+ 110
+ */
+assert.strictEqual(gc.cols.length, 1, 'cols are correct')
+assert.strictEqual(gc.rows.length, 4, 'rows are correct')
+assert.strictEqual(gc.col(0).y, 10, 'col offset y is correct')
+assert.strictEqual(gc.col(0).cells[1].y, 35, 'col offset y is correct')
+
 console.log('should have correct number of cells')
 const g = new Gridset({
   width: 100,
@@ -21,21 +65,6 @@ const g = new Gridset({
  */
 assert.strictEqual(g.cols.length, 4, 'cols are correct')
 assert.strictEqual(g.rows.length, 4)
-
-console.log('should have one row')
-const gr = new Gridset({
-  width: 100,
-  height: 100,
-  rows: 1,
-  cols: 4
-})
-/**
-+-----------------------+
-| 0,0 | 1,0 | 2,0 | 3,0 |
-+-----------------------+
- */
-assert.strictEqual(gr.cols.length, 4, 'cols are correct')
-assert.strictEqual(gr.rows.length, 1, 'rows are correct')
 
 console.log('should have correct automatic sizing of cells')
 /**
