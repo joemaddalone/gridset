@@ -19,6 +19,8 @@ assert.strictEqual(gr.cols.length, 4, 'cols are correct')
 assert.strictEqual(gr.rows.length, 1, 'rows are correct')
 assert.strictEqual(gr.row(0).x, 10, 'row offset x is correct')
 assert.strictEqual(gr.row(0).cells[1].x, 35, 'row offset x is correct')
+assert.strictEqual(gr.col(0).x, 10, 'col offset x is correct')
+assert.strictEqual(gr.col(1).x, 35, 'col offset x is correct')
 
 console.log('should have one column')
 const gc = new Gridset({

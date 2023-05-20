@@ -4,7 +4,7 @@ const row = (grid) => (ri) => {
   const cells = rowCells(ri, grid)
   if (cells[0]) {
     const y = cells[0].y
-    const x = cells[0].y
+    const x = cells[0].x
     const h = cells[0].h
     const cy = cells[0].cy
     return {
