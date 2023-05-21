@@ -36,8 +36,11 @@ export default class Gridset {
 
     this.col = col(this.settings)
     this.row = row(this.settings)
-    this.diagonal = (ci, ri) => diagonal(this.rows, ri, ci).map(c => c.val)
-    this.antidiagonal = (ci, ri) => antidiagonal(this.rows, ri, ci).map(c => c.val).reverse()
+    this.diagonal = (ci, ri) => diagonal(this.rows, ri, ci).map((c) => c.val)
+    this.antidiagonal = (ci, ri) =>
+      antidiagonal(this.rows, ri, ci)
+        .map((c) => c.val)
+        .reverse()
     this.area = area(this.settings)
     this.areaByCell = areaByCell(this.settings)
   }
@@ -84,12 +87,12 @@ export default class Gridset {
   }
 
   scanDiagonal (ci, ri, dir = 'f', si = null) {
-    const cells = diagonal(this.rows, ri, ci).map(c => c.val)
+    const cells = diagonal(this.rows, ri, ci).map((c) => c.val)
     return this.scanCells(cells, dir, si)
   }
 
   scanAntidiagonal (ci, ri, dir = 'f', si = null) {
-    const cells = antidiagonal(this.rows, ri, ci).map(c => c.val)
+    const cells = antidiagonal(this.rows, ri, ci).map((c) => c.val)
     if (dir === 'r') {
       cells.reverse()
     }
@@ -110,11 +113,21 @@ export default class Gridset {
   }
 
   cycleDiagonal (ci, ri, dir = 'f', si = null) {
-    return this.cycleCells(diagonal(this.rows, ri, ci).map(c => c.val), dir, si)
+    return this.cycleCells(
+      diagonal(this.rows, ri, ci).map((c) => c.val),
+      dir,
+      si
+    )
   }
 
   cycleAntidiagonal (ci, ri, dir = 'f', si = null) {
-    return this.cycleCells(antidiagonal(this.rows, ri, ci).map(c => c.val).reverse(), dir, si)
+    return this.cycleCells(
+      antidiagonal(this.rows, ri, ci)
+        .map((c) => c.val)
+        .reverse(),
+      dir,
+      si
+    )
   }
 
   bounce (area = this.cells, sx, sy, mx, my) {
@@ -125,8 +138,16 @@ export default class Gridset {
     return this.settings.width
   }
 
+  get x () {
+    return this.settings.x
+  }
+
   get height () {
     return this.settings.height
+  }
+
+  get y () {
+    return this.settings.y
   }
 
   get rowCount () {
