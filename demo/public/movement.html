@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="gridset demo site" />
+    <title>gridset</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"
+    />
+    <script src="https://semantic-ui.com/javascript/library/highlight.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="movement.css" />
+  </head>
+
+  <body>
+    <div class="ui container">
+      <h1>Gridset</h1>
+      <div class="ui three item menu">
+        <a class="item" href="/index.html">Selection</a>
+        <a class="item active" href="/movement.html">Movement</a>
+        <a class="item" href="https://github.com/joemaddalone/gridset">Source</a>
+      </div>
+    </div>
+    <div class="intro" style="margin-top: 25px;">
+      <p>The following examples all use the same instance of Gridset.</p>
+      <code> new Gridset({ width: n, height: n, cols: n, rows: n, }); </code>
+      <div class="ui mini form">
+        <div class="ui labeled input">
+          <label for="w" class="ui label"> width </label>
+          <input id="w" type="number" value="350" />
+        </div>
+        <div class="ui labeled input">
+          <label for="h" class="ui label"> height </label>
+          <input id="h" type="number" value="300" />
+        </div>
+        <div class="ui labeled input">
+          <label for="c" class="ui label"> cols </label>
+          <input min="2" id="c" type="number" value="20" />
+        </div>
+        <div class="ui labeled input">
+          <label for="r" class="ui label"> rows </label>
+          <input min="2" id="r" type="number" value="19" />
+        </div>
+        <div class="ui labeled input">
+          <label for="cw" class="ui label"> Cell width (0 = computed) </label>
+          <input min="0" id="cw" type="number" value="0" />
+        </div>
+        <div class="ui labeled input">
+          <label for="ch" class="ui label"> Cell height (0 = computed) </label>
+          <input min="0" id="ch" type="number" value="0" />
+        </div>
+        <div class="ui labeled input">
+          <label for="d" class="ui label"> Generators </label>
+          <select id="d">
+            <option value="bounce">Bounce</option>
+            <option value="scanCol">Scan column</option>
+            <option value="scanCol-r">Scan column reverse</option>
+            <option value="scanRow">Scan row</option>
+            <option value="scanRow-r">Scan row reverse</option>
+            <option value="scanDiagonal">Scan Diagonal</option>
+            <option value="scanDiagonal-r">Scan Diagonal reverse</option>
+            <option value="scanAntidiagonal">Scan Antidiagonal</option>
+            <option value="scanAntidiagonal-r">
+              Scan Antidiagonal reverse
+            </option>
+            <option value="cycleCol">Cycle column</option>
+            <option value="cycleCol-r">Cycle column reverse</option>
+            <option value="cycleRow">Cycle row</option>
+            <option value="cycleRow-r">Cycle row reverse</option>
+            <option value="cycleDiagonal">Cycle Diagonal</option>
+            <option value="cycleDiagonal-r">Cycle Diagonal Reverse</option>
+            <option value="cycleAntidiagonal">Cycle Antidiagonal</option>
+            <option value="cycleAntidiagonal-r">
+              Cycle Antidiagonal Reverse
+            </option>
+          </select>
+        </div>
+        <button class="ui button mini" style="width: 205px" id="g">
+          toggle grid
+        </button>
+      </div>
+    </div>
+    <div class="example-holder">
+      <div class="ex" id="html-ex">
+        <div id="html-root"></div>
+        <p>
+          This is a grid made of divs with a &lt;div /> moving around in it.
+        </p>
+      </div>
+      <div class="ex" id="svg-ex">
+        <svg id="svg-root"></svg>
+        <p>
+          This is a grid made in svg with a &lt;rect /> moving around in it.
+        </p>
+      </div>
+      <div class="ex" id="canvas-root">
+        <p>
+          This is a grid made in canvas with a fillRect moving around in it.
+        </p>
+      </div>
+      <div class="ex" id="text-root">
+        <p>
+          This is a grid made of text with a character ("X") moving around in
+          it.<br />Its displayed size is based on the number of columns and
+          rows, not height & width arguments.
+        </p>
+      </div>
+    </div>
+    <script type="module" src="movement/index.js"></script>
+  </body>
+</html>

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="gridset demo site" />
     <title>gridset</title>
@@ -10,95 +8,181 @@
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"
+    />
+    <script src="https://semantic-ui.com/javascript/library/highlight.min.js"></script>
     <link rel="stylesheet" type="text/css" href="index.css" />
   </head>
+
   <body>
-    <div class="intro">
+    <div class="ui container">
       <h1>Gridset</h1>
-      <p>The following examples all use the same instance of Gridset.</p>
-      <code> new Gridset({ width: n, height: n, cols: n, rows: n, }); </code>
-      <div class="ui mini form">
-        <div class="ui labeled input">
-          <label for="w" class="ui label"> width </label>
-          <input id="w" type="number" value="350" />
+      <div class="ui three item menu">
+        <a class="item active" href="/index.html">Selection</a>
+        <a class="item" href="/movement.html">Movement</a>
+        <a class="item" href="https://github.com/joemaddalone/gridset">Source</a>
+      </div>
+      <!-- Setup -->
+      <h2>Setup</h2>
+
+      <div class="ui segment">
+        <div class="ui two column middle aligned grid">
+          <div class="column">
+            <pre><code class="js">import { Gridset } from 'gridset';
+const grid = new Gridset({
+  width: 250, // <-- width of the grid
+  height: 250, // <-- height of the grid
+  rows: 5, // <-- number of rows
+  cols: 5, // <-- number of columns
+});</code></pre>
+          </div>
+          <div class="column">
+            <div id="gridset1" style="padding: 10px"></div>
+          </div>
         </div>
-        <div class="ui labeled input">
-          <label for="h" class="ui label"> height </label>
-          <input id="h" type="number" value="300" />
+        <div class="ui vertical divider">&rarr;</div>
+      </div>
+      <!-- End Setup -->
+
+      <!-- Column -->
+      <h2>Column</h2>
+      <div class="ui segment">
+        <div class="ui two column middle aligned grid">
+          <div class="column">
+            <pre><code class="js">const grid = new Gridset({...});
+grid.col(1);</code></pre>
+          </div>
+          <div class="column">
+            <div id="gridset-column" style="padding: 10px"></div>
+          </div>
         </div>
-        <div class="ui labeled input">
-          <label for="c" class="ui label"> cols </label>
-          <input min="2" id="c" type="number" value="20" />
+        <div class="ui vertical divider">&rarr;</div>
+      </div>
+      <!-- End Column -->
+
+      <!-- Row -->
+      <h2>Row</h2>
+      <div class="ui segment">
+        <div class="ui two column middle aligned grid">
+          <div class="column">
+            <pre><code class="js">const grid = new Gridset({...});
+grid.row(1);</code></pre>
+          </div>
+          <div class="column">
+            <div id="gridset-row" style="padding: 10px"></div>
+          </div>
         </div>
-        <div class="ui labeled input">
-          <label for="r" class="ui label"> rows </label>
-          <input min="2" id="r" type="number" value="19" />
+        <div class="ui vertical divider">&rarr;</div>
+      </div>
+      <!-- End Row -->
+
+      <!-- Diagonal -->
+      <h2>Diagonal</h2>
+      <div class="ui segment">
+        <div class="ui two column middle aligned grid">
+          <div class="column">
+            <pre><code class="js">const grid = new Gridset({...});
+grid.diagonal(1, 2);</code></pre>
+          </div>
+          <div class="column">
+            <div id="gridset-diagonal" style="padding: 10px"></div>
+          </div>
         </div>
-        <div class="ui labeled input">
-          <label for="cw" class="ui label"> Cell width (0 = computed) </label>
-          <input min="0" id="cw" type="number" value="0" />
+        <div class="ui vertical divider">&rarr;</div>
+      </div>
+      <!-- End Diagonal -->
+
+      <!-- Antidiagonal -->
+      <h2>Antidiagonal</h2>
+      <div class="ui segment">
+        <div class="ui two column middle aligned grid">
+          <div class="column">
+            <pre><code class="js">const grid = new Gridset({...});
+grid.antidiagonal(1, 2);</code></pre>
+          </div>
+          <div class="column">
+            <div id="gridset-antidiagonal" style="padding: 10px"></div>
+          </div>
         </div>
-        <div class="ui labeled input">
-          <label for="ch" class="ui label"> Cell height (0 = computed) </label>
-          <input min="0" id="ch" type="number" value="0" />
+        <div class="ui vertical divider">&rarr;</div>
+      </div>
+      <!-- End Antidiagonal -->
+
+      <!-- areaByCell -->
+      <h2>areaByCell</h2>
+      <div class="ui segment">
+        <div class="ui two column middle aligned grid">
+          <div class="column">
+            <pre><code class="js">const grid = new Gridset({...});
+grid.areaByCell(grid.cell(1, 2), grid.cell(3, 3));</code></pre>
+          </div>
+          <div class="column">
+            <div id="gridset-areabycell" style="padding: 10px"></div>
+          </div>
         </div>
-        <div class="ui labeled input">
-          <label for="d" class="ui label"> Generators </label>
-          <select id="d">
-            <option value="bounce">Bounce</option>
-            <option value="scanCol">Scan column</option>
-            <option value="scanCol-r">Scan column reverse</option>
-            <option value="scanRow">Scan row</option>
-            <option value="scanRow-r">Scan row reverse</option>
-            <option value="scanDiagonal">Scan Diagonal</option>
-            <option value="scanDiagonal-r">Scan Diagonal reverse</option>
-            <option value="scanAntidiagonal">Scan Antidiagonal</option>
-            <option value="scanAntidiagonal-r">
-              Scan Antidiagonal reverse
-            </option>
-            <option value="cycleCol">Cycle column</option>
-            <option value="cycleCol-r">Cycle column reverse</option>
-            <option value="cycleRow">Cycle row</option>
-            <option value="cycleRow-r">Cycle row reverse</option>
-            <option value="cycleDiagonal">Cycle Diagonal</option>
-            <option value="cycleDiagonal-r">Cycle Diagonal Reverse</option>
-            <option value="cycleAntidiagonal">Cycle Antidiagonal</option>
-            <option value="cycleAntidiagonal-r">
-              Cycle Antidiagonal Reverse
-            </option>
-          </select>
+        <div class="ui vertical divider">&rarr;</div>
+      </div>
+      <!-- End areaByCell -->
+
+      <!-- Area -->
+      <h2>Area</h2>
+      <div class="ui segment">
+        <div class="ui two column middle aligned grid">
+          <div class="column">
+            <pre><code class="js">const grid = new Gridset({...});
+grid.area({ci1: 1, ri1: 2, ci2: 3, ri2: 3});</code></pre>
+          </div>
+          <div class="column">
+            <div id="gridset-area" style="padding: 10px"></div>
+          </div>
         </div>
-        <button class="ui button mini" style="width: 205px" id="g">
-          toggle grid
-        </button>
+        <div class="ui vertical divider">&rarr;</div>
+      </div>
+      <!-- End Area -->
+
+      <h2>Cell Width</h2>
+      <div class="ui segment">
+        <div class="ui two column middle aligned grid">
+          <div class="column">
+            <pre><code class="js">const grid = new Gridset({
+  width: 250,
+  height: 250,
+  rows: 5,
+  cols: 5,
+  cellWidth: 60 // <-- width of each cell
+})</code></pre>
+          </div>
+          <div class="column">
+            <div id="gridset-cellwidth" style="padding: 10px"></div>
+          </div>
+        </div>
+        <div class="ui vertical divider">&rarr;</div>
+      </div>
+
+      <h2>Cell Height</h2>
+      <div class="ui segment">
+        <div class="ui two column middle aligned grid">
+          <div class="column">
+            <pre><code class="js">const grid = new Gridset({
+width: 250,
+height: 250,
+rows: 5,
+cols: 5,
+cellHeight: 60 // <-- height of each cell
+})</code></pre>
+          </div>
+          <div class="column">
+            <div id="gridset-cellheight" style="padding: 10px"></div>
+          </div>
+        </div>
+        <div class="ui vertical divider">&rarr;</div>
       </div>
     </div>
-    <div class="example-holder">
-      <div class="ex" id="html-ex">
-        <div id="html-root"></div>
-        <p>
-          This is a grid made of divs with a &lt;div /> moving around in it.
-        </p>
-      </div>
-      <div class="ex" id="svg-ex">
-        <svg id="svg-root"></svg>
-        <p>
-          This is a grid made in svg with a &lt;rect /> moving around in it.
-        </p>
-      </div>
-      <div class="ex" id="canvas-root">
-        <p>
-          This is a grid made in canvas with a fillRect moving around in it.
-        </p>
-      </div>
-      <div class="ex" id="text-root">
-        <p>
-          This is a grid made of text with a character ("X") moving around in
-          it.<br />Its displayed size is based on the number of columns and
-          rows, not height & width arguments.
-        </p>
-      </div>
-    </div>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
     <script type="module" src="index.js"></script>
   </body>
 </html>
