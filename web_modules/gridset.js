@@ -129,10 +129,14 @@ const antidiagonal = (arr, row, col) => {
 };
 
 const calcXy = (rici, wh, grid) => {
+  const offset = wh === 'w' ? grid.x : grid.y;
   const gridDimension = wh === 'w' ? grid.width : grid.height;
   const cellDimension = wh === 'w' ? grid.cellWidth : grid.cellHeight;
   const iterableDimension = wh === 'w' ? grid.colCount : grid.rowCount;
-  return rici * ((gridDimension - cellDimension) / (iterableDimension - 1))
+  if (rici === 0) {
+    return 0 + offset
+  }
+  return rici * ((gridDimension - cellDimension) / (iterableDimension - 1)) + offset
 };
 
 const checkBounds = (ci, ri, grid) => {
@@ -160,7 +164,6 @@ const cell = (ci, ri, grid) => {
     ri,
     ...looks(ci, ri, grid)
   };
-
   return props
 };
 
@@ -320,8 +323,8 @@ const areaByCell = (grid) => (
   const h =
     bottomCell.ri !== topCell.ri ? bottomCell.b - topCell.t : grid.cellHeight;
 
-  const cols = Array.from({ length: rightCell.ci - leftCell.ci });
-  const rows = Array.from({ length: bottomCell.ri - topCell.ri });
+  const cols = Array.from({ length: rightCell.ci - leftCell.ci + 1 });
+  const rows = Array.from({ length: bottomCell.ri - topCell.ri + 1 });
   const cells = cols.map((_, ci) => {
     return rows.map((_, ri) => {
       return cell(leftCell.ci + ci, topCell.ri + ri, grid)
@@ -347,19 +350,20 @@ const row = (grid) => (ri) => {
   const cells = rowCells(ri, grid);
   if (cells[0]) {
     const y = cells[0].y;
+    const x = cells[0].x;
     const h = cells[0].h;
     const cy = cells[0].cy;
     return {
       cells,
-      x: 0,
+      x,
       y,
       w: grid.width,
       h,
-      cx: grid.width / 2,
+      cx: (grid.width / 2) + grid.x,
       cy,
       t: y,
-      l: 0,
-      r: grid.width,
+      l: x,
+      r: grid.width + grid.x,
       b: y + h,
       ri
     }
@@ -372,21 +376,22 @@ const col = (grid) => (ci) => {
   const cells = colCells(ci, grid);
   if (cells[0]) {
     const x = cells[0].x;
+    const y = cells[0].y;
     const w = cells[0].w;
     const h = grid.height;
     const cx = cells[0].cx;
     return {
       cells,
       x,
-      y: 0,
+      y,
       w,
       h,
-      t: 0,
+      t: 0 + grid.y,
       l: x,
       r: x + w,
-      b: grid.height,
+      b: grid.height + grid.y,
       cx,
-      cy: grid.height / 2,
+      cy: (grid.height / 2) + grid.y,
       ci
     }
   } else {
@@ -401,7 +406,9 @@ class Gridset {
     rows = 0,
     cols = 0,
     cellWidth = null,
-    cellHeight = null
+    cellHeight = null,
+    x = 0,
+    y = 0
   }) {
     this.settings = {
       width: Number(width),
@@ -409,13 +416,18 @@ class Gridset {
       rowCount: Number(rows),
       colCount: Number(cols),
       cellWidth: cellWidth || width / cols,
-      cellHeight: cellHeight || height / rows
+      cellHeight: cellHeight || height / rows,
+      x: Number(x),
+      y: Number(y)
     };
 
     this.col = col(this.settings);
     this.row = row(this.settings);
-    this.diagonal = (ci, ri) => diagonal(this.rows, ri, ci).map(c => c.val);
-    this.antidiagonal = (ci, ri) => antidiagonal(this.rows, ri, ci).map(c => c.val).reverse();
+    this.diagonal = (ci, ri) => diagonal(this.rows, ri, ci).map((c) => c.val);
+    this.antidiagonal = (ci, ri) =>
+      antidiagonal(this.rows, ri, ci)
+        .map((c) => c.val)
+        .reverse();
     this.area = area(this.settings);
     this.areaByCell = areaByCell(this.settings);
   }
@@ -462,12 +474,12 @@ class Gridset {
   }
 
   scanDiagonal (ci, ri, dir = 'f', si = null) {
-    const cells = diagonal(this.rows, ri, ci).map(c => c.val);
+    const cells = diagonal(this.rows, ri, ci).map((c) => c.val);
     return this.scanCells(cells, dir, si)
   }
 
   scanAntidiagonal (ci, ri, dir = 'f', si = null) {
-    const cells = antidiagonal(this.rows, ri, ci).map(c => c.val);
+    const cells = antidiagonal(this.rows, ri, ci).map((c) => c.val);
     if (dir === 'r') {
       cells.reverse();
     }
@@ -488,11 +500,21 @@ class Gridset {
   }
 
   cycleDiagonal (ci, ri, dir = 'f', si = null) {
-    return this.cycleCells(diagonal(this.rows, ri, ci).map(c => c.val), dir, si)
+    return this.cycleCells(
+      diagonal(this.rows, ri, ci).map((c) => c.val),
+      dir,
+      si
+    )
   }
 
   cycleAntidiagonal (ci, ri, dir = 'f', si = null) {
-    return this.cycleCells(antidiagonal(this.rows, ri, ci).map(c => c.val).reverse(), dir, si)
+    return this.cycleCells(
+      antidiagonal(this.rows, ri, ci)
+        .map((c) => c.val)
+        .reverse(),
+      dir,
+      si
+    )
   }
 
   bounce (area = this.cells, sx, sy, mx, my) {
@@ -503,8 +525,16 @@ class Gridset {
     return this.settings.width
   }
 
+  get x () {
+    return this.settings.x
+  }
+
   get height () {
     return this.settings.height
+  }
+
+  get y () {
+    return this.settings.y
   }
 
   get rowCount () {
