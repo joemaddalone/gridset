@@ -196,8 +196,8 @@ export const areaByCell = (grid) => (
   const h =
     bottomCell.ri !== topCell.ri ? bottomCell.b - topCell.t : grid.cellHeight
 
-  const cols = Array.from({ length: rightCell.ci - leftCell.ci })
-  const rows = Array.from({ length: bottomCell.ri - topCell.ri })
+  const cols = Array.from({ length: rightCell.ci - leftCell.ci + 1 })
+  const rows = Array.from({ length: bottomCell.ri - topCell.ri + 1 })
   const cells = cols.map((_, ci) => {
     return rows.map((_, ri) => {
       return cell(leftCell.ci + ci, topCell.ri + ri, grid)
