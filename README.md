@@ -1,4 +1,3 @@
-## 👷🏼‍♂️ this is a work in progress
 
 # gridset
 
@@ -6,37 +5,39 @@ An imaginary grid to make positioning and moving things easier.
 
 ## Table of contents
 
-- [Installation](#install)
-- [Setup](#setup)
-- [Get all cells](#get-all-cells)
-- [Get a cell](#get-a-cell)
-- [Get a column](#get-a-column)
-- [Get a row](#get-a-row)
-- [Get a diagonal](#get-a-diagonal)
-- [Get an anti-diagonal](#get-an-anti-diagonal)
-- [Get an area](#get-an-area)
-- [Set cell width and height](#set-cell-width-and-height)
-- [Traversals](#traversals)
-  - [Look](#look)
-  - [Look in cycle mode](#look-in-cycle-mode)
-    - [Cycle up out of grid](#cycle-up-out-of-grid)
-    - [Cycle down out of grid](#cycle-down-out-of-grid)
-    - [Cycle right out of grid](#cycle-right-out-of-grid)
-    - [Cycle left out of grid](#cycle-left-out-of-grid)
-    - [Cycle diagonally out of grid](#cycle-diagonally-out-of-grid)
+- [gridset](#gridset)
+  - [Table of contents](#table-of-contents)
+  - [Install.](#install)
+  - [Setup](#setup)
+  - [Get all cells](#get-all-cells)
+  - [Get a cell](#get-a-cell)
+  - [Get a column](#get-a-column)
+  - [Get a row](#get-a-row)
+  - [Get a diagonal](#get-a-diagonal)
+  - [Get an anti-diagonal](#get-an-anti-diagonal)
+  - [Get an area](#get-an-area)
+  - [Set cell width and height.](#set-cell-width-and-height)
+  - [Traversals](#traversals)
+    - [Look](#look)
+    - [Look in cycle mode](#look-in-cycle-mode)
+      - [Cycle up out of grid](#cycle-up-out-of-grid)
+      - [Cycle down out of grid](#cycle-down-out-of-grid)
+      - [Cycle right out of grid](#cycle-right-out-of-grid)
+      - [Cycle left out of grid](#cycle-left-out-of-grid)
+      - [Cycle diagonally out of grid](#cycle-diagonally-out-of-grid)
   - [Cycle Generators](#cycle-generators)
-    - [Cycle cells](#cycle-cells)
-    - [Cycle helpers](#cycle-helpers)
+    - [Cycle Cells](#cycle-cells)
+    - [Cycle Helpers](#cycle-helpers)
       - [Cycle a row](#cycle-a-row)
       - [Cycle a column](#cycle-a-column)
       - [Cycle a diagonal or anti-diagonal](#cycle-a-diagonal-or-anti-diagonal)
-  - [Scan Generators](#scan-generators)
-    - [Scan cells](#scan-cells)
-    - [Scan helpers](#scan-helpers)
+  - [Scan generators](#scan-generators)
+    - [Scan Cells](#scan-cells)
+    - [Scan Helpers](#scan-helpers)
       - [Scan a row](#scan-a-row)
       - [Scan a column](#scan-a-column)
       - [Scan a diagonal or anti-diagonal](#scan-a-diagonal-or-anti-diagonal)
-  - [Bounce an area](#scan-a-column)
+    - [Bounce an area](#bounce-an-area)
 
 ## Install.
 
@@ -743,7 +744,7 @@ const thirdCell = cycle.next().value.el
 Cycle helper methods allow you to easily cycle identifiable areas of the grid like columns or rows.
 
 ```
-const cycle = grid.cycle____(args)
+const cycle = grid.cycle(args)
 const firstCell = cycle.next().value.el
 const secondCell = cycle.next().value.el
 const thirdCell = cycle.next().value.el
@@ -795,7 +796,7 @@ The following scan generators cycle through cells and when reaching the last or 
 Scan helper methods allow you to easily scan identifiable areas of the grid like columns or rows.
 
 ```
-const scan = grid.scan____(args)
+const scan = grid.scan(args)
 const firstCell = scan.next().value.el
 const secondCell = scan.next().value.el
 const thirdCell = scan.next().value.el
