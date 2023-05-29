@@ -182,8 +182,8 @@ const g3 = new Gridset({
 })
 let computedSize = 20 // 100/5
 let area = g3.area({ ci1: 1, ri1: 2, ci2: 4, ri2: 4 })
-assert.strictEqual(area.cells.length, 3)
-assert.strictEqual(area.cells[0].length, 2)
+assert.strictEqual(area.cells.length, 4)
+assert.strictEqual(area.cells[0].length, 3)
 assert.strictEqual(area.w, computedSize * 4)
 assert.strictEqual(area.h, computedSize * 3)
 assert.strictEqual(area.l, computedSize)
@@ -207,8 +207,8 @@ console.log(
  */
 computedSize = 20 // 100/5
 area = g3.area({ ci1: 4, ri1: 4, ci2: 1, ri2: 2 })
-assert.strictEqual(area.cells.length, 3)
-assert.strictEqual(area.cells[0].length, 2)
+assert.strictEqual(area.cells.length, 4)
+assert.strictEqual(area.cells[0].length, 3)
 assert.strictEqual(area.w, computedSize * 4)
 assert.strictEqual(area.h, computedSize * 3)
 assert.strictEqual(area.l, computedSize)
