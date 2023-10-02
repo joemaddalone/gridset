@@ -26,11 +26,11 @@ export const html = (grid, container, showGrid = true, mover) => {
     let anim;
     clearInterval(anim);
     const id = `html__${Math.random()}`;
-    const p = positions.next().value.el;
-    container.appendChild(box(positions.next().value.el, 'position red', id));
+    const p = positions.next().value;
+    container.appendChild(box(positions.next().value, 'position red', id));
     anim = setInterval(() => {
       try {
-        const np = positions.next().value.el;
+        const np = positions.next().value;
         const o = document.getElementById(id);
         o.style.left = np.x + 'px';
         o.style.top = np.y + 'px';

@@ -4,7 +4,7 @@ const piece = ({ x, y, w, h }, context) => {
 };
 
 const addPiece = (p, context) => {
-  const props = p.next().value.el;
+  const props = p.next().value;
   context.fillStyle = 'red';
   context.fillRect(props.x, props.y, props.w, props.h);
 };
