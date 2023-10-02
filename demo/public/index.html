@@ -19,8 +19,9 @@
   <body>
     <div class="ui container">
       <h1>Gridset</h1>
-      <div class="ui three item menu">
-        <a class="item active" href="index.html">Selection</a>
+      <div class="ui four item menu">
+        <a class="item active" href="index.html">Setup</a>
+        <a class="item" href="selection.html">Selection</a>
         <a class="item" href="movement.html">Movement</a>
         <a class="item" href="https://github.com/joemaddalone/gridset">Source</a>
       </div>
@@ -46,102 +47,7 @@ const grid = new Gridset({
       </div>
       <!-- End Setup -->
 
-      <!-- Column -->
-      <h2>Column</h2>
-      <div class="ui segment">
-        <div class="ui two column middle aligned grid">
-          <div class="column">
-            <pre><code class="js">const grid = new Gridset({...});
-grid.col(1);</code></pre>
-          </div>
-          <div class="column">
-            <div id="gridset-column" style="padding: 10px"></div>
-          </div>
-        </div>
-        <div class="ui vertical divider">&rarr;</div>
-      </div>
-      <!-- End Column -->
-
-      <!-- Row -->
-      <h2>Row</h2>
-      <div class="ui segment">
-        <div class="ui two column middle aligned grid">
-          <div class="column">
-            <pre><code class="js">const grid = new Gridset({...});
-grid.row(1);</code></pre>
-          </div>
-          <div class="column">
-            <div id="gridset-row" style="padding: 10px"></div>
-          </div>
-        </div>
-        <div class="ui vertical divider">&rarr;</div>
-      </div>
-      <!-- End Row -->
-
-      <!-- Diagonal -->
-      <h2>Diagonal</h2>
-      <div class="ui segment">
-        <div class="ui two column middle aligned grid">
-          <div class="column">
-            <pre><code class="js">const grid = new Gridset({...});
-grid.diagonal(1, 2);</code></pre>
-          </div>
-          <div class="column">
-            <div id="gridset-diagonal" style="padding: 10px"></div>
-          </div>
-        </div>
-        <div class="ui vertical divider">&rarr;</div>
-      </div>
-      <!-- End Diagonal -->
-
-      <!-- Antidiagonal -->
-      <h2>Antidiagonal</h2>
-      <div class="ui segment">
-        <div class="ui two column middle aligned grid">
-          <div class="column">
-            <pre><code class="js">const grid = new Gridset({...});
-grid.antidiagonal(1, 2);</code></pre>
-          </div>
-          <div class="column">
-            <div id="gridset-antidiagonal" style="padding: 10px"></div>
-          </div>
-        </div>
-        <div class="ui vertical divider">&rarr;</div>
-      </div>
-      <!-- End Antidiagonal -->
-
-      <!-- areaByCell -->
-      <h2>areaByCell</h2>
-      <div class="ui segment">
-        <div class="ui two column middle aligned grid">
-          <div class="column">
-            <pre><code class="js">const grid = new Gridset({...});
-grid.areaByCell(grid.cell(1, 2), grid.cell(3, 3));</code></pre>
-          </div>
-          <div class="column">
-            <div id="gridset-areabycell" style="padding: 10px"></div>
-          </div>
-        </div>
-        <div class="ui vertical divider">&rarr;</div>
-      </div>
-      <!-- End areaByCell -->
-
-      <!-- Area -->
-      <h2>Area</h2>
-      <div class="ui segment">
-        <div class="ui two column middle aligned grid">
-          <div class="column">
-            <pre><code class="js">const grid = new Gridset({...});
-grid.area({ci1: 1, ri1: 2, ci2: 3, ri2: 3});</code></pre>
-          </div>
-          <div class="column">
-            <div id="gridset-area" style="padding: 10px"></div>
-          </div>
-        </div>
-        <div class="ui vertical divider">&rarr;</div>
-      </div>
-      <!-- End Area -->
-
+      
       <h2>Cell Width</h2>
       <div class="ui segment">
         <div class="ui two column middle aligned grid">
