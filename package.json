@@ -1,9 +1,10 @@
 {
   "name": "gridset",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Create virtual grids and manipulate them. :)",
   "main": "dist/bundle.cjs.js",
   "module": "dist/bundle.esm.js",
+  "type": "module",
   "scripts": {
     "test": "standard && node test",
     "predeploy": "cd demo && npm install && npx snowpack build",
@@ -28,8 +29,12 @@
   },
   "homepage": "https://github.com/joemaddalone/gridset#readme",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "gh-pages": "^4.0.0",
     "rollup": "^4.53.5",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
     "standard": "^17.0.0"
   },
   "dependencies": {
