@@ -1,13 +1,14 @@
 {
   "name": "gridset",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Create virtual grids and manipulate them. :)",
-  "type": "module",
-  "exports": "./index.js",
+  "main": "dist/bundle.cjs.js",
+  "module": "dist/bundle.esm.js",
   "scripts": {
     "test": "standard && node test",
     "predeploy": "cd demo && npm install && npx snowpack build",
-    "deploy": "gh-pages -d demo/build"
+    "deploy": "gh-pages -d demo/build",
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
@@ -18,10 +19,7 @@
     "javascript"
   ],
   "files": [
-    "index.js",
-    "cell.js",
-    "col.js",
-    "row.js"
+    "dist"
   ],
   "author": "Joe Maddalone",
   "license": "MIT",
@@ -31,6 +29,7 @@
   "homepage": "https://github.com/joemaddalone/gridset#readme",
   "devDependencies": {
     "gh-pages": "^4.0.0",
+    "rollup": "^4.53.5",
     "standard": "^17.0.0"
   },
   "dependencies": {
